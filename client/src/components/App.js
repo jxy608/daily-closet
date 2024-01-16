@@ -5,6 +5,8 @@ import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import Home from "./pages/Home.js";
+import Closet from "./pages/Closet.js";
 
 import "../utilities.css";
 
@@ -55,6 +57,8 @@ const App = () => {
           />
         }
       />
+      <Route path="home" element={<Home />} />
+      <Route path="closet" element={<Closet />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
