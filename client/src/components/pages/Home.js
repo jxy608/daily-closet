@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 const Home = (props) => {
   return (
     <div>
-      <h1>Home ! !! ! !!</h1>
+      {/* Replace this text with today's date */}
+      <h1 className="u-textCenter">welcome Home ! !! ! !!</h1>
       <div>
         <Link to={`/`}>back</Link>
       </div>

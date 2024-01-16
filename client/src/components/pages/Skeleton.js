@@ -26,8 +26,8 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
       )}
       {
         <div>
-          <h1>daily closet</h1>
-          <div>
+          <h1 className="u-textCenter">daily closet</h1>
+          <div className="u-textCenter">
             <Link to={`/home/`}>Home</Link>
           </div>
         </div>

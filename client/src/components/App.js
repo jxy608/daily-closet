@@ -9,6 +9,7 @@ import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
 
 import "../utilities.css";
+import "./App.css";
 
 import { socket } from "../client-socket.js";
 
@@ -45,22 +46,24 @@ const App = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Skeleton
-            path="/"
-            handleLogin={handleLogin}
-            handleLogout={handleLogout}
-            userId={userId}
-          />
-        }
-      />
-      <Route path="home" element={<Home />} />
-      <Route path="closet" element={<Closet />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div className="App-container">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Skeleton
+              path="/"
+              handleLogin={handleLogin}
+              handleLogout={handleLogout}
+              userId={userId}
+            />
+          }
+        />
+        <Route path="home" element={<Home />} />
+        <Route path="closet" element={<Closet />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 };
 
