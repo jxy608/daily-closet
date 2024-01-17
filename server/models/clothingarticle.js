@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const ClothingArticleSchema = new mongoose.Schema({
+  userId: String,
   name: String,
   type: String,
   color: String,

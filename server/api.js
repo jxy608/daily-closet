@@ -36,7 +36,11 @@ router.get("/whoami", (req, res) => {
 
 router.get("/clothes", (req, res) => {
   // empty selector means get all documents
-  ClothingArticle.find({}).then((clothes) => res.send(clothes));
+  const query = { userId: req.query.userId };
+  console.log(query);
+  ClothingArticle.find(query).then((clothes) => res.send(clothes));
+
+  // ClothingArticle.find({}).then((clothes) => res.send(clothes));
 });
 
 router.post("/clothingarticle", (req, res) => {
@@ -44,9 +48,11 @@ router.post("/clothingarticle", (req, res) => {
   // No idea if i did this right lol
   // console.log(`Received a chat message from ${req.user.name}: ${req.body.content}`);
   console.log(`New clothing article added, named ${req.body.name}`);
+  console.log(req.body.userId);
 
   // insert this clothing article into the database
   const clothingarticle = new ClothingArticle({
+    userId: req.body.userId,
     name: req.body.name,
     type: req.body.type,
     color: req.body.color,

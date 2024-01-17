@@ -8,9 +8,10 @@ const Closet = (props) => {
 
   // called when the "Feed" component "mounts", i.e.
   // when it shows up on screen
+  console.log("closet: ", props.userId);
   useEffect(() => {
     document.title = "Clothes";
-    get("/api/clothes").then((clothes) => {
+    get("/api/clothes", { userId: props.userId }).then((clothes) => {
       setClothes(clothes);
     });
   }, []);

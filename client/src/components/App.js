@@ -42,6 +42,7 @@ const App = () => {
     setUserId(undefined);
     post("/api/logout");
   };
+  console.log(userId);
 
   return (
     <div className="App-container">
@@ -58,8 +59,8 @@ const App = () => {
           }
         />
         <Route path="home" element={<Home userId={userId} handleLogout={handleLogout} />} />
-        <Route path="closet" element={<Closet />} />
-        <Route path="new" element={<NewClothingArticle />} />
+        <Route path="closet" element={<Closet userId={userId} />} />
+        <Route path="new" element={<NewClothingArticle userId={userId} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

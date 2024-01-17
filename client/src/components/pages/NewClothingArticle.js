@@ -7,6 +7,7 @@ import { post } from "../../utilities";
 const NewClothingArticleInput = (props) => {
   //   const [value, setValue] = useState("");
   const [clothingInput, setClothingInput] = useState({
+    userId: props.userId,
     name: "",
     type: "",
     color: "",
@@ -128,18 +129,20 @@ const NewClothingArticle = (props) => {
   const addClothing = (clothingInput) => {
     const body = {
       ...clothingInput,
+      userId: props.userId,
     };
     // const body = { name: value };
     console.log("posting new clothing article");
-    console.log(body);
     post("/api/clothingarticle", body);
-    // post("/api/clothingarticle", body).then((story) => {
-    //   // display this story on the screen
-    //   props.addNewStory(story);
-    // });
   };
 
-  return <NewClothingArticleInput defaultText="New Clothing Article" onSubmit={addClothing} />;
+  return (
+    <NewClothingArticleInput
+      defaultText="New Clothing Article"
+      onSubmit={addClothing}
+      userId={props.userId}
+    />
+  );
 };
 
 export default NewClothingArticle;
