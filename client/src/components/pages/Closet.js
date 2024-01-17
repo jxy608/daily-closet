@@ -19,7 +19,10 @@ const Closet = (props) => {
   const hasClothes = clothes.length !== 0;
   if (hasClothes) {
     clothesList = clothes.map((clothingArticle) => (
-      <p>{clothingArticle.name}</p>
+      <p>
+        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
+        {clothingArticle.num_wears} times.
+      </p>
       // <Card
       //   key={`Card_${storyObj._id}`}
       //   _id={storyObj._id}

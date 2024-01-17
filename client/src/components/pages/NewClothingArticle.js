@@ -32,7 +32,19 @@ const NewClothingArticleInput = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(clothingInput);
-    setValue("");
+    // Reset clothing input to default. can probably make a variable for default clothing input but im too lazy rn
+    setClothingInput({
+      name: "",
+      type: "",
+      color: "",
+      num_wears: 0,
+      tags: [],
+
+      // TODO: Should probably throw some kind of error if min_temp > max_temp
+      // Another option is to only have temps > min_temp as selectable options for max temp and vice versa
+      min_temp: 0,
+      max_temp: 0,
+    });
   };
 
   //   // called whenever the user types in the new post input box
@@ -58,13 +70,47 @@ const NewClothingArticleInput = (props) => {
           type="text"
           placeholder={"Clothing Nickname"}
           value={clothingInput.name}
+          name="name"
           onChange={handleChange}
           className="NewPostInput-input"
         />
-        <select>
+        <input
+          type="text"
+          placeholder={"Color"}
+          name="color"
+          value={clothingInput.color}
+          onChange={handleChange}
+          className="NewPostInput-input"
+        />
+        <select name="type" value={clothingInput.type} onChange={handleChange}>
           <option value="top">Top</option>
           <option value="bottom">Bottom</option>
         </select>
+        {/* Need to add tags but idk how to do array so ignoring it for now */}
+        <input
+          type="number"
+          placeholder={"# of wears before wash"}
+          name="num_wears"
+          value={clothingInput.num_wears}
+          onChange={handleChange}
+          className="NewPostInput-input"
+        />
+        <input
+          type="number"
+          placeholder={"min temp"}
+          name="min_temp"
+          value={clothingInput.min_temp}
+          onChange={handleChange}
+          className="NewPostInput-input"
+        />
+        <input
+          type="number"
+          placeholder={"max temp"}
+          name="max_temp"
+          value={clothingInput.max_temp}
+          onChange={handleChange}
+          className="NewPostInput-input"
+        />
         <button
           type="submit"
           className="NewPostInput-button u-pointer"
@@ -79,8 +125,11 @@ const NewClothingArticleInput = (props) => {
 };
 
 const NewClothingArticle = (props) => {
-  const addClothing = (value) => {
-    const body = { name: value };
+  const addClothing = (clothingInput) => {
+    const body = {
+      ...clothingInput,
+    };
+    // const body = { name: value };
     console.log("posting new clothing article");
     console.log(body);
     post("/api/clothingarticle", body);
