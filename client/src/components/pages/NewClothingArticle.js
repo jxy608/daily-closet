@@ -5,19 +5,20 @@ import { Link } from "react-router-dom";
 import { post } from "../../utilities";
 
 const NewClothingArticleInput = (props) => {
-  //   const [value, setValue] = useState("");
-  const [clothingInput, setClothingInput] = useState({
+  const defaultClothingInput = {
     name: "",
     type: "",
     color: "",
-    num_wears: 0,
+    num_wears: NaN,
     tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
     // Another option is to only have temps > min_temp as selectable options for max temp and vice versa
-    min_temp: 0,
-    max_temp: 0,
-  });
+    min_temp: NaN,
+    max_temp: NaN,
+  };
+
+  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
@@ -33,18 +34,7 @@ const NewClothingArticleInput = (props) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(clothingInput);
     // Reset clothing input to default. can probably make a variable for default clothing input but im too lazy rn
-    setClothingInput({
-      name: "",
-      type: "",
-      color: "",
-      num_wears: 0,
-      tags: [],
-
-      // TODO: Should probably throw some kind of error if min_temp > max_temp
-      // Another option is to only have temps > min_temp as selectable options for max temp and vice versa
-      min_temp: 0,
-      max_temp: 0,
-    });
+    setClothingInput(defaultClothingInput);
   };
 
   //   // called whenever the user types in the new post input box
