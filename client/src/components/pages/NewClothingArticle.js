@@ -6,7 +6,7 @@ import { post } from "../../utilities";
 
 const NewClothingArticleInput = (props) => {
   //   const [value, setValue] = useState("");
-  const [clothingInput, setClothingInput] = useState({
+  const defaultClothingInput = {
     userId: props.userId,
     name: "",
     type: "",
@@ -18,7 +18,9 @@ const NewClothingArticleInput = (props) => {
     // Another option is to only have temps > min_temp as selectable options for max temp and vice versa
     min_temp: NaN,
     max_temp: NaN,
-  });
+  };
+
+  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
