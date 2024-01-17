@@ -39,7 +39,7 @@ const socketManager = require("./server-socket");
 const mongoConnectionURL =
   "mongodb+srv://emilymchen:5ajeZw34IKwBMEe2@cluster0.vcv0ge9.mongodb.net/?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
-const databaseName = "FILL_ME_IN";
+const databaseName = "DailyCloset";
 
 // mongoose 7 warning
 mongoose.set("strictQuery", false);

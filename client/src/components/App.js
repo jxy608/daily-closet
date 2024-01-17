@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
+import NewClothingArticle from "./pages/NewClothingArticle.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -61,6 +62,7 @@ const App = () => {
         />
         <Route path="home" element={<Home />} />
         <Route path="closet" element={<Closet />} />
+        <Route path="new" element={<NewClothingArticle />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
