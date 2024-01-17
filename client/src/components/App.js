@@ -57,7 +57,7 @@ const App = () => {
             />
           }
         />
-        <Route path="home" element={<Home />} />
+        <Route path="home" element={<Home userId={userId} handleLogout={handleLogout} />} />
         <Route path="closet" element={<Closet />} />
         <Route path="new" element={<NewClothingArticle />} />
         <Route path="*" element={<NotFound />} />

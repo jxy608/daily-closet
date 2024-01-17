@@ -10,29 +10,15 @@ const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.goo
 
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {userId ? (
-        // <button
-        //   onClick={() => {
-        //     googleLogout();
-        //     handleLogout();
-        //   }}
-        // >
-        //   Logout
-        // </button>
-        <Navigate replace to="/home" />
-      ) : (
-        <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
-      )}
-      {
-        <div>
-          <h1 className="u-textCenter">daily closet</h1>
-          <div className="u-textCenter">
-            <Link to={`/home/`}>Home</Link>
-          </div>
-        </div>
-
-        /* <h1>Good luck on your project :)</h1>
+    <div>
+      <h1 className="u-textCenter">daily closet</h1>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        {userId ? (
+          <Navigate replace to="/home" />
+        ) : (
+          <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
+        )}
+        {/* <h1>Good luck on your project :)</h1>
       <h2> What you need to change in this skeleton</h2>
       <ul>
         <li>
@@ -49,9 +35,9 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
       <h2>How to go from this skeleton to our actual app</h2>
       <a href="https://docs.google.com/document/d/110JdHAn3Wnp3_AyQLkqH2W8h5oby7OVsYIeHYSiUzRs/edit?usp=sharing">
         Check out this getting started guide
-      </a> */
-      }
-    </GoogleOAuthProvider>
+      </a> */}
+      </GoogleOAuthProvider>
+    </div>
   );
 };
 
