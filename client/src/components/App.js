@@ -12,8 +12,6 @@ import NewClothingArticle from "./pages/NewClothingArticle.js";
 import "../utilities.css";
 import "./App.css";
 
-import { socket } from "../client-socket.js";
-
 import { get, post } from "../utilities";
 
 /**
@@ -37,7 +35,6 @@ const App = () => {
     console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
-      post("/api/initsocket", { socketid: socket.id });
     });
   };
 

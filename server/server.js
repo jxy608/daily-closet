@@ -31,9 +31,6 @@ const path = require("path"); // provide utilities for working with file and dir
 const api = require("./api");
 const auth = require("./auth");
 
-// socket stuff
-const socketManager = require("./server-socket");
-
 // Server configuration below
 // TODO change connection URL after setting up your team database
 const mongoConnectionURL =
@@ -105,7 +102,6 @@ app.use((err, req, res, next) => {
 // hardcode port to 3000 for now
 const port = 3000;
 const server = http.Server(app);
-socketManager.init(server);
 
 server.listen(port, () => {
   console.log(`Server running on port: ${port}`);
