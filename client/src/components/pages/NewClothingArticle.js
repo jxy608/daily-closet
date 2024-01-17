@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { post } from "../../utilities";
 
 const NewClothingArticleInput = (props) => {
-  const defaultClothingInput = {
+  //   const [value, setValue] = useState("");
+  const [clothingInput, setClothingInput] = useState({
+    userId: props.userId,
     name: "",
     type: "",
     color: "",
@@ -16,9 +18,7 @@ const NewClothingArticleInput = (props) => {
     // Another option is to only have temps > min_temp as selectable options for max temp and vice versa
     min_temp: NaN,
     max_temp: NaN,
-  };
-
-  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
+  });
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
@@ -118,18 +118,20 @@ const NewClothingArticle = (props) => {
   const addClothing = (clothingInput) => {
     const body = {
       ...clothingInput,
+      userId: props.userId,
     };
     // const body = { name: value };
     console.log("posting new clothing article");
-    console.log(body);
     post("/api/clothingarticle", body);
-    // post("/api/clothingarticle", body).then((story) => {
-    //   // display this story on the screen
-    //   props.addNewStory(story);
-    // });
   };
 
-  return <NewClothingArticleInput defaultText="New Clothing Article" onSubmit={addClothing} />;
+  return (
+    <NewClothingArticleInput
+      defaultText="New Clothing Article"
+      onSubmit={addClothing}
+      userId={props.userId}
+    />
+  );
 };
 
 export default NewClothingArticle;
