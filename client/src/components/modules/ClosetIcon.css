@@ -1,0 +1,9 @@
+.closet-link {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Inherits the color from the parent element */
+}
+
+.closet-link h2 {
+  /* Add any specific styles for your h2 here */
+  color: inherit; /* This ensures the h2 uses the parent's text color */
+}
