@@ -1,0 +1,8 @@
+.Home-subContainer {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.Home-subContainer + .Home-subContainer {
+  margin-left: var(--m);
+}

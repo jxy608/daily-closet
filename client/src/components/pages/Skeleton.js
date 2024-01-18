@@ -1,6 +1,11 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  googleLogout,
+  useGoogleLogin,
+} from "@react-oauth/google";
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -16,7 +21,15 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
         {userId ? (
           <Navigate replace to="/home" />
         ) : (
-          <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
+          <div className="u-flex-centerButton">
+            <GoogleLogin
+              onSuccess={handleLogin}
+              onError={(err) => console.log(err)}
+              type="standard"
+              shape="circle"
+              size="large"
+            />
+          </div>
         )}
         {/* <h1>Good luck on your project :)</h1>
       <h2> What you need to change in this skeleton</h2>

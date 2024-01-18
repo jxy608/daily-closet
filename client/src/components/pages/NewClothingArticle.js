@@ -9,9 +9,9 @@ const NewClothingArticleInput = (props) => {
   const defaultClothingInput = {
     userId: props.userId,
     name: "",
-    type: "",
+    type: "top",
     color: "",
-    num_wears: NaN,
+    max_wears: NaN,
     tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
@@ -82,8 +82,8 @@ const NewClothingArticleInput = (props) => {
         <input
           type="number"
           placeholder={"# of wears before wash"}
-          name="num_wears"
-          value={clothingInput.num_wears}
+          name="max_wears"
+          value={clothingInput.max_wears}
           onChange={handleChange}
           className="NewPostInput-input"
         />
@@ -121,6 +121,7 @@ const NewClothingArticle = (props) => {
     const body = {
       ...clothingInput,
       userId: props.userId,
+      current_wears: 0,
     };
     // const body = { name: value };
     console.log("posting new clothing article");
