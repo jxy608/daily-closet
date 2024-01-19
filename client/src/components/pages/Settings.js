@@ -79,7 +79,7 @@ const Settings = (props) => {
 
     console.log("updating settings");
     console.log(body);
-    setUser(body);
+    setUser([body]);
     post("/api/user", body);
   };
 

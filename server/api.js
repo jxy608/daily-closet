@@ -67,20 +67,23 @@ router.post("/clothingarticle", (req, res) => {
 });
 
 router.post("/user", (req, res) => {
-  console.log(`updating user settings of user ${req.body.userId}`);
+  console.log(`updating user settings of user ${req.body._id}`);
 
-  const user = new User({
-    ...req.body,
-  });
+  const query = { _id: ObjectId(req.body._id) };
+  const { _id, ...newUser } = req.body;
 
-  user.save();
+  User.findOneAndUpdate(query, newUser, { new: true })
+    .then((updatedUser) => {
+      res.send(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating user");
+    });
 });
 
 router.get("/user", (req, res) => {
-  console.log("getting user");
-  console.log(req.query.userId);
   const query = { _id: ObjectId(req.query.userId) };
-  console.log(query);
   User.find(query).then((user) => res.send(user));
 });
 
