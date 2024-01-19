@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 // import "./NewClothingArticle.css";
 import { post, get } from "../../utilities";
 
 const SettingsInput = (props) => {
   // GET request to database --> get current user settings based on props.userId
-  const [currentUser, setCurrentUser] = useState(null);
-  const [settingsInput, setSettingsInput] = useState(null);
-  console.log(props);
+  const { user, setUser } = useUser();
+  const [settingsInput, setSettingsInput] = useState(user ? { ...user } : null);
+  console.log(settingsInput);
 
   useEffect(() => {
-    get("/api/user", { userId: props.userId }).then((currentUserSettings) => {
-      setCurrentUser(currentUserSettings);
-      console.log(currentUserSettings);
-
-      const defaultSettingsInput = {
-        ...currentUser,
-      };
-      setSettingsInput(currentUser);
-    });
-  }, []);
+    if (user) {
+      setSettingsInput(...user);
+    }
+  }, [user]);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
@@ -34,7 +29,8 @@ const SettingsInput = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(settingsInput);
-    setSettingsInput(currentUser);
+    // setSettingsInput(currentUser);
+    setSettingsInput(user);
   };
 
   return (
@@ -74,17 +70,19 @@ const SettingsInput = (props) => {
 };
 
 const Settings = (props) => {
+  const { user, setUser } = useUser();
+
   const updateSettings = (settingsInput) => {
-    const settings = {
+    const body = {
       ...settingsInput,
     };
 
     console.log("updating settings");
-    console.log(settings);
-    // POST REQUEST HERE
-    // post("/api/clothingarticle", body);
-    post("/api/user", settings);
+    console.log(body);
+    setUser(body);
+    post("/api/user", body);
   };
+
   return (
     <div>
       <Link to={`/`}>back</Link>

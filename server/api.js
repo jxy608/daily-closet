@@ -68,7 +68,6 @@ router.post("/clothingarticle", (req, res) => {
 
 router.post("/user", (req, res) => {
   console.log(`updating user settings of user ${req.body.userId}`);
-  // insert this clothing article into the database
 
   const user = new User({
     ...req.body,
@@ -79,11 +78,23 @@ router.post("/user", (req, res) => {
 
 router.get("/user", (req, res) => {
   console.log("getting user");
-  console.log(req);
+  console.log(req.query.userId);
   const query = { _id: ObjectId(req.query.userId) };
   console.log(query);
   User.find(query).then((user) => res.send(user));
 });
+
+// router.get("/user", (req, res) => {
+//   console.log("getting user");
+//   console.log(req.session);
+//   console.log(req.session.user);
+//   console.log(req.user);
+//   console.log("req id???");
+//   console.log(req.user._id);
+//   const query = { _id: ObjectId(req.user._id) };
+//   console.log(query);
+//   User.find(query).then((user) => res.send(user));
+// });
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

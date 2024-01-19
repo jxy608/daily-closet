@@ -50,7 +50,6 @@ const App = () => {
     post("/api/logout");
     dispatch({ type: "LOGOUT" });
   };
-  console.log(userId);
 
   return (
     <div className="App-container">
