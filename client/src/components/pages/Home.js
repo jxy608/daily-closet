@@ -50,7 +50,10 @@ const Home = ({ userId, handleLogout }) => {
             </div>
           </div>
           <div>
-            {/* <Link to={`/`}>back</Link> */}
+            <div>
+              <Link to={`/settings/`}>settings</Link>
+            </div>
+
             <button
               onClick={() => {
                 googleLogout();

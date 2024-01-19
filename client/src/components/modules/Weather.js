@@ -51,23 +51,19 @@ const Weather = () => {
   return (
     <div>
       <h2>weather</h2>
-      {weatherData ? (
-        <div>
-          {weatherData ? (
-            <div>
-              <p>{weatherData.daily[0].weather[0].main}</p>
-              <p>
-                {weatherData.daily[0].temp.max.toFixed(0)}° /{" "}
-                {weatherData.daily[0].temp.min.toFixed(0)}°
-              </p>
-            </div>
-          ) : (
-            <p>Loading weather data...</p>
-          )}
-        </div>
-      ) : (
-        <p>Loading weather data...</p>
-      )}
+      <div>
+        {weatherData ? (
+          <div>
+            <p>{weatherData.daily[0].weather[0].main}</p>
+            <p>
+              {weatherData.daily[0].temp.max.toFixed(0)}° /{" "}
+              {weatherData.daily[0].temp.min.toFixed(0)}°
+            </p>
+          </div>
+        ) : (
+          <p>Loading weather data...</p>
+        )}
+      </div>
     </div>
   );
 };

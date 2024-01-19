@@ -13,6 +13,9 @@ const express = require("express");
 const User = require("./models/user");
 const ClothingArticle = require("./models/clothingarticle");
 
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
+
 // import authentication library
 const auth = require("./auth");
 
@@ -35,7 +38,6 @@ router.get("/whoami", (req, res) => {
 // |------------------------------|
 
 router.get("/clothes", (req, res) => {
-  // empty selector means get all documents
   const query = { userId: req.query.userId };
   console.log(query);
   ClothingArticle.find(query).then((clothes) => res.send(clothes));
@@ -62,6 +64,25 @@ router.post("/clothingarticle", (req, res) => {
     max_temp: req.body.max_temp,
   });
   clothingarticle.save();
+});
+
+router.post("/user", (req, res) => {
+  console.log(`updating user settings of user ${req.body.userId}`);
+  // insert this clothing article into the database
+
+  const user = new User({
+    ...req.body,
+  });
+
+  user.save();
+});
+
+router.get("/user", (req, res) => {
+  console.log("getting user");
+  console.log(req);
+  const query = { _id: ObjectId(req.query.userId) };
+  console.log(query);
+  User.find(query).then((user) => res.send(user));
 });
 
 // anything else falls to this "not found" case

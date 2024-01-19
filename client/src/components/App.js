@@ -8,6 +8,7 @@ import Skeleton from "./pages/Skeleton.js";
 import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
 import NewClothingArticle from "./pages/NewClothingArticle.js";
+import Settings from "./pages/Settings.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="home" element={<Home userId={userId} handleLogout={handleLogout} />} />
         <Route path="closet" element={<Closet userId={userId} />} />
         <Route path="new" element={<NewClothingArticle userId={userId} />} />
+        <Route path="settings" element={<Settings userId={userId} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
