@@ -33,8 +33,7 @@ const auth = require("./auth");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL =
-  "mongodb+srv://emilymchen:5ajeZw34IKwBMEe2@cluster0.vcv0ge9.mongodb.net/?retryWrites=true&w=majority";
+const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
 const databaseName = "DailyCloset";
 
