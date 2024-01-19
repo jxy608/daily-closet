@@ -8,7 +8,12 @@ import { post, get } from "../../utilities";
 const SettingsInput = (props) => {
   // GET request to database --> get current user settings based on props.userId
   const { user, setUser } = useUser();
-  const [settingsInput, setSettingsInput] = useState(user ? { ...user } : null);
+  //   const [settingsInput, setSettingsInput] = useState(user ? { ...user } : null);
+  const [settingsInput, setSettingsInput] = useState({
+    name: "",
+    zipCode: "",
+    tempSetting: "imperial", // Default value
+  });
   console.log(settingsInput);
 
   useEffect(() => {
@@ -53,6 +58,10 @@ const SettingsInput = (props) => {
             onChange={handleChange}
             className="NewPostInput-input"
           />
+          <select name="tempSetting" value={settingsInput.tempSetting} onChange={handleChange}>
+            <option value="imperial">fahrenheit</option>
+            <option value="metric">celsius</option>
+          </select>
           <button
             type="submit"
             className="NewPostInput-button u-pointer"
