@@ -30,6 +30,7 @@ const App = () => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         setUserId(user._id);
+        dispatch({ type: "LOGIN", payload: user._id });
       }
     });
   }, []);
