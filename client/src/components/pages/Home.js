@@ -27,7 +27,7 @@ const Home = ({ userId, handleLogout }) => {
     "nov",
     "dec",
   ];
-  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
   const d = new Date();
 
