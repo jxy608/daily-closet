@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
+import { useAuth } from "../contexts/AuthContext.js";
+import ProtectedRoute from "./utils/ProtectedRoute";
+
 import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
@@ -8,6 +11,7 @@ import Skeleton from "./pages/Skeleton.js";
 import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
 import NewClothingArticle from "./pages/NewClothingArticle.js";
+import Settings from "./pages/Settings.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -19,12 +23,14 @@ import { get, post } from "../utilities";
  */
 const App = () => {
   const [userId, setUserId] = useState(undefined);
+  const { dispatch } = useAuth();
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         setUserId(user._id);
+        dispatch({ type: "LOGIN", payload: user._id });
       }
     });
   }, []);
@@ -35,14 +41,15 @@ const App = () => {
     console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
+      dispatch({ type: "LOGIN", payload: user._id });
     });
   };
 
   const handleLogout = () => {
     setUserId(undefined);
     post("/api/logout");
+    dispatch({ type: "LOGOUT" });
   };
-  console.log(userId);
 
   return (
     <div className="App-container">
@@ -58,9 +65,38 @@ const App = () => {
             />
           }
         />
-        <Route path="home" element={<Home userId={userId} handleLogout={handleLogout} />} />
-        <Route path="closet" element={<Closet userId={userId} />} />
-        <Route path="new" element={<NewClothingArticle userId={userId} />} />
+        <Route
+          path="home"
+          element={
+            <ProtectedRoute>
+              <Home handleLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="closet"
+          element={
+            <ProtectedRoute>
+              <Closet userId={userId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="new"
+          element={
+            <ProtectedRoute>
+              <NewClothingArticle userId={userId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

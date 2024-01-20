@@ -13,6 +13,9 @@ const express = require("express");
 const User = require("./models/user");
 const ClothingArticle = require("./models/clothingarticle");
 
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
+
 // import authentication library
 const auth = require("./auth");
 
@@ -35,7 +38,6 @@ router.get("/whoami", (req, res) => {
 // |------------------------------|
 
 router.get("/clothes", (req, res) => {
-  // empty selector means get all documents
   const query = { userId: req.query.userId };
   console.log(query);
   ClothingArticle.find(query).then((clothes) => res.send(clothes));
@@ -63,6 +65,39 @@ router.post("/clothingarticle", (req, res) => {
   });
   clothingarticle.save();
 });
+
+router.post("/user", (req, res) => {
+  console.log(`updating user settings of user ${req.body._id}`);
+
+  const query = { _id: ObjectId(req.body._id) };
+  const { _id, ...newUser } = req.body;
+
+  User.findOneAndUpdate(query, newUser, { new: true })
+    .then((updatedUser) => {
+      res.send(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating user");
+    });
+});
+
+router.get("/user", (req, res) => {
+  const query = { _id: ObjectId(req.query.userId) };
+  User.find(query).then((user) => res.send(user));
+});
+
+// router.get("/user", (req, res) => {
+//   console.log("getting user");
+//   console.log(req.session);
+//   console.log(req.session.user);
+//   console.log(req.user);
+//   console.log("req id???");
+//   console.log(req.user._id);
+//   const query = { _id: ObjectId(req.user._id) };
+//   console.log(query);
+//   User.find(query).then((user) => res.send(user));
+// });
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
