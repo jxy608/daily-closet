@@ -34,7 +34,6 @@ const SettingsInput = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(settingsInput);
-    // setSettingsInput(currentUser);
     setSettingsInput(user);
   };
 
@@ -78,7 +77,7 @@ const SettingsInput = (props) => {
   );
 };
 
-const Settings = (props) => {
+const Settings = () => {
   const { user, setUser } = useUser();
 
   const updateSettings = (settingsInput) => {
@@ -96,7 +95,7 @@ const Settings = (props) => {
     <div>
       <Link to={`/`}>back</Link>
       <h1>account settings</h1>
-      <SettingsInput onSubmit={updateSettings} userId={props.userId} />
+      <SettingsInput onSubmit={updateSettings} />
     </div>
   );
 };

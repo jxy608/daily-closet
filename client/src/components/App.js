@@ -69,7 +69,7 @@ const App = () => {
           path="home"
           element={
             <ProtectedRoute>
-              <Home userId={userId} handleLogout={handleLogout} />
+              <Home handleLogout={handleLogout} />
             </ProtectedRoute>
           }
         />
@@ -93,7 +93,7 @@ const App = () => {
           path="settings"
           element={
             <ProtectedRoute>
-              <Settings userId={userId} />
+              <Settings />
             </ProtectedRoute>
           }
         />

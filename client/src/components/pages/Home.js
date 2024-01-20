@@ -32,42 +32,36 @@ const Home = ({ userId, handleLogout }) => {
   const d = new Date();
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {userId ? (
-        <div>
-          <h1 className="u-textCenter">
-            {days[d.getDay()]}, {months[d.getMonth()]} {d.getDate()}
-          </h1>
-          <div className="u-flex">
-            <div className="Home-subContainer u-textCenter">
-              <ClosetIcon />
-            </div>
-            <div className="Home-subContainer u-textCenter">
-              <Outfit />
-            </div>
-            <div className="Home-subContainer u-textCenter">
-              <Weather />
-            </div>
-          </div>
-          <div>
-            <div>
-              <Link to={`/settings/`}>settings</Link>
-            </div>
-
-            <button
-              onClick={() => {
-                googleLogout();
-                handleLogout();
-              }}
-            >
-              Logout
-            </button>
-          </div>
+    <div>
+      <h1 className="u-textCenter">
+        {days[d.getDay()]}, {months[d.getMonth()]} {d.getDate()}
+      </h1>
+      <div className="u-flex">
+        <div className="Home-subContainer u-textCenter">
+          <ClosetIcon />
         </div>
-      ) : (
-        <Navigate replace to="/" />
-      )}
-    </GoogleOAuthProvider>
+        <div className="Home-subContainer u-textCenter">
+          <Outfit />
+        </div>
+        <div className="Home-subContainer u-textCenter">
+          <Weather />
+        </div>
+      </div>
+      <div>
+        <div>
+          <Link to={`/settings/`}>settings</Link>
+        </div>
+
+        <button
+          onClick={() => {
+            googleLogout();
+            handleLogout();
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
   );
 };
 
