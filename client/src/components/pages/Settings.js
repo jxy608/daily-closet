@@ -5,6 +5,7 @@ import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/goo
 
 // import "./NewClothingArticle.css";
 import { post, get } from "../../utilities";
+import BackButton from "../modules/BackButton.js";
 
 const SettingsInput = (props) => {
   // GET request to database --> get current user settings based on props.userId
@@ -94,7 +95,7 @@ const Settings = ({ handleLogout }) => {
 
   return (
     <div>
-      <Link to={`/`}>back</Link>
+      <BackButton redirect={"home"} />
       <h1>account settings</h1>
       <SettingsInput onSubmit={updateSettings} />
       <button

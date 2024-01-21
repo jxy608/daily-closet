@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 // import "./NewClothingArticle.css";
 import { post } from "../../utilities";
+import BackButton from "../modules/BackButton.js";
 
 const NewClothingArticleInput = (props) => {
   //   const [value, setValue] = useState("");
@@ -39,24 +40,10 @@ const NewClothingArticleInput = (props) => {
     setClothingInput(defaultClothingInput);
   };
 
-  //   // called whenever the user types in the new post input box
-  //   const handleChange = (event) => {
-  //     setValue(event.target.value);
-  //   };
-
-  //   // called when the user hits "Submit" for a new post
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     props.onSubmit && props.onSubmit(value);
-  //     setValue("");
-  //   };
-
   return (
     <div>
+      <BackButton redirect="closet" />
       <h1 className="u-textCenter">add new clothing article</h1>
-      <div>
-        <Link to={`/closet`}>back</Link>
-      </div>
       <div className="u-flex">
         <input
           type="text"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { get } from "../../utilities";
+import BackButton from "../modules/BackButton.js";
 
 const Closet = (props) => {
   const [clothes, setClothes] = useState([]);
@@ -39,10 +40,8 @@ const Closet = (props) => {
 
   return (
     <div>
+      <BackButton redirect="home" />
       <h1 className="u-textCenter">hello welcome to the closet</h1>
-      <div>
-        <Link to={`/home/`}>home</Link>
-      </div>
       <div>
         <Link to={`/new/`}>new clothing article</Link>
       </div>
