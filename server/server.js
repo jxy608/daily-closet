@@ -27,6 +27,8 @@ const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
+const multer = require("multer");
+const cors = require("cors");
 
 const api = require("./api");
 const auth = require("./auth");
@@ -36,6 +38,33 @@ const auth = require("./auth");
 const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
 const databaseName = "DailyCloset";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
+
+const uploadImages = upload.array("image");
 
 // mongoose 7 warning
 mongoose.set("strictQuery", false);
@@ -66,6 +95,21 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(cors());
+
+app.post("/upload", async (req, res) => {
+  uploadImages(req, res, function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    // Everything went fine.
+    const files = req.files;
+    res.json(files);
+  });
+});
+
+app.use("/uploads", express.static("uploads"));
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
