@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
 
 // import "./NewClothingArticle.css";
 import { post, get } from "../../utilities";
@@ -77,7 +78,7 @@ const SettingsInput = (props) => {
   );
 };
 
-const Settings = () => {
+const Settings = ({ handleLogout }) => {
   const { user, setUser } = useUser();
 
   const updateSettings = (settingsInput) => {
@@ -96,6 +97,14 @@ const Settings = () => {
       <Link to={`/`}>back</Link>
       <h1>account settings</h1>
       <SettingsInput onSubmit={updateSettings} />
+      <button
+        onClick={() => {
+          googleLogout();
+          handleLogout();
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };

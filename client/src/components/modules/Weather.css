@@ -1,0 +1,20 @@
+.weather-container {
+  position: relative;
+  width: 200px; /* or the width you want */
+  height: 200px; /* or the height you want */
+  padding-top: 60%;
+  justify-content: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.weather-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* or any color that is visible on your images */
+  text-align: center;
+  /* Add more styling as needed */
+}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
 
 import ClosetIcon from "../modules/ClosetIcon.js";
 import Outfit from "../modules/Outfit.js";
 import Weather from "../modules/Weather.js";
+import settingsButton from "../../../assets/settings-button.svg";
+import floor from "../../../assets/floor.svg";
 
 import "../../utilities.css";
 import "./Home.css";
@@ -48,18 +49,12 @@ const Home = ({ userId, handleLogout }) => {
         </div>
       </div>
       <div>
-        <div>
-          <Link to={`/settings/`}>settings</Link>
-        </div>
-
-        <button
-          onClick={() => {
-            googleLogout();
-            handleLogout();
-          }}
-        >
-          Logout
-        </button>
+        <img className="floor" src={floor} />
+      </div>
+      <div className="settings-button">
+        <Link to={`/settings/`}>
+          <img src={settingsButton} />
+        </Link>
       </div>
     </div>
   );

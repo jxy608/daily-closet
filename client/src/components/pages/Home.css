@@ -6,3 +6,16 @@
 .Home-subContainer + .Home-subContainer {
   margin-left: var(--m);
 }
+
+.settings-button {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+}
+
+.floor {
+  position: absolute;
+  z-index: -5;
+  width: 100%;
+  height: auto;
+}
