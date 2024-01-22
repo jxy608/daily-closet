@@ -50,6 +50,7 @@ const Closet = (props) => {
     document.title = "Clothes";
     get("/api/clothes", { userId: props.userId }).then((clothes) => {
       setClothes(clothes);
+      console.log(clothes);
     });
   }, []);
 
@@ -58,8 +59,15 @@ const Closet = (props) => {
   if (hasClothes) {
     clothesList = clothes.map((clothingArticle) => (
       <p>
-        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
-        {clothingArticle.max_wears} times.
+        <img
+          src={clothingArticle.image}
+          alt="dummy"
+          width="100"
+          className="my-10 mx-5"
+        />
+        
+        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable {clothingArticle.num_wears} times.
+
       </p>
       // <Card
       //   key={`Card_${storyObj._id}`}

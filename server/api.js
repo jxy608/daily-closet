@@ -73,6 +73,7 @@ router.post("/clothingarticle", (req, res) => {
   // insert this clothing article into the database
   const clothingarticle = new ClothingArticle({
     userId: req.body.userId,
+    image: req.body.image,
     name: req.body.name,
     type: req.body.type,
     color: req.body.color,

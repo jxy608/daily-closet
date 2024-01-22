@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 
 const ClothingArticleSchema = new mongoose.Schema({
   userId: String,
+  image: String,
   name: String,
   type: String,
   color: String,
-  max_wears: Number,
+  num_wears: Number,
   current_wears: Number,
   tags: Array,
   min_temp: Number,

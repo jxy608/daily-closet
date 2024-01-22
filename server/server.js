@@ -27,6 +27,9 @@ const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
+const multer = require("multer");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const api = require("./api");
 const auth = require("./auth");
@@ -36,6 +39,33 @@ const auth = require("./auth");
 const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
 const databaseName = "DailyCloset";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
+
+const uploadImages = upload.array("image");
 
 // mongoose 7 warning
 mongoose.set("strictQuery", false);
@@ -57,6 +87,12 @@ app.use(validator.checkRoutes);
 // allow us to process POST requests
 app.use(express.json());
 
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Parse application/json
+app.use(bodyParser.json());
+
 // set up a session, which will persist login data across requests
 app.use(
   session({
@@ -66,6 +102,25 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(cors());
+
+app.post("/upload", async (req, res) => {
+  uploadImages(req, res, function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    // Everything went fine.
+    const files = req.files;
+    let file_paths = [];
+    for (const file of files) {
+      file_paths.push("http://localhost:3000/" + file.path);
+    }
+    res.json(file_paths);
+  });
+});
+
+app.use("/uploads", express.static("uploads"));
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
