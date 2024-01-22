@@ -58,7 +58,7 @@
   left: 5vw;
   width: calc(0.9 * (100vw - 20vh));
   height: calc(55vh);
-  overflow-y: scroll;
+  overflow-y: auto;
   font-size: 1.5vw;
 }
 
