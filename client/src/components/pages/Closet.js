@@ -3,13 +3,28 @@ import { Link } from "react-router-dom";
 
 import { get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
+import ClosetModal from "../modules/ClosetModal.js";
+import "./Closet.css";
 
 const Closet = (props) => {
   const [clothes, setClothes] = useState([]);
 
+  const [modalState, setModalState] = useState("empty");
+
+  const openModal = (section) => {
+    setModalState(section);
+    document.body.style.overflow = "hidden";
+    document.getElementById("modal-overlay").style.display = "block";
+  };
+
+  const closeModal = () => {
+    setModalState("");
+    document.body.style.overflow = "scroll";
+    document.getElementById("modal-overlay").style.display = "none";
+  };
+
   // called when the "Feed" component "mounts", i.e.
   // when it shows up on screen
-  console.log("closet: ", props.userId);
   useEffect(() => {
     document.title = "Clothes";
     get("/api/clothes", { userId: props.userId }).then((clothes) => {
@@ -46,6 +61,11 @@ const Closet = (props) => {
         <Link to={`/new/`}>new clothing article</Link>
       </div>
       <div>{clothesList}</div>
+      <div onClick={() => openModal("tops")}>tops</div>
+      <div id="modal-overlay" class="modal-overlay"></div>
+      <div className="closet-container">
+        <ClosetModal title="tops" closeModal={closeModal} hidden={"tops" !== modalState} />
+      </div>
     </div>
   );
 };
