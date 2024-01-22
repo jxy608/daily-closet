@@ -29,6 +29,7 @@ const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
 const multer = require("multer");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const api = require("./api");
 const auth = require("./auth");
@@ -86,6 +87,12 @@ app.use(validator.checkRoutes);
 // allow us to process POST requests
 app.use(express.json());
 
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Parse application/json
+app.use(bodyParser.json());
+
 // set up a session, which will persist login data across requests
 app.use(
   session({
@@ -105,7 +112,11 @@ app.post("/upload", async (req, res) => {
     }
     // Everything went fine.
     const files = req.files;
-    res.json(files);
+    let file_paths = [];
+    for (const file of files) {
+      file_paths.push("http://localhost:3000/" + file.path);
+    }
+    res.json(file_paths);
   });
 });
 

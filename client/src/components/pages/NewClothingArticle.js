@@ -6,14 +6,17 @@ import axios from 'axios'
 import { post } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 
+let photoStatus = "Upload image";
+
 const NewClothingArticleInput = (props) => {
   //   const [value, setValue] = useState("");
   const defaultClothingInput = {
     userId: props.userId,
+    image: "",
     name: "",
     type: "top",
     color: "",
-    max_wears: NaN,
+    num_wears: NaN,
     tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
@@ -36,7 +39,7 @@ const NewClothingArticleInput = (props) => {
       [name]: value,
     }));
 
-    if (e.target.files.length) {
+    if (e.target.files) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
@@ -50,6 +53,7 @@ const NewClothingArticleInput = (props) => {
     props.onSubmit && props.onSubmit(clothingInput);
     // Reset clothing input to default. can probably make a variable for default clothing input but im too lazy rn
     setClothingInput(defaultClothingInput);
+    photoStatus = "Upload photo";
   };
 
   // const submitPhoto = async () => {
@@ -65,14 +69,15 @@ const NewClothingArticleInput = (props) => {
   //       return res.data;
   //     });
   // }
+
   const submitPhoto = async () => {
     try {
       console.log("image data: ", image.raw);
     
       let formData = new FormData();
+      formData.append('userId', props.userId);
       formData.append('image', image.raw);
-
-      console.log("form data: ", formData);
+      console.log("form data: ", Array.from(formData.entries()));
   
       const response = await axios.post(`http://localhost:3000/upload`, formData, {
         headers: {
@@ -81,7 +86,10 @@ const NewClothingArticleInput = (props) => {
       });
   
       // Use the data from the response
-      console.log(response.data);
+      console.log(response.data[0]);
+      clothingInput.image = response.data[0];
+
+      photoStatus = "Image uploaded!";
   
       return response.data;
     } catch (error) {
@@ -116,7 +124,7 @@ const NewClothingArticleInput = (props) => {
             ) : (
               <>
                 <p className = "text-white text-1xl text-left w-full text-left">
-                  Upload Image
+                  {photoStatus}
                 </p>
                 <div className={StylePropertyMap.wrapper} />
               </>
@@ -159,8 +167,8 @@ const NewClothingArticleInput = (props) => {
           <input
             type="number"
             placeholder={"# of wears before wash"}
-            name="max_wears"
-            value={clothingInput.max_wears}
+            name="num_wears"
+            value={clothingInput.num_wears}
             onChange={handleChange}
             className="NewPostInput-input"
           />
@@ -202,7 +210,7 @@ const NewClothingArticle = (props) => {
       current_wears: 0,
     };
     // const body = { name: value };
-    console.log("posting new clothing article");
+    console.log("posting new clothing article", body);
     post("/api/clothingarticle", body);
   };
 
