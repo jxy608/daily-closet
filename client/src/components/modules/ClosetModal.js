@@ -21,10 +21,10 @@ const ClosetModal = (props) => {
   const hasClothes = clothes.length !== 0;
   if (hasClothes) {
     clothesList = clothes.map((clothingArticle) => (
-      <p>
+      <h2>
         {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
         {clothingArticle.max_wears} times.
-      </p>
+      </h2>
       // <Card
       //   key={`Card_${storyObj._id}`}
       //   _id={storyObj._id}
@@ -47,7 +47,7 @@ const ClosetModal = (props) => {
             <div className="x" onClick={props.closeModal}>
               <img src={xButton} className="x-image" />
             </div>
-            <div>{clothesList}</div>
+            <div className="closetText">{clothesList}</div>
           </div>
         </>
       )}

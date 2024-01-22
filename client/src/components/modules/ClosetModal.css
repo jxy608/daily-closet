@@ -51,16 +51,14 @@
 }
 
 .closetText {
-  position: fixed;
+  position: relative;
   color: white;
   z-index: 9100;
-  top: 0;
-  left: 0;
-  width: 60vw;
-  height: 32vw;
+  top: calc(4vw - 0.75vh);
+  left: 5vw;
+  width: calc(0.9 * (100vw - 20vh));
+  height: calc(55vh);
   overflow-y: scroll;
-  left: 20vw;
-  top: calc(50vh - 25vw + 13vw);
   font-size: 1.5vw;
 }
 
