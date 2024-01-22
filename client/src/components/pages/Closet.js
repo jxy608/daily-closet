@@ -3,13 +3,49 @@ import { Link } from "react-router-dom";
 
 import { get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
+import ClosetModal from "../modules/ClosetModal.js";
+import "./Closet.css";
 
 const Closet = (props) => {
   const [clothes, setClothes] = useState([]);
 
+  const [modalState, setModalState] = useState("empty");
+
+  const openModal = (section) => {
+    setModalState(section);
+    document.body.style.overflow = "hidden";
+    document.getElementById("modal-overlay").style.display = "block";
+  };
+
+  const closeModal = () => {
+    setModalState("");
+    document.body.style.overflow = "scroll";
+    document.getElementById("modal-overlay").style.display = "none";
+  };
+
+  const closetSections = [
+    {
+      title: "tops",
+    },
+    {
+      title: "bottoms",
+    },
+    {
+      title: "shoes",
+    },
+    {
+      title: "outerwear",
+    },
+    {
+      title: "one pieces",
+    },
+    {
+      title: "accessories",
+    },
+  ];
+
   // called when the "Feed" component "mounts", i.e.
   // when it shows up on screen
-  console.log("closet: ", props.userId);
   useEffect(() => {
     document.title = "Clothes";
     get("/api/clothes", { userId: props.userId }).then((clothes) => {
@@ -31,6 +67,7 @@ const Closet = (props) => {
         />
         
         {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable {clothingArticle.num_wears} times.
+
       </p>
       // <Card
       //   key={`Card_${storyObj._id}`}
@@ -52,7 +89,20 @@ const Closet = (props) => {
       <div>
         <Link to={`/new/`}>new clothing article</Link>
       </div>
-      <div>{clothesList}</div>
+      {/* <div>{clothesList}</div> */}
+      <div onClick={() => openModal("tops")}>tops</div>
+      <div onClick={() => openModal("bottoms")}>bottoms</div>
+      <div id="modal-overlay" class="modal-overlay"></div>
+      <div className="closet-container">
+        {closetSections.map((s, idx) => (
+          <ClosetModal
+            title={s.title}
+            closeModal={closeModal}
+            hidden={s.title !== modalState}
+            userId={props.userId}
+          />
+        ))}
+      </div>
     </div>
   );
 };

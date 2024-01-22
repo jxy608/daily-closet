@@ -1,7 +1,7 @@
 .weather-container {
   position: relative;
-  width: 200px; /* or the width you want */
-  height: 200px; /* or the height you want */
+  width: 200px;
+  height: 200px;
   padding-top: 60%;
   justify-content: center;
   background-size: contain;
@@ -15,7 +15,6 @@
   left: 50%;
   font-size: x-large;
   transform: translate(-50%, -50%);
-  color: white; /* or any color that is visible on your images */
+  color: #76523a;
   text-align: center;
-  /* Add more styling as needed */
 }

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
+import { googleLogout } from "@react-oauth/google";
 
-// import "./NewClothingArticle.css";
 import { post, get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
+import "./Settings.css";
 
 const SettingsInput = (props) => {
   // GET request to database --> get current user settings based on props.userId
   const { user, setUser } = useUser();
-  //   const [settingsInput, setSettingsInput] = useState(user ? { ...user } : null);
   const [settingsInput, setSettingsInput] = useState({
     name: "",
     zipCode: "",
@@ -33,6 +31,13 @@ const SettingsInput = (props) => {
     }));
   };
 
+  const handleToggleChange = () => {
+    setSettingsInput((prevSettings) => ({
+      ...prevSettings,
+      tempSetting: prevSettings.tempSetting === "imperial" ? "metric" : "imperial",
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(settingsInput);
@@ -43,34 +48,50 @@ const SettingsInput = (props) => {
     <div>
       {settingsInput ? (
         <div>
-          <input
-            type="text"
-            placeholder={"nickname"}
-            value={settingsInput.name}
-            name="name"
-            onChange={handleChange}
-            className="NewPostInput-input"
-          />
-          <input
-            type="number"
-            placeholder={"zip code"}
-            value={settingsInput.zipCode}
-            name="zipCode"
-            onChange={handleChange}
-            className="NewPostInput-input"
-          />
-          <select name="tempSetting" value={settingsInput.tempSetting} onChange={handleChange}>
-            <option value="imperial">fahrenheit</option>
-            <option value="metric">celsius</option>
-          </select>
-          <button
-            type="submit"
-            className="NewPostInput-button u-pointer"
-            value="Submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          <div>
+            <div className="input-label">nickname</div>
+            <input
+              type="text"
+              placeholder={"nickname"}
+              value={settingsInput.name}
+              name="name"
+              onChange={handleChange}
+              className="NewPostInput-input"
+            />
+          </div>
+          <div className="input-label">zip code</div>
+          <div>
+            <input
+              type="number"
+              placeholder={"zip code"}
+              value={settingsInput.zipCode}
+              name="zipCode"
+              onChange={handleChange}
+              className="NewPostInput-input"
+            />
+          </div>
+          <div className="temperature-toggle">
+            <label>fahrenheit</label>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={settingsInput.tempSetting === "metric"}
+                onChange={handleToggleChange}
+              />
+              <span className="slider"></span>
+            </label>
+            <label>celsius</label>
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="Submit-button u-pointer"
+              value="Submit"
+              onClick={handleSubmit}
+            >
+              submit
+            </button>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
@@ -95,17 +116,22 @@ const Settings = ({ handleLogout }) => {
 
   return (
     <div>
-      <BackButton redirect={"home"} />
-      <h1>account settings</h1>
-      <SettingsInput onSubmit={updateSettings} />
-      <button
-        onClick={() => {
-          googleLogout();
-          handleLogout();
-        }}
-      >
-        Logout
-      </button>
+      <div className="settings-header">
+        <BackButton redirect={"home"} />
+        <h2>account settings</h2>
+      </div>
+      <div className="settingsContainer">
+        <SettingsInput onSubmit={updateSettings} />
+        <button
+          className="Logout-button"
+          onClick={() => {
+            googleLogout();
+            handleLogout();
+          }}
+        >
+          log out
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,91 @@
+.closetSectionContainer {
+  position: fixed;
+  z-index: 9000;
+  width: calc(100vw - 20vh);
+  height: 80vh;
+  top: 10%;
+  left: 10vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--secondary);
+  border-radius: 45px;
+}
+
+.closetTitle {
+  position: relative;
+  z-index: 9100;
+  top: calc(4vw - 0.75vh);
+  left: 5vw;
+  font-size: calc(2vw + 1.5vh);
+}
+
+.closetSection {
+  position: relative;
+  color: white;
+  z-index: 9100;
+  top: calc(50vh - 25vw + 2.5vw);
+  font-size: 1.5vw;
+  width: 15vw;
+  text-align: center;
+}
+
+.closetSection:hover {
+  cursor: pointer;
+}
+
+.x {
+  position: relative;
+  z-index: 9100;
+  top: 0vw;
+  left: calc(100vw - 20vh - 10vh - 1vw - 0.75vh);
+  height: calc(2vw + 1.5vh);
+  width: calc(2vw + 1.5vh);
+}
+
+.x:hover {
+  cursor: pointer;
+}
+
+.closetContents {
+  position: relative;
+  color: white;
+  z-index: 9100;
+  top: calc(4vw - 0.75vh);
+  left: 5vw;
+  width: calc(0.9 * (100vw - 20vh));
+  height: 55vh;
+  overflow-y: auto;
+  font-size: 1.5vw;
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.closetContents::-webkit-scrollbar-track {
+  background-color: #ddbba5;
+  border-radius: 10px;
+}
+
+.closetContents::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary);
+  border-radius: 10px;
+}
+
+.closetContents::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+.linkContainer {
+  padding-bottom: 1vw;
+}
+
+.link {
+  text-decoration: underline;
+  color: theme("colors.neon-green");
+}
+
+.link:hover {
+  color: theme("colors.light-neon-green");
+}
