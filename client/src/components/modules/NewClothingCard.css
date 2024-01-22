@@ -1,0 +1,14 @@
+.NewClothingCard {
+  position: relative;
+  z-index: 9005;
+  width: calc(0.2 * 0.9 * (100vw - 20vh));
+  height: calc(1.2 * 0.2 * 0.9 * (100vw - 20vh));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(181, 128, 89, 58);
+  border-radius: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}

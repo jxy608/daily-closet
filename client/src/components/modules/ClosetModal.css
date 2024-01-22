@@ -37,11 +37,7 @@
   position: relative;
   z-index: 9100;
   top: 0vw;
-  /* left: calc(100vw - 20vh - 10vh - 1.5vw); */
   left: calc(100vw - 20vh - 10vh - 1vw - 0.75vh);
-}
-
-.x-image {
   height: calc(2vw + 1.5vh);
   width: calc(2vw + 1.5vh);
 }
@@ -50,29 +46,33 @@
   cursor: pointer;
 }
 
-.closetText {
+.closetContents {
   position: relative;
   color: white;
   z-index: 9100;
   top: calc(4vw - 0.75vh);
   left: 5vw;
   width: calc(0.9 * (100vw - 20vh));
-  height: calc(55vh);
+  height: 55vh;
   overflow-y: auto;
   font-size: 1.5vw;
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
 }
 
-.closetText::-webkit-scrollbar-track {
+.closetContents::-webkit-scrollbar-track {
   background-color: #ddbba5;
   border-radius: 10px;
 }
 
-.closetText::-webkit-scrollbar-thumb {
+.closetContents::-webkit-scrollbar-thumb {
   background-color: var(--tertiary);
   border-radius: 10px;
 }
 
-.closetText::-webkit-scrollbar {
+.closetContents::-webkit-scrollbar {
   width: 15px;
   height: 15px;
 }

@@ -70,13 +70,6 @@ const SettingsInput = (props) => {
               className="NewPostInput-input"
             />
           </div>
-          {/* <div className="input-label">temperature units</div>
-          <div>
-            <select name="tempSetting" value={settingsInput.tempSetting} onChange={handleChange}>
-              <option value="imperial">fahrenheit</option>
-              <option value="metric">celsius</option>
-            </select>
-          </div> */}
           <div className="temperature-toggle">
             <label>fahrenheit</label>
             <label className="switch">

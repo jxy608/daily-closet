@@ -3,6 +3,9 @@ import { Link, Navigate } from "react-router-dom";
 import "./ClosetModal.css";
 import { get } from "../../utilities";
 
+import NewClothingCard from "./NewClothingCard.js";
+import ClothingCard from "./ClothingCard.js";
+
 import xButton from "../../../assets/x-button.svg";
 
 const ClosetModal = (props) => {
@@ -47,7 +50,23 @@ const ClosetModal = (props) => {
             <div className="x" onClick={props.closeModal}>
               <img src={xButton} className="x-image" />
             </div>
-            <div className="closetText">{clothesList}</div>
+            <div className="closetContents">
+              {/* {clothesList} */}
+              <NewClothingCard />
+              {hasClothes ? (
+                clothes.map((c, idx) => (
+                  <ClothingCard
+                    name={c.name}
+                    color={c.color}
+                    category={c.type}
+                    max_wears={c.max_wears}
+                    key={idx}
+                  />
+                ))
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </>
       )}
