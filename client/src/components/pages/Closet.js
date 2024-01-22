@@ -23,6 +23,27 @@ const Closet = (props) => {
     document.getElementById("modal-overlay").style.display = "none";
   };
 
+  const closetSections = [
+    {
+      title: "tops",
+    },
+    {
+      title: "bottoms",
+    },
+    {
+      title: "shoes",
+    },
+    {
+      title: "outerwear",
+    },
+    {
+      title: "one pieces",
+    },
+    {
+      title: "accessories",
+    },
+  ];
+
   // called when the "Feed" component "mounts", i.e.
   // when it shows up on screen
   useEffect(() => {
@@ -38,7 +59,7 @@ const Closet = (props) => {
     clothesList = clothes.map((clothingArticle) => (
       <p>
         {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
-        {clothingArticle.num_wears} times.
+        {clothingArticle.max_wears} times.
       </p>
       // <Card
       //   key={`Card_${storyObj._id}`}
@@ -60,11 +81,19 @@ const Closet = (props) => {
       <div>
         <Link to={`/new/`}>new clothing article</Link>
       </div>
-      <div>{clothesList}</div>
+      {/* <div>{clothesList}</div> */}
       <div onClick={() => openModal("tops")}>tops</div>
+      <div onClick={() => openModal("bottoms")}>bottoms</div>
       <div id="modal-overlay" class="modal-overlay"></div>
       <div className="closet-container">
-        <ClosetModal title="tops" closeModal={closeModal} hidden={"tops" !== modalState} />
+        {closetSections.map((s, idx) => (
+          <ClosetModal
+            title={s.title}
+            closeModal={closeModal}
+            hidden={s.title !== modalState}
+            userId={props.userId}
+          />
+        ))}
       </div>
     </div>
   );

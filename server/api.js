@@ -38,7 +38,25 @@ router.get("/whoami", (req, res) => {
 // |------------------------------|
 
 router.get("/clothes", (req, res) => {
-  const query = { userId: req.query.userId };
+  let typeString = req.query.type;
+  switch (req.query.type) {
+    case "tops":
+      typeString = "top";
+      break;
+    case "bottoms":
+      typeString = "bottom";
+      break;
+    case "shoes":
+      typeString = "shoe";
+      break;
+    case "accessories":
+      typeString = "accessory";
+      break;
+    case "one pieces":
+      typeString = "one piece";
+      break;
+  }
+  const query = { userId: req.query.userId, type: typeString };
   console.log(query);
   ClothingArticle.find(query).then((clothes) => res.send(clothes));
 
