@@ -10,10 +10,11 @@ const ClothingCard = (props) => {
   console.log(props);
   return (
     <Link to="/new" className="ClothingCard">
-      {/* Replace this with the image of the clothes from props */}
-      {/* <img src={plusButton} /> */}
-      {props.name}: {props.color} {props.category}, wearable {props.max_wears} times
-    </Link>
+      <img src={props.image} alt="Clothing Image" />
+      {/* <div className="CardContent">
+        {props.name}: {props.color} {props.category}, wearable {props.max_wears} times
+      </div> */}
+  </Link>
   );
 };
 

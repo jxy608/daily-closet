@@ -6,7 +6,7 @@ const ClothingArticleSchema = new mongoose.Schema({
   name: String,
   type: String,
   color: String,
-  num_wears: Number,
+  max_wears: Number,
   current_wears: Number,
   tags: Array,
   min_temp: Number,

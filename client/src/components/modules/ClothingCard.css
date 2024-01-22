@@ -11,4 +11,22 @@
   align-items: center;
   justify-content: center;
   margin: 10px;
+  overflow:hidden
 }
+
+.ClothingCard img {
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+  position: absolute;
+}
+
+/* .CardContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; 
+  text-align: center;
+  z-index: 2;
+} */

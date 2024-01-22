@@ -66,7 +66,7 @@ const Closet = (props) => {
           className="my-10 mx-5"
         />
         
-        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable {clothingArticle.num_wears} times.
+        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable {clothingArticle.max_wears} times.
 
       </p>
       // <Card

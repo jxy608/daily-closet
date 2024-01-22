@@ -77,7 +77,7 @@ router.post("/clothingarticle", (req, res) => {
     name: req.body.name,
     type: req.body.type,
     color: req.body.color,
-    num_wears: req.body.num_wears,
+    max_wears: req.body.max_wears,
     // tags: req.body.tags,
     min_temp: req.body.min_temp,
     max_temp: req.body.max_temp,

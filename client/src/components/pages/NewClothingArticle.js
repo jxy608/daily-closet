@@ -14,7 +14,7 @@ const NewClothingArticleInput = (props) => {
     name: "",
     type: "top",
     color: "",
-    num_wears: NaN,
+    max_wears: NaN,
     tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
