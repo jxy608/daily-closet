@@ -27,9 +27,9 @@ const Closet = (props) => {
           src={clothingArticle.image}
           alt="dummy"
           width="100"
-          height="100"
           className="my-10 mx-5"
         />
+        
         {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable {clothingArticle.num_wears} times.
       </p>
       // <Card

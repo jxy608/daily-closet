@@ -6,8 +6,6 @@ import axios from 'axios'
 import { post } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 
-let photoStatus = "Upload image";
-
 const NewClothingArticleInput = (props) => {
   //   const [value, setValue] = useState("");
   const defaultClothingInput = {
@@ -25,24 +23,30 @@ const NewClothingArticleInput = (props) => {
     max_temp: NaN,
   };
 
-  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
-  const [image, setImage] = useState({
+  const defaultImage = {
     preview: '',
     raw: '',
-  });
+    status: 'Submit photo',
+  };
+
+  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
+  const [image, setImage] = useState(defaultImage);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setClothingInput((prevClothingInput) => ({
-      ...prevClothingInput,
-      [name]: value,
-    }));
+    if (name != "image") {
+      setClothingInput((prevClothingInput) => ({
+        ...prevClothingInput,
+        [name]: value,
+      }));
+    }
 
     if (e.target.files) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
+        status: 'Submit photo',
       });
     }
   };
@@ -50,10 +54,16 @@ const NewClothingArticleInput = (props) => {
   // called when the user hits "Submit" for a new clothing article
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (clothingInput.image === "") {
+      alert("Please submit your photo!");
+      return;
+    }
+
     props.onSubmit && props.onSubmit(clothingInput);
     // Reset clothing input to default. can probably make a variable for default clothing input but im too lazy rn
     setClothingInput(defaultClothingInput);
-    photoStatus = "Upload photo";
+    setImage(defaultImage);
   };
 
   // const submitPhoto = async () => {
@@ -89,7 +99,10 @@ const NewClothingArticleInput = (props) => {
       console.log(response.data[0]);
       clothingInput.image = response.data[0];
 
-      photoStatus = "Image uploaded!";
+      setImage({
+        ...image,
+        status: "Resubmit photo",
+      })
   
       return response.data;
     } catch (error) {
@@ -117,16 +130,11 @@ const NewClothingArticleInput = (props) => {
               <img
                 src={image.preview}
                 alt="dummy"
-                width="300"
-                height="300"
+                width="100"
                 className="my-10 mx-5"
               />
             ) : (
               <>
-                <p className = "text-white text-1xl text-left w-full text-left">
-                  {photoStatus}
-                </p>
-                <div className={StylePropertyMap.wrapper} />
               </>
             )}
           </label>
@@ -137,7 +145,7 @@ const NewClothingArticleInput = (props) => {
             className="text-white w-full mt-2 border-[1px]
              p-2 border-[#3d4f7c] rounded-full cursor-pointer "
           >
-            Submit photo
+            {image.status}
           </button>
 
         </div>
