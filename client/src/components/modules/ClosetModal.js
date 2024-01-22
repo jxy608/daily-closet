@@ -56,6 +56,7 @@ const ClosetModal = (props) => {
               {hasClothes ? (
                 clothes.map((c, idx) => (
                   <ClothingCard
+                    image={c.image}
                     name={c.name}
                     color={c.color}
                     category={c.type}
