@@ -67,6 +67,34 @@ router.get("/clothes", (req, res) => {
   // ClothingArticle.find({}).then((clothes) => res.send(clothes));
 });
 
+function getClothingItem(array) {
+  if (array.length === 0) {
+    return null;
+  }
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+router.get("/outfit", async (req, res) => {
+  try {
+    const tops = await ClothingArticle.find({ userId: req.query.userId, type: "top" });
+    const bottoms = await ClothingArticle.find({ userId: req.query.userId, type: "bottom" });
+  
+    // console.log("tops", tops);
+    // console.log("bottoms", bottoms);
+  
+    const randomTop = getClothingItem(tops);
+    const randomBottom = getClothingItem(bottoms);
+
+    // console.log("outfit is", randomTop, randomBottom);
+  
+    res.send({ 'top': randomTop.image, 'bottom': randomBottom.image });
+  } catch (error) {
+    console.error("Error fetching outfit from server:", error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 router.post("/clothingarticle", (req, res) => {
   // TODO: add router post method for adding new clothing articles
   // No idea if i did this right lol
