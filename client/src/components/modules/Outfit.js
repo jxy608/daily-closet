@@ -14,15 +14,27 @@ const Outfit = () => {
     // Trigger the logic or state update that should happen daily
     // This could be a function to force a re-render, or you can update some state that causes a re-render
     // TODO: change from all clothes to only clothes that match weather
-    get('/api/outfit', { userId: userId })
-      .then((clothes) => {
-        setOutfit(clothes);
-        console.log('Outfit has been changed!', clothes);
-      })
-      .catch((error) => {
-        console.error('Error fetching available clothes:', error);
-      });
-  }, []);
+    const currentDate = new Date().toLocaleDateString();
+    const storedOutfit = JSON.parse(localStorage.getItem(`outfit-${userId}-${currentDate}`));
+
+    if (storedOutfit) {
+      // Use the outfit data from local storage
+      setOutfit(storedOutfit);
+      console.log('Outfit loaded from local storage:', storedOutfit);
+    } else {
+      // Fetch a new outfit if not found in local storage
+      get('/api/outfit', { userId: userId })
+        .then((clothes) => {
+          setOutfit(clothes);
+          // Store the outfit data in local storage
+          localStorage.setItem(`outfit-${userId}-${currentDate}`, JSON.stringify(clothes));
+          console.log('Outfit has been changed!', clothes);
+        })
+        .catch((error) => {
+          console.error('Error fetching available clothes:', error);
+        });
+    }
+  }, [userId]);
 
   useEffect(() => {
     // Calculate the time until the next midnight
@@ -37,13 +49,18 @@ const Outfit = () => {
       updateOutfit();
     }, timeUntilMidnight);
 
-
+    // Initial update when the component mounts?
+    updateOutfit();
 
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);
   }, [updateOutfit]);
 
   const handleRefresh = () => {
+    // Clear outfit data from local storage
+    const currentDate = new Date().toLocaleDateString();
+    localStorage.removeItem(`outfit-${userId}-${currentDate}`);
+
     // Manually trigger the update and re-render
     updateOutfit();
   };
@@ -53,10 +70,8 @@ const Outfit = () => {
     <div>
       <h2>outfit</h2>
       <div className="outfit-container">
-        top
-        <img src={outfit['top']}/>
-        bottom
-        <img src={outfit['bottom']}/>
+        <img src={outfit['top']} alt="Top" className="top-image"/>
+        <img src={outfit['bottom']} alt="Bottom" className="bottom-image"/>
       </div>
       <button onClick={handleRefresh}>Refresh</button>
     </div>

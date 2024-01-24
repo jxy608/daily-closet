@@ -82,7 +82,7 @@ router.get("/outfit", async (req, res) => {
     const randomTop = getClothingItem(tops);
     const randomBottom = getClothingItem(bottoms);
 
-    console.log("outfit is", randomTop, randomBottom);
+    // console.log("outfit is", randomTop, randomBottom);
   
     res.send({ 'top': randomTop.image, 'bottom': randomBottom.image });
   } catch (error) {
