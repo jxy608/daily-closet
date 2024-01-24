@@ -1,11 +1,27 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useAuth } from "../../contexts/AuthContext";
+import { get } from "../../utilities";
+
+import "./Outfit.css";
+import "../../utilities.css";
 
 const Outfit = () => {
+
+  const [outfit, setOutfit] = useState({});
+  const { userId } = useAuth();
+
   const updateOutfit = useCallback(() => {
     // Trigger the logic or state update that should happen daily
-    // This could be a function to force a re-render, or you can update some state
-    // that causes a re-render
-    console.log('Outfit has been changed!');
+    // This could be a function to force a re-render, or you can update some state that causes a re-render
+    // TODO: change from all clothes to only clothes that match weather
+    get('/api/outfit', { userId: userId })
+      .then((clothes) => {
+        setOutfit(clothes);
+        console.log('Outfit has been changed!', clothes);
+      })
+      .catch((error) => {
+        console.error('Error fetching available clothes:', error);
+      });
   }, []);
 
   useEffect(() => {
@@ -21,6 +37,8 @@ const Outfit = () => {
       updateOutfit();
     }, timeUntilMidnight);
 
+
+
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);
   }, [updateOutfit]);
@@ -34,6 +52,12 @@ const Outfit = () => {
   return (
     <div>
       <h2>outfit</h2>
+      <div className="outfit-container">
+        top
+        <img src={outfit['top']}/>
+        bottom
+        <img src={outfit['bottom']}/>
+      </div>
       <button onClick={handleRefresh}>Refresh</button>
     </div>
   );
