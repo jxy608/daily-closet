@@ -22,6 +22,10 @@ const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
+const countryCode = "US";
+const part = "current,minutely,hourly,alerts";
+const openWeatherKey = process.env.OPEN_WEATHER_KEY;
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -105,6 +109,31 @@ router.get("/user", (req, res) => {
   const query = { _id: ObjectId(req.query.userId) };
   User.find(query).then((user) => res.send(user));
 });
+
+// router.get("/weather", (req, res) => {
+//   console.log("getting weather");
+//   const zipCode = req.zipCode;
+//   const units = req.units;
+//   fetch(
+//     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
+//   )
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const lat = data.lat;
+//       const lon = data.lon;
+//       // Fetch weather data using coordinates
+//       return fetch(
+//         `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
+//       );
+//     })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       res.send(data);
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching weather data: ", error);
+//     });
+// });
 
 // router.get("/user", (req, res) => {
 //   console.log("getting user");

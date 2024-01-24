@@ -10,8 +10,14 @@ import floor from "../../../assets/floor.svg";
 import "../../utilities.css";
 import "./Home.css";
 
+import { useUser } from "../../contexts/UserContext";
+
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.googleusercontent.com";
+
+const countryCode = "US";
+const part = "current,minutely,hourly,alerts";
+const openWeatherKey = "50ae8eed134ab922522fd8abd9ca819e";
 
 const Home = ({ userId, handleLogout }) => {
   const months = [
@@ -32,6 +38,50 @@ const Home = ({ userId, handleLogout }) => {
 
   const d = new Date();
 
+  const { user, setUser } = useUser();
+  const [zipCode, setZipCode] = useState(null);
+  const [units, setUnits] = useState(null);
+
+  // State to store weather data
+  // should add non-US country support in future
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setZipCode(user[0].zipCode);
+      setUnits(user[0].tempSetting);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (zipCode && units) {
+      // Fetch coordinates based on zip
+      // get("/api/weather", { zipCode: zipCode, units: units }).then((data) => {
+      //   setWeatherData(data);
+      // });
+      fetch(
+        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const lat = data.lat;
+          const lon = data.lon;
+          // Fetch weather data using coordinates
+          return fetch(
+            `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
+          );
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setWeatherData(data); // Set the weather data in state
+        })
+        .catch((error) => {
+          console.error("Error fetching weather data: ", error);
+        });
+    }
+  }, [zipCode, units]); // Empty dependency array ensures this runs once on mount
+
   return (
     <div>
       <h1 className="u-textCenter">
@@ -42,10 +92,10 @@ const Home = ({ userId, handleLogout }) => {
           <ClosetIcon />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Outfit />
+          <Outfit weatherData={weatherData} />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Weather />
+          <Weather weatherData={weatherData} />
         </div>
       </div>
       <div>
