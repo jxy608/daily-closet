@@ -8,6 +8,7 @@ import settingsButton from "../../../assets/settings-button.svg";
 import floor from "../../../assets/floor.svg";
 
 import "../../utilities.css";
+import { get } from "../../utilities";
 import "./Home.css";
 
 import { useUser } from "../../contexts/UserContext";
@@ -56,29 +57,30 @@ const Home = ({ userId, handleLogout }) => {
   useEffect(() => {
     if (zipCode && units) {
       // Fetch coordinates based on zip
-      // get("/api/weather", { zipCode: zipCode, units: units }).then((data) => {
-      //   setWeatherData(data);
-      // });
-      fetch(
-        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          const lat = data.lat;
-          const lon = data.lon;
-          // Fetch weather data using coordinates
-          return fetch(
-            `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
-          );
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setWeatherData(data); // Set the weather data in state
-        })
-        .catch((error) => {
-          console.error("Error fetching weather data: ", error);
-        });
+      get("/api/weather", { zipCode: zipCode, units: units }).then((data) => {
+        console.log(data);
+        setWeatherData(data);
+      });
+      // fetch(
+      //   `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
+      // )
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     const lat = data.lat;
+      //     const lon = data.lon;
+      //     // Fetch weather data using coordinates
+      //     return fetch(
+      //       `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
+      //     );
+      //   })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     setWeatherData(data); // Set the weather data in state
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching weather data: ", error);
+      //   });
     }
   }, [zipCode, units]); // Empty dependency array ensures this runs once on mount
 
