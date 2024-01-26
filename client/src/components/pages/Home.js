@@ -16,10 +16,6 @@ import { useUser } from "../../contexts/UserContext";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.googleusercontent.com";
 
-const countryCode = "US";
-const part = "current,minutely,hourly,alerts";
-const openWeatherKey = "50ae8eed134ab922522fd8abd9ca819e";
-
 const Home = ({ userId, handleLogout }) => {
   const months = [
     "jan",
@@ -61,28 +57,8 @@ const Home = ({ userId, handleLogout }) => {
         console.log(data);
         setWeatherData(data);
       });
-      // fetch(
-      //   `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
-      // )
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     const lat = data.lat;
-      //     const lon = data.lon;
-      //     // Fetch weather data using coordinates
-      //     return fetch(
-      //       `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
-      //     );
-      //   })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     console.log(data);
-      //     setWeatherData(data); // Set the weather data in state
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching weather data: ", error);
-      //   });
     }
-  }, [zipCode, units]); // Empty dependency array ensures this runs once on mount
+  }, [zipCode, units]);
 
   return (
     <div>

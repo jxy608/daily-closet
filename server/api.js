@@ -76,17 +76,50 @@ function getClothingItem(array) {
 }
 
 router.get("/outfit", async (req, res) => {
+  const high = req.query.high;
+  const low = req.query.low;
+  console.log(high);
+  console.log(low);
+
   try {
-    const tops = await ClothingArticle.find({ userId: req.query.userId, type: "top" });
-    const bottoms = await ClothingArticle.find({ userId: req.query.userId, type: "bottom" });
+    const tops = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "top",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
+    const bottoms = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "bottom",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
 
-    // console.log("tops", tops);
-    // console.log("bottoms", bottoms);
+    let randomTop = {
+      image:
+        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    };
+    let randomBottom = {
+      image:
+        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    };
+    console.log(tops.length);
+    console.log(bottoms.length);
+    console.log(tops && bottoms);
+    if (tops.length != 0 && bottoms.length != 0) {
+      randomTop = getClothingItem(tops);
+      randomBottom = getClothingItem(bottoms);
+    }
 
-    const randomTop = getClothingItem(tops);
-    const randomBottom = getClothingItem(bottoms);
-
-    // console.log("outfit is", randomTop, randomBottom);
+    console.log("outfit is", randomTop, randomBottom);
 
     res.send({ top: randomTop.image, bottom: randomBottom.image });
   } catch (error) {
