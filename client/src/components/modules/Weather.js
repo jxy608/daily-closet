@@ -27,7 +27,6 @@ const Weather = () => {
 
   // State to store weather data
   const [weatherData, setWeatherData] = useState(null);
-  const [weatherType, setWeatherType] = useState(null);
 
   useEffect(() => {
     if (user) {

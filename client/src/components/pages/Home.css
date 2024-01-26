@@ -1,6 +1,7 @@
 .Home-subContainer {
   flex-grow: 1;
   flex-basis: 0;
+  margin-bottom: -120px;
 }
 
 .Home-subContainer + .Home-subContainer {
@@ -18,4 +19,6 @@
   z-index: -5;
   width: 100%;
   height: auto;
+  margin-top: 0px; 
 }
+

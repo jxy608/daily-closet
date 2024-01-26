@@ -1,0 +1,16 @@
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Replace with your desired background color */
+    color: #ffffff; /* Replace with your desired text color */
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #007bff; /* Border color same as background color for a consistent look */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  
+    /* Hover effect */
+    &:hover {
+      background-color: #0056b3; /* Replace with your desired hover background color */
+      color: #ffffff; /* Replace with your desired hover text color */
+    }
+  }

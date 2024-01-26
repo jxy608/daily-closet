@@ -12,6 +12,8 @@ import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
 import NewClothingArticle from "./pages/NewClothingArticle.js";
 import Settings from "./pages/Settings.js";
+import Welcome from "./pages/Welcome.js";
+
 
 import "../utilities.css";
 import "./App.css";
@@ -63,6 +65,14 @@ const App = () => {
               handleLogout={handleLogout}
               userId={userId}
             />
+          }
+        />
+        <Route
+          path="welcome"
+          element={
+            <ProtectedRoute>
+              <Welcome userId={userId} />
+            </ProtectedRoute>
           }
         />
         <Route

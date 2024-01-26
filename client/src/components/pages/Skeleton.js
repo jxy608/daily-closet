@@ -1,36 +1,51 @@
-import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   GoogleOAuthProvider,
   GoogleLogin,
   googleLogout,
   useGoogleLogin,
 } from "@react-oauth/google";
+import { useUser } from "../../contexts/UserContext";
 
 import "../../utilities.css";
 import "./Skeleton.css";
+import { get } from "../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.googleusercontent.com";
 
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userId) {
+      if (user && user[0].isNew) {
+        navigate("/welcome");
+      } else if (user && !user[0].isNew) {
+        navigate("/home");
+      }
+    }
+  }, [user]);
+
   return (
     <div>
       <h1 className="u-textCenter">daily closet</h1>
       <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        {userId ? (
-          <Navigate replace to="/home" />
-        ) : (
-          <div className="u-flex-centerButton">
-            <GoogleLogin
-              onSuccess={handleLogin}
-              onError={(err) => console.log(err)}
-              type="standard"
-              shape="circle"
-              size="large"
-            />
-          </div>
-        )}
+        {/* {userId ? (
+          <Navigate replace to={landing} />
+        ) : ( */}
+        <div className="u-flex-centerButton">
+          <GoogleLogin
+            onSuccess={handleLogin}
+            onError={(err) => console.log(err)}
+            type="standard"
+            shape="circle"
+            size="large"
+          />
+        </div>
+        {/* )} */}
         {/* <h1>Good luck on your project :)</h1>
       <h2> What you need to change in this skeleton</h2>
       <ul>
