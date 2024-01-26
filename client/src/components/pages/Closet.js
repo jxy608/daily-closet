@@ -44,37 +44,37 @@ const Closet = (props) => {
     },
   ];
 
-  // called when the "Feed" component "mounts", i.e.
-  // when it shows up on screen
-  useEffect(() => {
-    document.title = "Clothes";
-    get("/api/clothes", { userId: props.userId }).then((clothes) => {
-      setClothes(clothes);
-      console.log(clothes);
-    });
-  }, []);
+  // // called when the "Feed" component "mounts", i.e.
+  // // when it shows up on screen
+  // useEffect(() => {
+  //   document.title = "Clothes";
+  //   get("/api/clothes", { userId: props.userId }).then((clothes) => {
+  //     setClothes(clothes);
+  //     console.log(clothes);
+  //   });
+  // }, []);
 
-  let clothesList = null;
-  const hasClothes = clothes.length !== 0;
-  if (hasClothes) {
-    clothesList = clothes.map((clothingArticle) => (
-      <p>
-        <img src={clothingArticle.image} alt="dummy" width="100" className="my-10 mx-5" />
-        {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
-        {clothingArticle.max_wears} times.
-      </p>
-      // <Card
-      //   key={`Card_${storyObj._id}`}
-      //   _id={storyObj._id}
-      //   creator_name={storyObj.creator_name}
-      //   creator_id={storyObj.creator_id}
-      //   userId={props.userId}
-      //   content={storyObj.content}
-      // />
-    ));
-  } else {
-    clothesList = <div>No clothes!</div>;
-  }
+  // let clothesList = null;
+  // const hasClothes = clothes.length !== 0;
+  // if (hasClothes) {
+  //   clothesList = clothes.map((clothingArticle) => (
+  //     <p>
+  //       <img src={clothingArticle.image} alt="dummy" width="100" className="my-10 mx-5" />
+  //       {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
+  //       {clothingArticle.max_wears} times.
+  //     </p>
+  //     // <Card
+  //     //   key={`Card_${storyObj._id}`}
+  //     //   _id={storyObj._id}
+  //     //   creator_name={storyObj.creator_name}
+  //     //   creator_id={storyObj.creator_id}
+  //     //   userId={props.userId}
+  //     //   content={storyObj.content}
+  //     // />
+  //   ));
+  // } else {
+  //   clothesList = <div>No clothes!</div>;
+  // }
 
   return (
     <div>
@@ -86,7 +86,7 @@ const Closet = (props) => {
       {/* <div>{clothesList}</div> */}
       <div onClick={() => openModal("tops")}>tops</div>
       <div onClick={() => openModal("bottoms")}>bottoms</div>
-      <div id="modal-overlay" class="modal-overlay"></div>
+      <div id="modal-overlay" className="modal-overlay"></div>
       <div className="closet-container">
         {closetSections.map((s, idx) => (
           <ClosetModal

@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { get } from "../../utilities";
 
 import "./Outfit.css";
 import "../../utilities.css";
 
-const Outfit = () => {
-
+const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
   const { userId } = useAuth();
 
@@ -20,21 +19,30 @@ const Outfit = () => {
     if (storedOutfit) {
       // Use the outfit data from local storage
       setOutfit(storedOutfit);
-      console.log('Outfit loaded from local storage:', storedOutfit);
+      console.log("Outfit loaded from local storage:", storedOutfit);
     } else {
-      // Fetch a new outfit if not found in local storage
-      get('/api/outfit', { userId: userId })
-        .then((clothes) => {
-          setOutfit(clothes);
-          // Store the outfit data in local storage
-          localStorage.setItem(`outfit-${userId}-${currentDate}`, JSON.stringify(clothes));
-          console.log('Outfit has been changed!', clothes);
+      if (props.weatherData) {
+        console.log("weather data found");
+        // console.log(props.weatherData.daily[0].temp.max);
+        // console.log(props.weatherData.daily[0].weather[0].temperature);
+        // Fetch a new outfit if not found in local storage
+        get("/api/outfit", {
+          userId: userId,
+          high: props.weatherData.daily[0].temp.max,
+          low: props.weatherData.daily[0].temp.min,
         })
-        .catch((error) => {
-          console.error('Error fetching available clothes:', error);
-        });
+          .then((clothes) => {
+            setOutfit(clothes);
+            // Store the outfit data in local storage
+            localStorage.setItem(`outfit-${userId}-${currentDate}`, JSON.stringify(clothes));
+            console.log("Outfit has been changed!", clothes);
+          })
+          .catch((error) => {
+            console.error("Error fetching available clothes:", error);
+          });
+      }
     }
-  }, [userId]);
+  }, [userId, props]);
 
   useEffect(() => {
     // Calculate the time until the next midnight
@@ -70,8 +78,8 @@ const Outfit = () => {
     <div>
       <h2>outfit</h2>
       <div className="outfit-container">
-        <img src={outfit['top']} alt="Top" className="top-image"/>
-        <img src={outfit['bottom']} alt="Bottom" className="bottom-image"/>
+        <img src={outfit["top"]} alt="Top" className="top-image" />
+        <img src={outfit["bottom"]} alt="Bottom" className="bottom-image" />
       </div>
       <button onClick={handleRefresh}>Refresh</button>
     </div>

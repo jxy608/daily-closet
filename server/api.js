@@ -76,17 +76,48 @@ function getClothingItem(array) {
 }
 
 router.get("/outfit", async (req, res) => {
-  try {
-    const tops = await ClothingArticle.find({ userId: req.query.userId, type: "top" });
-    const bottoms = await ClothingArticle.find({ userId: req.query.userId, type: "bottom" });
+  const high = req.query.high;
+  const low = req.query.low;
+  console.log(high);
+  console.log(low);
 
-    // console.log("tops", tops);
-    // console.log("bottoms", bottoms);
+  try {
+    // try {
+    const tops = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "top",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
+    const bottoms = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "bottom",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
+    // } catch {
+    //   const tops = await ClothingArticle.find({
+    //     userId: req.query.userId,
+    //     type: "top",
+    //   });
+    //   const bottoms = await ClothingArticle.find({ userId: req.query.userId, type: "bottom" });
+    // }
+
+    console.log("tops", tops);
+    console.log("bottoms", bottoms);
 
     const randomTop = getClothingItem(tops);
     const randomBottom = getClothingItem(bottoms);
 
-    // console.log("outfit is", randomTop, randomBottom);
+    console.log("outfit is", randomTop, randomBottom);
 
     res.send({ top: randomTop.image, bottom: randomBottom.image });
   } catch (error) {
