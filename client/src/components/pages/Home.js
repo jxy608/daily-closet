@@ -8,7 +8,10 @@ import settingsButton from "../../../assets/settings-button.svg";
 import floor from "../../../assets/floor.svg";
 
 import "../../utilities.css";
+import { get } from "../../utilities";
 import "./Home.css";
+
+import { useUser } from "../../contexts/UserContext";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.googleusercontent.com";
@@ -32,6 +35,31 @@ const Home = ({ userId, handleLogout }) => {
 
   const d = new Date();
 
+  const { user, setUser } = useUser();
+  const [zipCode, setZipCode] = useState(null);
+  const [units, setUnits] = useState(null);
+
+  // State to store weather data
+  // should add non-US country support in future
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setZipCode(user[0].zipCode);
+      setUnits(user[0].tempSetting);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (zipCode && units) {
+      // Fetch coordinates based on zip
+      get("/api/weather", { zipCode: zipCode, units: units }).then((data) => {
+        console.log(data);
+        setWeatherData(data);
+      });
+    }
+  }, [zipCode, units]);
+
   return (
     <div>
       <h1 className="u-textCenter">
@@ -42,10 +70,10 @@ const Home = ({ userId, handleLogout }) => {
           <ClosetIcon />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Outfit />
+          <Outfit weatherData={weatherData} />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Weather />
+          <Weather weatherData={weatherData} />
         </div>
       </div>
       <div>

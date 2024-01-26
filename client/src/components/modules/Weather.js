@@ -18,49 +18,7 @@ import rainy from "../../../assets/rainy.svg";
 import stormy from "../../../assets/stormy.svg";
 import snowy from "../../../assets/snowy.svg";
 
-const Weather = () => {
-  // should add non-US country support in future
-
-  const { user, setUser } = useUser();
-  const [zipCode, setZipCode] = useState(null);
-  const [units, setUnits] = useState(null);
-
-  // State to store weather data
-  const [weatherData, setWeatherData] = useState(null);
-
-  useEffect(() => {
-    if (user) {
-      setZipCode(user[0].zipCode);
-      setUnits(user[0].tempSetting);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (zipCode && units) {
-      // Fetch coordinates based on zip
-      fetch(
-        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          const lat = data.lat;
-          const lon = data.lon;
-          // Fetch weather data using coordinates
-          return fetch(
-            `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
-          );
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setWeatherData(data); // Set the weather data in state
-        })
-        .catch((error) => {
-          console.error("Error fetching weather data: ", error);
-        });
-    }
-  }, [zipCode, units]); // Empty dependency array ensures this runs once on mount
-
+const Weather = (props) => {
   const getWeatherCondition = (condition, description, getImage = false) => {
     switch (condition) {
       case "Clear":
@@ -114,13 +72,13 @@ const Weather = () => {
 
   return (
     <div className="u-flex u-flex-justifyCenter">
-      {weatherData && zipCode && units ? (
+      {props.weatherData ? (
         <div
           className="weather-container"
           style={{
             backgroundImage: `url(${getWeatherCondition(
-              weatherData.daily[0].weather[0].main,
-              weatherData.daily[0].weather[0].description,
+              props.weatherData.daily[0].weather[0].main,
+              props.weatherData.daily[0].weather[0].description,
               true
             )})`,
           }}
@@ -128,13 +86,13 @@ const Weather = () => {
           <div className="weather-text">
             <p>
               {getWeatherCondition(
-                weatherData.daily[0].weather[0].main,
-                weatherData.daily[0].weather[0].description
+                props.weatherData.daily[0].weather[0].main,
+                props.weatherData.daily[0].weather[0].description
               )}
             </p>
             <p>
-              {weatherData.daily[0].temp.max.toFixed(0)}° /{" "}
-              {weatherData.daily[0].temp.min.toFixed(0)}°
+              {props.weatherData.daily[0].temp.max.toFixed(0)}° /{" "}
+              {props.weatherData.daily[0].temp.min.toFixed(0)}°
             </p>
           </div>
         </div>

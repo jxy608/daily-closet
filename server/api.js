@@ -22,6 +22,10 @@ const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
+const countryCode = "US";
+const part = "current,minutely,hourly,alerts";
+const openWeatherKey = process.env.OPEN_WEATHER_KEY;
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -72,19 +76,52 @@ function getClothingItem(array) {
 }
 
 router.get("/outfit", async (req, res) => {
-  try {
-    const tops = await ClothingArticle.find({ userId: req.query.userId, type: "top" });
-    const bottoms = await ClothingArticle.find({ userId: req.query.userId, type: "bottom" });
-  
-    // console.log("tops", tops);
-    // console.log("bottoms", bottoms);
-  
-    const randomTop = getClothingItem(tops);
-    const randomBottom = getClothingItem(bottoms);
+  const high = req.query.high;
+  const low = req.query.low;
+  console.log(high);
+  console.log(low);
 
-    // console.log("outfit is", randomTop, randomBottom);
-  
-    res.send({ 'top': randomTop.image, 'bottom': randomBottom.image });
+  try {
+    const tops = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "top",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
+    const bottoms = await ClothingArticle.find({
+      userId: req.query.userId,
+      type: "bottom",
+      max_temp: {
+        $gte: high,
+      },
+      min_temp: {
+        $lte: low,
+      },
+    });
+
+    let randomTop = {
+      image:
+        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    };
+    let randomBottom = {
+      image:
+        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    };
+    console.log(tops.length);
+    console.log(bottoms.length);
+    console.log(tops && bottoms);
+    if (tops.length != 0 && bottoms.length != 0) {
+      randomTop = getClothingItem(tops);
+      randomBottom = getClothingItem(bottoms);
+    }
+
+    console.log("outfit is", randomTop, randomBottom);
+
+    res.send({ top: randomTop.image, bottom: randomBottom.image });
   } catch (error) {
     console.error("Error fetching outfit from server:", error);
     res.status(500).send({ error: "Internal Server Error" });
@@ -134,17 +171,45 @@ router.get("/user", (req, res) => {
   User.find(query).then((user) => res.send(user));
 });
 
-// router.get("/user", (req, res) => {
-//   console.log("getting user");
-//   console.log(req.session);
-//   console.log(req.session.user);
-//   console.log(req.user);
-//   console.log("req id???");
-//   console.log(req.user._id);
-//   const query = { _id: ObjectId(req.user._id) };
-//   console.log(query);
-//   User.find(query).then((user) => res.send(user));
-// });
+router.get("/weather", (req, res) => {
+  console.log("getting weather");
+  const zipCode = req.query.zipCode;
+  const units = req.query.units;
+  console.log(
+    `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
+  );
+  fetch(
+    `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const lat = data.lat;
+      const lon = data.lon;
+      // Fetch weather data using coordinates
+      return fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${openWeatherKey}&units=${units}`
+      );
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching weather data: ", error);
+    });
+});
+
+router.get("/user", (req, res) => {
+  console.log("getting user");
+  console.log(req.session);
+  console.log(req.session.user);
+  console.log(req.user);
+  console.log("req id???");
+  console.log(req.user._id);
+  const query = { _id: ObjectId(req.user._id) };
+  console.log(query);
+  User.find(query).then((user) => res.send(user));
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
