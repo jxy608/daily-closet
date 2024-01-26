@@ -1,0 +1,116 @@
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// import "./NewClothingArticle.css";
+import { post } from "../../utilities";
+import BackButton from "../modules/BackButton.js";
+
+const UploadClothingArticle = (props) => {
+  const navigate = useNavigate();
+
+  const defaultClothingInput = {
+    userId: props.userId,
+    image: "",
+    name: "",
+    type: "top",
+    color: "",
+    max_wears: NaN,
+    tags: [],
+    min_temp: NaN,
+    max_temp: NaN,
+  };
+
+  const defaultImage = {
+    preview: "",
+    raw: "",
+  };
+
+  const [clothingInputs, setClothingInputs] = useState([defaultClothingInput]);
+  const [images, setImages] = useState([]);
+
+  const handleImageChange = (e) => {
+    const { files } = e.target;
+
+    if (files) {
+      const newImages = Array.from(files).map((file) => ({
+        preview: URL.createObjectURL(file),
+        raw: file,
+      }));
+
+      setImages(newImages);
+
+      // Create an array of default clothing inputs corresponding to the images
+      const defaultInputs = newImages.map(() => ({ ...defaultClothingInput }));
+      setClothingInputs(defaultInputs);
+    }
+  };
+
+  const handleImageSubmit = async () => {
+    try {
+      const imagePromises = images.map(async (image) => {
+        const formData = new FormData();
+        formData.append("userId", props.userId);
+        formData.append("image", image.raw);
+
+        const response = await axios.post(`http://localhost:3000/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        return response.data[0];
+      });
+
+      const imageUrls = await Promise.all(imagePromises);
+
+      // Update clothingInputs with corresponding image URLs
+      const updatedClothingInputs = imageUrls.map((imageUrl, index) => ({
+        ...clothingInputs[index],
+        userId: props.userId,
+        image: imageUrl,
+      }));
+
+      setClothingInputs(updatedClothingInputs);
+
+      console.log(updatedClothingInputs);
+
+      // Navigate to EditClothingArticle page with clothingInputs as a prop
+      navigate("/edit", { state: { clothingInputs: updatedClothingInputs } });
+    } catch (error) {
+      console.error("Error submitting photos:", error);
+    }
+  };
+
+  return (
+    <div>
+      <BackButton redirect="closet" />
+      <h1 className="u-textCenter">Add new clothing articles</h1>
+      <div className="u-flex">
+        <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
+
+        <label htmlFor="upload-button">
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image.preview}
+              alt={`Image ${index}`}
+              width="100"
+              className="my-10 mx-5"
+            />
+          ))}
+        </label>
+
+        <button
+          type="button"
+          onClick={handleImageSubmit}
+          className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
+        >
+          Submit Photos
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default UploadClothingArticle;
