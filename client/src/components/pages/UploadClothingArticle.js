@@ -19,6 +19,7 @@ const UploadClothingArticle = (props) => {
     tags: [],
     min_temp: NaN,
     max_temp: NaN,
+    current_wears: 0,
   };
 
   const defaultImage = {
@@ -28,6 +29,7 @@ const UploadClothingArticle = (props) => {
 
   const [clothingInputs, setClothingInputs] = useState([defaultClothingInput]);
   const [images, setImages] = useState([]);
+  const [clothingIds, setClothingIds] = useState([]);
 
   const handleImageChange = (e) => {
     const { files } = e.target;
@@ -75,8 +77,28 @@ const UploadClothingArticle = (props) => {
 
       console.log(updatedClothingInputs);
 
+      // Save the clothing articles to the database and capture their IDs
+      const savedClothingArticles = await Promise.all(
+        updatedClothingInputs.map(async (clothingInput) => {
+          console.log("posting", clothingInput);
+          const savedArticle = await post("/api/clothingarticle", {
+            ...clothingInput,
+            current_wears: 0,
+          });
+
+          console.log("posted", savedArticle);
+          return savedArticle; // Capture the ID of the saved article
+        })
+      );
+
+      console.log("uploaded to database: ", savedClothingArticles);
+
+      // Reset clothing input to default
+      setClothingInputs([defaultClothingInput]);
+      setImages([]);
+
       // Navigate to EditClothingArticle page with clothingInputs as a prop
-      navigate("/edit", { state: { clothingInputs: updatedClothingInputs } });
+      // navigate("/edit", { state: { clothingInputs: updatedClothingInputs } });
     } catch (error) {
       console.error("Error submitting photos:", error);
     }
