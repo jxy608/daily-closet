@@ -148,6 +148,7 @@ router.post("/clothingarticle", (req, res) => {
     max_temp: req.body.max_temp,
   });
   clothingarticle.save();
+  res.send(clothingarticle._id);
 });
 
 router.post("/user", (req, res) => {
@@ -167,7 +168,7 @@ router.post("/user", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  const query = { _id: ObjectId(req.query.userId) };
+  const query = { _id: req.query.userId };
   User.find(query).then((user) => res.send(user));
 });
 

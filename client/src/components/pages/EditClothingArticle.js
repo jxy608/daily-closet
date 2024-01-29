@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { post } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 
-const EditClothingArticleInput = (props) => {
+const EditClothingArticle = (props) => {
   const clothingInputs = props.clothingInputs;
 
   // called whenever the user changes one of the inputs
@@ -16,60 +16,11 @@ const EditClothingArticleInput = (props) => {
     }));
   };
 
-  // called when the user hits "Submit" for a new clothing article
+  // post all clothing articles when the user hits "Submit" 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    props.onSubmit && props.onSubmit(clothingInput);
-    // Reset clothing input to default. can probably make a variable for default clothing input but im too lazy rn
-    setClothingInput(defaultClothingInput);
-    setImage(defaultImage);
-  };
-
-  // const submitPhoto = async () => {
-  //   let formData = new FormData();
-  //   await formData.append('image', image.raw);
-  //   await axios
-  //     .post(`http://localhost:3000/upload`, formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     })
-  //     .then((res) => {
-  //       return res.data;
-  //     });
-  // }
-
-  const submitPhoto = async () => {
-    try {
-      console.log("image data: ", image.raw);
-    
-      let formData = new FormData();
-      formData.append('userId', props.userId);
-      formData.append('image', image.raw);
-      console.log("form data: ", Array.from(formData.entries()));
-  
-      const response = await axios.post(`http://localhost:3000/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
-      // Use the data from the response
-      console.log(response.data[0]);
-      clothingInput.image = response.data[0];
-
-      setImage({
-        ...image,
-        status: "Resubmit photo",
-      })
-  
-      return response.data;
-    } catch (error) {
-      console.error('Error submitting photo:', error);
-      // Handle the error appropriately
-      throw error;
-    }
+    console.log("editing clothing article", clothingInputs);
+    post("/api/clothingarticle", body);
   };
 
   return (
@@ -167,27 +118,6 @@ const EditClothingArticleInput = (props) => {
         </div>
       </div>
     </div>
-  );
-};
-
-const EditClothingArticle = (props) => {
-  const editClothing = (clothingInput) => {
-    const body = {
-      ...clothingInput,
-      userId: props.userId,
-      current_wears: 0,
-    };
-    // const body = { name: value };
-    console.log("posting new clothing article", body);
-    post("/api/clothingarticle", body);
-  };
-
-  return (
-    <EditClothingArticleInput
-      defaultText="Edit Clothing Article"
-      onSubmit={editClothing}
-      userId={props.userId}
-    />
   );
 };
 
