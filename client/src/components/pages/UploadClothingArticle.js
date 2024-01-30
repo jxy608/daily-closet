@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // import "./NewClothingArticle.css";
@@ -7,6 +8,7 @@ import BackButton from "../modules/BackButton.js";
 import EditClothingArticle from "./EditClothingArticle.js";
 
 const UploadClothingArticle = (props) => {
+  const navigate = useNavigate();
 
   const defaultClothingInput = {
     userId: props.userId,
@@ -96,50 +98,43 @@ const UploadClothingArticle = (props) => {
       setImages([]);
       setClothingIds(savedClothingArticles);
 
-      // Navigate to EditClothingArticle page with clothingInputs as a prop
-      // navigate("/edit", { state: { clothingInputs: updatedClothingInputs } });
+      // Navigate to EditClothingArticle page
+      const editLink = `/edit/${savedClothingArticles.join(",")}`;
+      navigate(editLink);
     } catch (error) {
       console.error("Error submitting photos:", error);
     }
   };
 
-  if (clothingIds.length === 0) {
-    return (
-      <div>
-        <BackButton redirect="closet" />
-        <h1 className="u-textCenter">Add new clothing articles</h1>
-        <div className="u-flex">
-          <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
+  return (
+    <div>
+      <BackButton redirect="closet" />
+      <h1 className="u-textCenter">Add new clothing articles</h1>
+      <div className="u-flex">
+        <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
 
-          <label htmlFor="upload-button">
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image.preview}
-                alt={`Image ${index}`}
-                width="100"
-                className="my-10 mx-5"
-              />
-            ))}
-          </label>
+        <label htmlFor="upload-button">
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image.preview}
+              alt={`Image ${index}`}
+              width="100"
+              className="my-10 mx-5"
+            />
+          ))}
+        </label>
 
-          <button
-            type="button"
-            onClick={handleImageSubmit}
-            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-          >
-            Submit Photos
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleImageSubmit}
+          className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
+        >
+          Submit Photos
+        </button>
       </div>
-    );
-  } else {
-    // Render something else or nothing if clothingIds is empty
-    return (
-      <div>
-        <EditClothingArticle clothingIds={clothingIds} />
-      </div>
-    );
-  }};
+    </div>
+  );
+};
 
 export default UploadClothingArticle;
