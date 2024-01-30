@@ -14,13 +14,23 @@
 .top-image {
   width: 30%; /* Set the maximum width for the top image */
   transform: translate(-25%, 5%);
+  /* transition: transform 0.2s; */
 }
+
+/* .top-image:hover {
+  transform: scale(1.1);
+  transform-origin: right;
+} */
 
 .bottom-image {
   width: 25%; /* Set a slightly smaller maximum width for the bottom image */
   z-index: 1;
   transform: translate(25%, -5%);
 }
+
+/* .bottom-image:hover {
+  transform: scale(1.1);
+} */
 
 .outfitButton {
   margin: 20px;
@@ -63,4 +73,5 @@
   transform: scale(0);
   transition: transform 0.5s, opacity 0.5s;
   animation: like-heart-animation 0.5s ease forwards;
+  cursor: pointer;
 }

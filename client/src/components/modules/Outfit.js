@@ -68,7 +68,9 @@ const Outfit = (props) => {
     return () => clearTimeout(timeoutId);
   }, [updateOutfit]);
 
-  const handleRefresh = () => {
+  const handleReject = () => {
+    // TODO: INCREMENT REJECTIONS OF OUTFIT
+
     // Clear outfit data from local storage
     const currentDate = new Date().toLocaleDateString();
     localStorage.removeItem(`outfit-${userId}-${currentDate}`);
@@ -78,11 +80,12 @@ const Outfit = (props) => {
   };
 
   const handleAccept = () => {
-    console.log("IMPLEMENT HANDLE ACCEPT");
+    // TODO: INCREMENT CURRENT WEARS OF OUTFIT
     setOutfitSelected(!outfitSelected);
   };
 
   const handleUnselect = () => {
+    // TODO: DECREMENT CURRENT WEARS OF OUTFIT
     setOutfitSelected(!outfitSelected);
   };
 
@@ -99,19 +102,14 @@ const Outfit = (props) => {
       {outfitSelected && (
         <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />
       )}
-      {/* <div>
-        <img className="outfitButton" onClick={handleRefresh} src={rejectButton} />
-        <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
-      </div> */}
       <div>
         {!outfitSelected && (
-          <img className="outfitButton" onClick={handleRefresh} src={rejectButton} />
+          <img className="outfitButton" onClick={handleReject} src={rejectButton} />
         )}
         {!outfitSelected && (
           <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
         )}
       </div>
-      {/* <button onClick={handleRefresh}>Refresh</button> */}
     </div>
   );
 };
