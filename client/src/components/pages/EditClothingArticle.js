@@ -41,7 +41,7 @@ const EditClothingArticle = () => {
         console.log("fetched clothing item", response);
         setClothingInput(response);
       } catch (error) {
-        console.error('Error fetching clothing article:', error);
+        console.error("Error fetching clothing article:", error);
       }
     };
 
@@ -52,8 +52,8 @@ const EditClothingArticle = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setClothingInput((prevClothing) => ({
-    ...prevClothing,
-    [name]: value,
+      ...prevClothing,
+      [name]: value,
     }));
   };
 
@@ -62,18 +62,9 @@ const EditClothingArticle = () => {
   };
 
   const extractEditableProperties = (clothingArticle) => {
-    const {
-      userId,
-      image,
-      name,
-      type,
-      color,
-      max_wears,
-      tags,
-      min_temp,
-      max_temp,
-    } = clothingArticle;
-  
+    const { userId, image, name, type, color, max_wears, tags, min_temp, max_temp } =
+      clothingArticle;
+
     return {
       userId,
       image,
@@ -110,24 +101,22 @@ const EditClothingArticle = () => {
   const handleSubmit = () => {
     saveEdits();
     navigate("/closet");
-  }
-
+  };
 
   return (
     <div>
       <BackButton redirect="closet" />
       <h1 className="u-textCenter">Clothing Article #{index}</h1>
       {clothingInput.image ? (
-          <img
-            src={clothingInput.image}
-            alt="loading clothing image..."
-            width="100"
-            className="my-10 mx-5"
-          />
-        ) : (
-          <>
-          </>
-        )}
+        <img
+          src={clothingInput.image}
+          alt="loading clothing image..."
+          width="100"
+          className="my-10 mx-5"
+        />
+      ) : (
+        <></>
+      )}
       <div className="u-flex">
         <div>
           <input
@@ -149,6 +138,10 @@ const EditClothingArticle = () => {
           <select name="type" value={clothingInput.type} onChange={handleChange}>
             <option value="top">Top</option>
             <option value="bottom">Bottom</option>
+            <option value="shoes">Shoes</option>
+            <option value="one piece">One Piece</option>
+            <option value="outerwear">Outerwear</option>
+            <option value="accessory">Accessory</option>
           </select>
           {/* Need to add tags but idk how to do array so ignoring it for now */}
           <input
@@ -175,12 +168,8 @@ const EditClothingArticle = () => {
             onChange={handleChange}
             className="NewPostInput-input"
           />
-          {index > 0 ? (
-            <button onClick={handlePrevArticle}>Previous</button>
-          ) : (
-            <></>
-          )}
-          {index < clothingIds.length-1? (
+          {index > 0 ? <button onClick={handlePrevArticle}>Previous</button> : <></>}
+          {index < clothingIds.length - 1 ? (
             <button onClick={handleNextArticle}>Next</button>
           ) : (
             <button onClick={handleSubmit}>Submit</button>

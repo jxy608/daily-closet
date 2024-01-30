@@ -51,7 +51,7 @@ router.get("/clothes", (req, res) => {
       typeString = "bottom";
       break;
     case "shoes":
-      typeString = "shoe";
+      typeString = "shoes";
       break;
     case "accessories":
       typeString = "accessory";
@@ -73,7 +73,7 @@ router.get("/clothingarticle/:id", async (req, res) => {
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   const objectId = new ObjectId(articleId);
@@ -84,22 +84,22 @@ router.get("/clothingarticle/:id", async (req, res) => {
     if (foundArticle) {
       res.send(foundArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error finding clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error finding clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Express route to update a clothing article by ID
-router.post('/clothingarticle/:id', async (req, res) => {
+router.post("/clothingarticle/:id", async (req, res) => {
   const articleId = req.params.id;
   const editedProperties = req.body.editedProperties;
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   // Convert the string ID to an ObjectId
@@ -115,11 +115,11 @@ router.post('/clothingarticle/:id', async (req, res) => {
     if (updatedArticle) {
       res.send(updatedArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error updating clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error updating clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
