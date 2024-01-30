@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { useUser } from "../../contexts/UserContext";
-
 import "./Weather.css";
 import "../../utilities.css";
-
-const openWeatherKey = "50ae8eed134ab922522fd8abd9ca819e";
-const limit = 1;
-const countryCode = "US";
-const part = "current,minutely,hourly,alerts";
 
 // I shoudl probably have put these in the public file
 import cloudy from "../../../assets/cloudy.svg";
@@ -97,7 +90,16 @@ const Weather = (props) => {
           </div>
         </div>
       ) : (
-        <p>Loading weather data...</p>
+        <div
+          className="weather-container"
+          style={{
+            backgroundImage: `url(${cloudy})`,
+          }}
+        >
+          <div className="weather-text">
+            <p>Loading weather data...</p>
+          </div>
+        </div>
       )}
     </div>
   );
