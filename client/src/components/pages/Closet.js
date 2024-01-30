@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { get } from "../../utilities";
@@ -45,48 +45,10 @@ const Closet = (props) => {
     },
   ];
 
-  // // called when the "Feed" component "mounts", i.e.
-  // // when it shows up on screen
-  // useEffect(() => {
-  //   document.title = "Clothes";
-  //   get("/api/clothes", { userId: props.userId }).then((clothes) => {
-  //     setClothes(clothes);
-  //     console.log(clothes);
-  //   });
-  // }, []);
-
-  // let clothesList = null;
-  // const hasClothes = clothes.length !== 0;
-  // if (hasClothes) {
-  //   clothesList = clothes.map((clothingArticle) => (
-  //     <p>
-  //       <img src={clothingArticle.image} alt="dummy" width="100" className="my-10 mx-5" />
-  //       {clothingArticle.name}: {clothingArticle.color} {clothingArticle.type}, wearable{" "}
-  //       {clothingArticle.max_wears} times.
-  //     </p>
-  //     // <Card
-  //     //   key={`Card_${storyObj._id}`}
-  //     //   _id={storyObj._id}
-  //     //   creator_name={storyObj.creator_name}
-  //     //   creator_id={storyObj.creator_id}
-  //     //   userId={props.userId}
-  //     //   content={storyObj.content}
-  //     // />
-  //   ));
-  // } else {
-  //   clothesList = <div>No clothes!</div>;
-  // }
-
   return (
     <div>
       <BackButton redirect="home" />
-      <h1 className="u-textCenter">hello welcome to the closet</h1>
-      <div>
-        <Link to={`/new/`}>new clothing article</Link>
-      </div>
-      {/* <div>{clothesList}</div> */}
-      <div onClick={() => openModal("tops")}>tops</div>
-      <div onClick={() => openModal("bottoms")}>bottoms</div>
+      {/* <h1 className="u-textCenter">hello welcome to the closet</h1> */}
       <div id="modal-overlay" className="modal-overlay"></div>
       <div className="closet-container">
         <svg id="Layer_2" className="closet" data-name="Layer 2" viewBox="0 0 937.53 603.34">
@@ -171,13 +133,10 @@ const Closet = (props) => {
               <g>
                 <path
                   className="cls-7"
-                  d="m628.73,105.28l.14,6.33h216.28s5-6.33,0-7.66l-216.41,1.33Z"
+                  d="m628.73,95.28l.14,6.33h216.28s5-6.33,0-7.66l-216.41,1.33Z"
                 />
-                <path className="cls-7" d="m319.62,106.28H85.34s-6.83,1.17,0,8h234.27v-8Z" />
-                <path
-                  className="cls-7"
-                  d="m607.2,105.28h-263.6s-3.67,3,1.33,8h260.26s6-5.33,2-8Z"
-                />
+                <path className="cls-7" d="m319.62,95.28H85.34s-6.83,1.17,0,8h234.27v-8Z" />
+                <path className="cls-7" d="m607.2,95.28h-263.6s-3.67,3,1.33,8h260.26s6-5.33,2-8Z" />
               </g>
               <path className="cls-7" d="m607.2,293.67h-263.6s-3.67,3,1.33,8h260.26s6-5.33,2-8Z" />
             </g>
@@ -185,6 +144,7 @@ const Closet = (props) => {
           <g id="sections">
             <rect
               className="section"
+              onClick={() => openModal("shoes")}
               id="shoes"
               x="32.6"
               y="465.71"
@@ -193,7 +153,8 @@ const Closet = (props) => {
             />
             <rect
               className="section"
-              id="one-pieces"
+              onClick={() => openModal("one pieces")}
+              id="onePieces"
               x="31.1"
               y="32.19"
               width="288.77"
@@ -201,6 +162,7 @@ const Closet = (props) => {
             />
             <rect
               className="section"
+              onClick={() => openModal("tops")}
               id="tops"
               x="330.5"
               y="29.52"
@@ -209,6 +171,7 @@ const Closet = (props) => {
             />
             <rect
               className="section"
+              onClick={() => openModal("bottoms")}
               id="bottoms"
               x="330.5"
               y="252.18"
@@ -217,6 +180,7 @@ const Closet = (props) => {
             />
             <rect
               className="section"
+              onClick={() => openModal("outerwear")}
               id="outerwear"
               x="628.73"
               y="29.52"
@@ -225,12 +189,69 @@ const Closet = (props) => {
             />
             <rect
               className="section"
+              onClick={() => openModal("accessories")}
               id="accessories"
               x="628.73"
               y="330.02"
               width="270.17"
               height="243.45"
             />
+          </g>
+          <g id="labels">
+            <text
+              className="label"
+              x="175.49"
+              y="242.76"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              one pieces
+            </text>
+            <text
+              className="label"
+              x="474.18"
+              y="136.14"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              tops
+            </text>
+            <text
+              className="label"
+              x="475.12"
+              y="352.75"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              bottoms
+            </text>
+            <text
+              className="label"
+              x="763.82"
+              y="174.34"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              outerwear
+            </text>
+            <text
+              className="label"
+              x="326.17"
+              y="519.69"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              shoes
+            </text>
+            <text
+              className="label"
+              x="763.82"
+              y="451.75"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              accessories
+            </text>
           </g>
         </svg>
         {closetSections.map((s, idx) => (
