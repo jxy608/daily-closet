@@ -67,6 +67,62 @@ router.get("/clothes", (req, res) => {
   // ClothingArticle.find({}).then((clothes) => res.send(clothes));
 });
 
+// Express route to get a clothing article by ID
+router.get("/clothingarticle/:id", async (req, res) => {
+  const articleId = req.params.id;
+
+  // Check if the provided ID is a valid ObjectId
+  if (!ObjectId.isValid(articleId)) {
+    return res.status(400).json({ error: 'Invalid article ID' });
+  }
+
+  const objectId = new ObjectId(articleId);
+
+  try {
+    const foundArticle = await ClothingArticle.findById(objectId);
+
+    if (foundArticle) {
+      res.send(foundArticle);
+    } else {
+      res.status(404).json({ error: 'Article not found' });
+    }
+  } catch (error) {
+    console.error('Error finding clothing article:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Express route to update a clothing article by ID
+router.post('/clothingarticle/:id', async (req, res) => {
+  const articleId = req.params.id;
+  const editedProperties = req.body.editedProperties;
+
+  // Check if the provided ID is a valid ObjectId
+  if (!ObjectId.isValid(articleId)) {
+    return res.status(400).json({ error: 'Invalid article ID' });
+  }
+
+  // Convert the string ID to an ObjectId
+  const objectId = new ObjectId(articleId);
+
+  try {
+    const updatedArticle = await ClothingArticle.findOneAndUpdate(
+      { _id: objectId },
+      { $set: editedProperties },
+      { new: true } // Return the modified document
+    );
+
+    if (updatedArticle) {
+      res.send(updatedArticle);
+    } else {
+      res.status(404).json({ error: 'Article not found' });
+    }
+  } catch (error) {
+    console.error('Error updating clothing article:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 function getClothingItem(array) {
   if (array.length === 0) {
     return null;
@@ -168,7 +224,7 @@ router.post("/user", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  const query = { _id: req.query.userId };
+  const query = { _id: ObjectId(req.query.userId) };
   User.find(query).then((user) => res.send(user));
 });
 
