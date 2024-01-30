@@ -80,6 +80,7 @@ select {
   height: 5vh;
   margin: 1vh;
   margin-top: 3vh;
+  cursor: pointer;
 }
 
 /* Add delete account button*/
