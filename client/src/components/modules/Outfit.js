@@ -6,9 +6,11 @@ import "./Outfit.css";
 import "../../utilities.css";
 import acceptButton from "../../../assets/accept.svg";
 import rejectButton from "../../../assets/reject.svg";
+import heartIcon from "../../../assets/heart.svg";
 
 const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
+  const [outfitSelected, setOutfitSelected] = useState(false);
   const { userId } = useAuth();
 
   const updateOutfit = useCallback(() => {
@@ -77,19 +79,37 @@ const Outfit = (props) => {
 
   const handleAccept = () => {
     console.log("IMPLEMENT HANDLE ACCEPT");
+    setOutfitSelected(!outfitSelected);
+  };
+
+  const handleUnselect = () => {
+    setOutfitSelected(!outfitSelected);
   };
 
   // Your component rendering logic goes here
   return (
     <div>
       <h2>outfit</h2>
-      <div className="outfit-container">
+      <div
+        className={outfitSelected ? "outfit-container greyed-out shrink-image" : "outfit-container"}
+      >
         <img src={outfit["top"]} alt="Top" className="top-image" />
         <img src={outfit["bottom"]} alt="Bottom" className="bottom-image" />
       </div>
-      <div>
+      {outfitSelected && (
+        <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />
+      )}
+      {/* <div>
         <img className="outfitButton" onClick={handleRefresh} src={rejectButton} />
         <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+      </div> */}
+      <div>
+        {!outfitSelected && (
+          <img className="outfitButton" onClick={handleRefresh} src={rejectButton} />
+        )}
+        {!outfitSelected && (
+          <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+        )}
       </div>
       {/* <button onClick={handleRefresh}>Refresh</button> */}
     </div>

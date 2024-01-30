@@ -8,6 +8,7 @@
 
 .outfit-container img {
   height: auto; /* Let the height adjust automatically */
+  transition: filter 0.2s ease;
 }
 
 .top-image {
@@ -30,4 +31,36 @@
 
 .outfitButton:hover {
   transform: scale(1.3);
+}
+
+.greyed-out img {
+  filter: grayscale(50%);
+}
+
+@keyframes like-heart-animation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2); /* Grows bigger */
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1); /* Shrinks back a little */
+    opacity: 1;
+  }
+}
+
+.heart-icon {
+  z-index: 100;
+  position: absolute;
+  left: 46vw;
+  top: 50vh;
+  width: 8vw;
+  height: auto;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.5s, opacity 0.5s;
+  animation: like-heart-animation 0.5s ease forwards;
 }
