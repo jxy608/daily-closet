@@ -4,6 +4,8 @@ import { get } from "../../utilities";
 
 import "./Outfit.css";
 import "../../utilities.css";
+import acceptButton from "../../../assets/accept.svg";
+import rejectButton from "../../../assets/reject.svg";
 
 const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
@@ -73,6 +75,10 @@ const Outfit = (props) => {
     updateOutfit();
   };
 
+  const handleAccept = () => {
+    console.log("IMPLEMENT HANDLE ACCEPT");
+  };
+
   // Your component rendering logic goes here
   return (
     <div>
@@ -81,7 +87,11 @@ const Outfit = (props) => {
         <img src={outfit["top"]} alt="Top" className="top-image" />
         <img src={outfit["bottom"]} alt="Bottom" className="bottom-image" />
       </div>
-      <button onClick={handleRefresh}>Refresh</button>
+      <div>
+        <img className="outfitButton" onClick={handleRefresh} src={rejectButton} />
+        <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+      </div>
+      {/* <button onClick={handleRefresh}>Refresh</button> */}
     </div>
   );
 };
