@@ -205,6 +205,7 @@ router.post("/clothingarticle", (req, res) => {
   });
   clothingarticle.save();
   res.send(clothingarticle._id);
+  res.send(clothingarticle._id);
 });
 
 router.post("/user", (req, res) => {
