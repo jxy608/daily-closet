@@ -12,7 +12,7 @@ import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
 // import NewClothingArticle from "./pages/NewClothingArticle.js";
 import UploadClothingArticle from "./pages/UploadClothingArticle.js";
-// import EditClothingArticle from "./pages/EditClothingArticle.js";
+import EditClothingArticle from "./pages/EditClothingArticle.js";
 import Settings from "./pages/Settings.js";
 import Welcome from "./pages/Welcome.js";
 
@@ -99,6 +99,15 @@ const App = () => {
             <ProtectedRoute>
               {/* <NewClothingArticle userId={userId} /> */}
               <UploadClothingArticle userId={userId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/:clothingIds"
+          element={
+            <ProtectedRoute>
+              {/* <NewClothingArticle userId={userId} /> */}
+              <EditClothingArticle userId={userId} />
             </ProtectedRoute>
           }
         />

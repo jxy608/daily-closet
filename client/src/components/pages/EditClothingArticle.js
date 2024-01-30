@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "./EditClothingArticle.css";
 import { post, get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 
-const EditClothingArticle = (props) => {
+const EditClothingArticle = () => {
   const navigate = useNavigate();
 
-  const clothingIds = props.clothingIds;
+  const clothingParams = useParams();
+  const clothingIds = clothingParams.clothingIds.split(",");
   const [index, setIndex] = useState(0);
 
   const defaultClothingInput = {
-    userId: props.userId,
+    userId: "",
     image: "",
     name: "",
     type: "top",
@@ -44,7 +46,7 @@ const EditClothingArticle = (props) => {
     };
 
     loadClothingArticle();
-  }, [clothingIds, index]);
+  }, [clothingParams, index]);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
