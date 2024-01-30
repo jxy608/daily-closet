@@ -8,3 +8,96 @@
   background-color: rgba(118, 82, 58, 0.55); /* Darken the background */
   z-index: 1; /* Ensure it's above other content */
 }
+
+.closet-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closet {
+  width: 70%;
+  height: auto;
+}
+
+.svg-container {
+  position: relative;
+}
+
+.cls-1 {
+  fill: #865232;
+}
+
+.cls-1,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5 {
+  stroke-width: 5px;
+}
+
+.cls-1,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5,
+.cls-6,
+.cls-7,
+.cls-8 {
+  stroke: #633922;
+  stroke-linejoin: round;
+}
+
+.cls-2 {
+  fill: #6d3f22;
+}
+
+.cls-3 {
+  fill: #60361b;
+}
+
+.cls-4 {
+  fill: #633922;
+}
+
+.cls-5 {
+  fill: #764526;
+}
+
+.cls-6 {
+  fill: #6a3c21;
+  stroke-width: 7px;
+}
+
+.cls-7 {
+  fill: #e2d5bc;
+}
+
+.cls-8 {
+  fill: #79482a;
+  stroke-width: 4px;
+}
+
+.section {
+  opacity: 0;
+  fill: #ad795177;
+}
+
+.section:hover {
+  opacity: 1;
+}
+
+.base-image,
+.overlay-map {
+  width: 70%;
+  height: auto;
+}
+
+.overlay-map {
+  pointer-events: none; /* Disable pointer events if not needed */
+}
+
+.overlay-map .interactive-area {
+  pointer-events: auto; /* Enable pointer events for interactive areas */
+  fill: transparent; /* Make areas transparent or semi-transparent */
+}
