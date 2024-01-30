@@ -147,8 +147,8 @@ const EditClothingArticle = () => {
           <input
             type="number"
             placeholder={"# of wears before wash"}
-            name="num_wears"
-            value={clothingInput.num_wears}
+            name="max_wears"
+            value={clothingInput.max_wears}
             onChange={handleChange}
             className="NewPostInput-input"
           />

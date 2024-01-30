@@ -101,40 +101,49 @@ const UploadClothingArticle = (props) => {
       // Navigate to EditClothingArticle page
       const editLink = `/edit/${savedClothingArticles.join(",")}`;
       navigate(editLink);
+      console.log("navigated?", editLink);
     } catch (error) {
       console.error("Error submitting photos:", error);
     }
   };
 
-  return (
-    <div>
-      <BackButton redirect="closet" />
-      <h1 className="u-textCenter">Add new clothing articles</h1>
-      <div className="u-flex">
-        <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
+  if (clothingIds.length === 0) {
+    return (
+      <div>
+        <BackButton redirect="closet" />
+        <h1 className="u-textCenter">Add new clothing articles</h1>
+        <div className="u-flex">
+          <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
 
-        <label htmlFor="upload-button">
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image.preview}
-              alt={`Image ${index}`}
-              width="100"
-              className="my-10 mx-5"
-            />
-          ))}
-        </label>
+          <label htmlFor="upload-button">
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={image.preview}
+                alt={`Image ${index}`}
+                width="100"
+                className="my-10 mx-5"
+              />
+            ))}
+          </label>
 
-        <button
-          type="button"
-          onClick={handleImageSubmit}
-          className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-        >
-          Submit Photos
-        </button>
+          <button
+            type="button"
+            onClick={handleImageSubmit}
+            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
+          >
+            Submit Photos
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  } else {
+    // Render something else or nothing if clothingIds is empty
+    return (
+      <div>
+        {/* <EditClothingArticle clothingIds={clothingIds} /> */}
+      </div>
+    );
+  }};
 
 export default UploadClothingArticle;
