@@ -1,66 +1,132 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { post } from "../../utilities";
+import "./EditClothingArticle.css";
+import { post, get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 
 const EditClothingArticle = (props) => {
-  const clothingInputs = props.clothingInputs;
+  const navigate = useNavigate();
+
+  const clothingIds = props.clothingIds;
+  const [index, setIndex] = useState(0);
+
+  const defaultClothingInput = {
+    userId: props.userId,
+    image: "",
+    name: "",
+    type: "top",
+    color: "",
+    max_wears: NaN,
+    tags: [],
+    min_temp: NaN,
+    max_temp: NaN,
+    current_wears: 0,
+  };
+  const [clothingInput, setClothingInput] = useState(defaultClothingInput);
+
+  useEffect(() => {
+    const loadClothingArticle = async () => {
+      if (clothingIds.length === 0 || index >= clothingIds.length) {
+        setClothingInput(defaultClothingInput);
+        return;
+      }
+
+      const currentId = clothingIds[index];
+
+      try {
+        const response = await get(`/api/clothingarticle/${currentId}`);
+        console.log("fetched clothing item", response);
+        setClothingInput(response);
+      } catch (error) {
+        console.error('Error fetching clothing article:', error);
+      }
+    };
+
+    loadClothingArticle();
+  }, [clothingIds, index]);
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setClothingInput((prevClothingInput) => ({
-    ...prevClothingInput,
+    setClothingInput((prevClothing) => ({
+    ...prevClothing,
     [name]: value,
     }));
   };
 
-  // post all clothing articles when the user hits "Submit" 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("editing clothing article", clothingInputs);
-    post("/api/clothingarticle", body);
+  const handlePrevArticle = () => {
+    setIndex((prevIndex) => prevIndex - 1);
   };
+
+  const extractEditableProperties = (clothingArticle) => {
+    const {
+      userId,
+      image,
+      name,
+      type,
+      color,
+      max_wears,
+      tags,
+      min_temp,
+      max_temp,
+    } = clothingArticle;
+  
+    return {
+      userId,
+      image,
+      name,
+      type,
+      color,
+      max_wears,
+      tags,
+      min_temp,
+      max_temp,
+    };
+  };
+
+  const saveEdits = async () => {
+    // Send the edited properties to the backend to update the clothing article
+    try {
+      const currentId = clothingIds[index];
+      const editedProperties = extractEditableProperties(clothingInput);
+
+      const response = await post(`/api/clothingarticle/${currentId}`, {
+        editedProperties,
+      });
+      console.log("saved edits", response);
+    } catch (error) {
+      console.log("trouble saving edits");
+    }
+  };
+
+  const handleNextArticle = () => {
+    saveEdits();
+    setIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const handleSubmit = () => {
+    saveEdits();
+    navigate("/closet");
+  }
+
 
   return (
     <div>
       <BackButton redirect="closet" />
-      <h1 className="u-textCenter">add new clothing article</h1>
-      <div className="u-flex">
-        <div>
-          <input
-            name="image"
-            type="file"
-            id="upload-button"
-            onChange={handleChange}
+      <h1 className="u-textCenter">Clothing Article #{index}</h1>
+      {clothingInput.image ? (
+          <img
+            src={clothingInput.image}
+            alt="loading clothing image..."
+            width="100"
+            className="my-10 mx-5"
           />
-
-          <label htmlFor="upload-button">
-            {image.preview ? (
-              <img
-                src={image.preview}
-                alt="dummy"
-                width="100"
-                className="my-10 mx-5"
-              />
-            ) : (
-              <>
-              </>
-            )}
-          </label>
-
-          <button
-            type="button"
-            onClick={submitPhoto}
-            className="text-white w-full mt-2 border-[1px]
-             p-2 border-[#3d4f7c] rounded-full cursor-pointer "
-          >
-            {image.status}
-          </button>
-
-        </div>
-        
+        ) : (
+          <>
+          </>
+        )}
+      <div className="u-flex">
         <div>
           <input
             type="text"
@@ -107,14 +173,16 @@ const EditClothingArticle = (props) => {
             onChange={handleChange}
             className="NewPostInput-input"
           />
-          <button
-            type="submit"
-            className="NewPostInput-button u-pointer"
-            value="Submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          {index > 0 ? (
+            <button onClick={handlePrevArticle}>Previous</button>
+          ) : (
+            <></>
+          )}
+          {index < clothingIds.length-1? (
+            <button onClick={handleNextArticle}>Next</button>
+          ) : (
+            <button onClick={handleSubmit}>Submit</button>
+          )}
         </div>
       </div>
     </div>
