@@ -1,8 +1,9 @@
 .weather-container {
   position: relative;
   width: 200px;
-  height: 200px;
+  /* height: 200px; */
   padding-top: 60%;
+  padding-bottom: 0%;
   justify-content: center;
   background-size: contain;
   background-position: center;

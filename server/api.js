@@ -61,7 +61,6 @@ router.get("/clothes", (req, res) => {
       break;
   }
   const query = { userId: req.query.userId, type: typeString };
-  console.log(query);
   ClothingArticle.find(query).then((clothes) => res.send(clothes));
 
   // ClothingArticle.find({}).then((clothes) => res.send(clothes));
@@ -78,8 +77,6 @@ function getClothingItem(array) {
 router.get("/outfit", async (req, res) => {
   const high = req.query.high;
   const low = req.query.low;
-  console.log(high);
-  console.log(low);
 
   try {
     const tops = await ClothingArticle.find({
@@ -111,15 +108,10 @@ router.get("/outfit", async (req, res) => {
       image:
         "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
     };
-    console.log(tops.length);
-    console.log(bottoms.length);
-    console.log(tops && bottoms);
     if (tops.length != 0 && bottoms.length != 0) {
       randomTop = getClothingItem(tops);
       randomBottom = getClothingItem(bottoms);
     }
-
-    console.log("outfit is", randomTop, randomBottom);
 
     res.send({ top: randomTop.image, bottom: randomBottom.image });
   } catch (error) {
@@ -129,12 +121,6 @@ router.get("/outfit", async (req, res) => {
 });
 
 router.post("/clothingarticle", (req, res) => {
-  // TODO: add router post method for adding new clothing articles
-  // No idea if i did this right lol
-  // console.log(`Received a chat message from ${req.user.name}: ${req.body.content}`);
-  console.log(`New clothing article added, named ${req.body.name}`);
-  console.log(req.body.userId);
-
   // insert this clothing article into the database
   const clothingarticle = new ClothingArticle({
     userId: req.body.userId,
@@ -151,8 +137,6 @@ router.post("/clothingarticle", (req, res) => {
 });
 
 router.post("/user", (req, res) => {
-  console.log(`updating user settings of user ${req.body._id}`);
-
   const query = { _id: ObjectId(req.body._id) };
   const { _id, ...newUser } = req.body;
 
@@ -172,12 +156,8 @@ router.get("/user", (req, res) => {
 });
 
 router.get("/weather", (req, res) => {
-  console.log("getting weather");
   const zipCode = req.query.zipCode;
   const units = req.query.units;
-  console.log(
-    `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
-  );
   fetch(
     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
   )
@@ -199,16 +179,23 @@ router.get("/weather", (req, res) => {
     });
 });
 
-router.get("/user", (req, res) => {
-  console.log("getting user");
-  console.log(req.session);
-  console.log(req.session.user);
-  console.log(req.user);
-  console.log("req id???");
-  console.log(req.user._id);
-  const query = { _id: ObjectId(req.user._id) };
-  console.log(query);
-  User.find(query).then((user) => res.send(user));
+router.get("/laundryClothes", (req, res) => {
+  console.log("getting laundry clothes");
+  // console.log({ userId: req.query.userId, current_wears: { $gte: `$max_wears` } });
+
+  ClothingArticle.aggregate([
+    { $match: { userId: req.query.userId } },
+    { $addFields: { isLaundryNeeded: { $gte: ["$current_wears", "$max_wears"] } } },
+    { $match: { isLaundryNeeded: true } },
+  ])
+    .then((clothes) => {
+      console.log(clothes);
+      res.send(clothes);
+    })
+    .catch((err) => {
+      console.error("Error fetching clothes for laundry:", err);
+      res.status(500).send(err);
+    });
 });
 
 // anything else falls to this "not found" case

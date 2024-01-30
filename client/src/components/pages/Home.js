@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import ClosetIcon from "../modules/ClosetIcon.js";
 import Outfit from "../modules/Outfit.js";
 import Weather from "../modules/Weather.js";
+import Laundry from "../modules/Laundry.js";
 import settingsButton from "../../../assets/settings-button.svg";
 import floor from "../../../assets/floor.svg";
 
@@ -74,6 +75,7 @@ const Home = ({ userId, handleLogout }) => {
         </div>
         <div className="Home-subContainer u-textCenter">
           <Weather weatherData={weatherData} />
+          <Laundry />
         </div>
       </div>
       <div>

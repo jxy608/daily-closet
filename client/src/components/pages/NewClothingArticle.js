@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 // import "./NewClothingArticle.css";
 import { post } from "../../utilities";
@@ -14,7 +14,7 @@ const NewClothingArticleInput = (props) => {
     name: "",
     type: "top",
     color: "",
-    max_wears: NaN,
+    max_wears: 1,
     tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
@@ -24,9 +24,9 @@ const NewClothingArticleInput = (props) => {
   };
 
   const defaultImage = {
-    preview: '',
-    raw: '',
-    status: 'Submit photo',
+    preview: "",
+    raw: "",
+    status: "Submit photo",
   };
 
   const [clothingInput, setClothingInput] = useState(defaultClothingInput);
@@ -46,7 +46,7 @@ const NewClothingArticleInput = (props) => {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
-        status: 'Submit photo',
+        status: "Submit photo",
       });
     }
   };
@@ -83,18 +83,18 @@ const NewClothingArticleInput = (props) => {
   const submitPhoto = async () => {
     try {
       console.log("image data: ", image.raw);
-    
+
       let formData = new FormData();
-      formData.append('userId', props.userId);
-      formData.append('image', image.raw);
+      formData.append("userId", props.userId);
+      formData.append("image", image.raw);
       console.log("form data: ", Array.from(formData.entries()));
-  
+
       const response = await axios.post(`http://localhost:3000/upload`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-  
+
       // Use the data from the response
       console.log(response.data[0]);
       clothingInput.image = response.data[0];
@@ -102,11 +102,11 @@ const NewClothingArticleInput = (props) => {
       setImage({
         ...image,
         status: "Resubmit photo",
-      })
-  
+      });
+
       return response.data;
     } catch (error) {
-      console.error('Error submitting photo:', error);
+      console.error("Error submitting photo:", error);
       // Handle the error appropriately
       throw error;
     }
@@ -118,24 +118,13 @@ const NewClothingArticleInput = (props) => {
       <h1 className="u-textCenter">add new clothing article</h1>
       <div className="u-flex">
         <div>
-          <input
-            name="image"
-            type="file"
-            id="upload-button"
-            onChange={handleChange}
-          />
+          <input name="image" type="file" id="upload-button" onChange={handleChange} />
 
           <label htmlFor="upload-button">
             {image.preview ? (
-              <img
-                src={image.preview}
-                alt="dummy"
-                width="100"
-                className="my-10 mx-5"
-              />
+              <img src={image.preview} alt="dummy" width="100" className="my-10 mx-5" />
             ) : (
-              <>
-              </>
+              <></>
             )}
           </label>
 
@@ -147,9 +136,8 @@ const NewClothingArticleInput = (props) => {
           >
             {image.status}
           </button>
-
         </div>
-        
+
         <div>
           <input
             type="text"
@@ -193,6 +181,14 @@ const NewClothingArticleInput = (props) => {
             placeholder={"max temp"}
             name="max_temp"
             value={clothingInput.max_temp}
+            onChange={handleChange}
+            className="NewPostInput-input"
+          />
+          <input
+            type="number"
+            placeholder={"wears before wash"}
+            name="max_wears"
+            value={clothingInput.max_wears}
             onChange={handleChange}
             className="NewPostInput-input"
           />
