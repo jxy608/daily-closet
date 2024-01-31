@@ -168,7 +168,6 @@ const EditClothingArticle = (props) => {
   }
 
   const handleNextArticle = () => {
-    console.log("filled?", isFilled());
     if (!isFilled()) {
       alert("Please fill out all numbered inputs before continuing!");
       return;
