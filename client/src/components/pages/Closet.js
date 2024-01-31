@@ -6,6 +6,7 @@ import BackButton from "../modules/BackButton.js";
 import ClosetModal from "../modules/ClosetModal.js";
 import "./Closet.css";
 import closetInside from "../../../assets/DC_big_closet.svg";
+import declutterButton from "../../../assets/recycle.svg";
 
 const Closet = (props) => {
   const [clothes, setClothes] = useState([]);
@@ -267,6 +268,11 @@ const Closet = (props) => {
             userId={props.userId}
           />
         ))}
+      </div>
+      <div className="declutter-button">
+        <Link to={`/declutter/`}>
+          <img src={declutterButton} />
+        </Link>
       </div>
     </div>
   );

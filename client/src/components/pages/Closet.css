@@ -170,3 +170,15 @@
   pointer-events: auto; /* Enable pointer events for interactive areas */
   fill: transparent; /* Make areas transparent or semi-transparent */
 }
+
+.declutter-button {
+  position: fixed;
+  bottom: 3vh;
+  right: 3vh;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.declutter-button:hover {
+  transform: scale(1.3);
+}

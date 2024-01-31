@@ -15,7 +15,7 @@ import UploadClothingArticle from "./pages/UploadClothingArticle.js";
 import EditClothingArticle from "./pages/EditClothingArticle.js";
 import Settings from "./pages/Settings.js";
 import Welcome from "./pages/Welcome.js";
-
+import Declutter from "./pages/Declutter.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -116,6 +116,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Settings handleLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="declutter"
+          element={
+            <ProtectedRoute>
+              <Declutter userId={userId} />
             </ProtectedRoute>
           }
         />
