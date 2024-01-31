@@ -80,7 +80,8 @@ const Outfit = (props) => {
 
   const handleReject = () => {
     // TODO: INCREMENT REJECTIONS OF OUTFIT
-    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    // const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    const outfitIds = Object.values(outfit).map((item) => item._id);
     post("/api/updateRejections", { ids: outfitIds, updateValue: 1 });
 
     // Clear outfit data from local storage
@@ -104,7 +105,8 @@ const Outfit = (props) => {
     // TODO: HAVE SOME INDICATION OF WHEN TO PUT CLOTHES IN THE LAUNDRY
     setOutfitSelected(!outfitSelected);
 
-    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    // const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    const outfitIds = Object.values(outfit).map((item) => item._id);
     post("/api/updateWears", { ids: outfitIds, updateValue: 1 });
     post("/api/updateRejections", { ids: outfitIds, updateValue: -1 });
 
@@ -115,7 +117,8 @@ const Outfit = (props) => {
   const handleUnselect = () => {
     setOutfitSelected(!outfitSelected);
 
-    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    // const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    const outfitIds = Object.values(outfit).map((item) => item._id);
     post("/api/updateWears", { ids: outfitIds, updateValue: -1 });
   };
 
@@ -123,15 +126,29 @@ const Outfit = (props) => {
   return (
     <div>
       <h2>outfit</h2>
-      {outfit["top"] && outfit["bottom"] ? (
+      {(outfit["top"] && outfit["bottom"]) || outfit["one piece"] ? (
         <div>
           <div
             className={
               outfitSelected ? "outfit-container greyed-out shrink-image" : "outfit-container"
             }
           >
-            <img src={outfit["top"].image} alt="Top" className="top-image" />
-            <img src={outfit["bottom"].image} alt="Bottom" className="bottom-image" />
+            {outfit["accessory"] && (
+              <img src={outfit["accessory"].image} alt="accessory" className="accessory-image" />
+            )}
+            {outfit["outerwear"] && (
+              <img src={outfit["outerwear"].image} alt="outerwear" className="outerwear-image" />
+            )}
+            {outfit["top"] && <img src={outfit["top"].image} alt="Top" className="top-image" />}
+            {outfit["bottom"] && (
+              <img src={outfit["bottom"].image} alt="Bottom" className="bottom-image" />
+            )}
+            {outfit["one piece"] && (
+              <img src={outfit["one piece"].image} alt="one piece" className="one-piece-image" />
+            )}
+            {outfit["shoes"] && (
+              <img src={outfit["shoes"].image} alt="shoes" className="shoes-image" />
+            )}
           </div>
           {outfitSelected && (
             <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />

@@ -159,49 +159,129 @@ function getClothingItem(array) {
 router.get("/outfit", async (req, res) => {
   const high = req.query.high;
   const low = req.query.low;
+  const userId = req.query.userId;
 
   try {
-    let tops = await ClothingArticle.find({
-      userId: req.query.userId,
+    // let tops = await ClothingArticle.find({
+    //   userId: req.query.userId,
+    //   type: "top",
+    //   max_temp: {
+    //     $gte: high,
+    //   },
+    //   min_temp: {
+    //     $lte: low,
+    //   },
+    // });
+
+    // let bottoms = await ClothingArticle.find({
+    //   userId: req.query.userId,
+    //   type: "bottom",
+    //   max_temp: {
+    //     $gte: high,
+    //   },
+    //   min_temp: {
+    //     $lte: low,
+    //   },
+    // });
+
+    // let outerwear = await ClothingArticle.find({
+    //   userId: req.query.userId,
+    //   type: "outerwear",
+    //   max_temp: {
+    //     $gte: high,
+    //   },
+    //   min_temp: {
+    //     $lte: low,
+    //   },
+    // });
+
+    // tops = tops.filter((top) => top.current_wears < top.max_wears);
+    // bottoms = bottoms.filter((bottom) => bottom.current_wears < bottom.max_wears);
+    // outerwear = outerwear.filter((outerwear) => outerwear.current_wears < outerwear.max_wears);
+
+    // // // clowns
+    // // let randomTop = {
+    // //   image:
+    // //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    // // };
+    // // let randomBottom = {
+    // //   image:
+    // //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    // // };
+    // if (tops.length != 0 && bottoms.length != 0) {
+    //   randomTop = getClothingItem(tops);
+    //   randomBottom = getClothingItem(bottoms);
+    //   outfit = { top: randomTop, bottom: randomBottom };
+    //   if (outerwear.length != 0) {
+    //     randomOuterwear = getClothingItem(outerwear);
+    //     outfit["outerwear"] = randomOuterwear;
+    //   }
+    //   res.send(outfit);
+    // } else {
+    //   res.send({});
+    // }try {
+    // Fetch data for tops, bottoms, and one-pieces
+    const tops = await ClothingArticle.find({
+      userId: userId,
       type: "top",
-      max_temp: {
-        $gte: high,
-      },
-      min_temp: {
-        $lte: low,
-      },
+      max_temp: { $gte: high },
+      min_temp: { $lte: low },
     });
-
-    let bottoms = await ClothingArticle.find({
-      userId: req.query.userId,
+    const bottoms = await ClothingArticle.find({
+      userId: userId,
       type: "bottom",
-      max_temp: {
-        $gte: high,
-      },
-      min_temp: {
-        $lte: low,
-      },
+      max_temp: { $gte: high },
+      min_temp: { $lte: low },
+    });
+    const onePieces = await ClothingArticle.find({
+      userId: userId,
+      type: "one piece",
+      max_temp: { $gte: high },
+      min_temp: { $lte: low },
     });
 
-    tops = tops.filter((top) => top.current_wears < top.max_wears);
-    bottoms = bottoms.filter((bottom) => bottom.current_wears < bottom.max_wears);
+    let outfit = {};
+    const optionalTypes = ["outerwear", "shoes", "accessory"];
 
-    // // clowns
-    // let randomTop = {
-    //   image:
-    //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
-    // };
-    // let randomBottom = {
-    //   image:
-    //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
-    // };
-    if (tops.length != 0 && bottoms.length != 0) {
-      randomTop = getClothingItem(tops);
-      randomBottom = getClothingItem(bottoms);
-      res.send({ top: randomTop, bottom: randomBottom });
+    // Check availability and make random choice
+    if (tops.length !== 0 && bottoms.length !== 0 && onePieces.length !== 0) {
+      // Randomly decide between top-bottom combination or a one-piece
+      if (Math.random() < 0.5) {
+        // 50% chance
+        outfit["top"] = getClothingItem(tops);
+        outfit["bottom"] = getClothingItem(bottoms);
+      } else {
+        outfit["one piece"] = getClothingItem(onePieces);
+      }
+    } else if (tops.length !== 0 && bottoms.length !== 0) {
+      outfit["top"] = getClothingItem(tops);
+      outfit["bottom"] = getClothingItem(bottoms);
+    } else if (onePieces.length !== 0) {
+      outfit["one piece"] = getClothingItem(onePieces);
     } else {
       res.send({});
+      return;
     }
+
+    // Fetch data for optional types
+    const optionalPromises = optionalTypes.map((type) =>
+      ClothingArticle.find({
+        userId: userId,
+        type: type,
+        max_temp: { $gte: high },
+        min_temp: { $lte: low },
+      })
+    );
+    const optionalData = await Promise.all(optionalPromises);
+
+    // Add optional items to outfit
+    optionalData.forEach((data, index) => {
+      if (data.length > 0) {
+        outfit[optionalTypes[index]] = getClothingItem(data);
+      }
+    });
+
+    res.send(outfit);
   } catch (error) {
     console.error("Error fetching outfit from server:", error);
     res.status(500).send({ error: "Internal Server Error" });
@@ -252,11 +332,13 @@ router.get("/user", (req, res) => {
 router.get("/weather", (req, res) => {
   const zipCode = req.query.zipCode;
   const units = req.query.units;
+  console.log("fetching weather");
   fetch(
     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
   )
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       const lat = data.lat;
       const lon = data.lon;
       // Fetch weather data using coordinates
@@ -266,6 +348,7 @@ router.get("/weather", (req, res) => {
     })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       res.send(data);
     })
     .catch((error) => {
