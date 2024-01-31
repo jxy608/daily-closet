@@ -85,7 +85,7 @@ const SettingsInput = (props) => {
           <div>
             <button
               type="submit"
-              className="Submit-button u-pointer"
+              className="u-button u-pointer"
               value="Submit"
               onClick={handleSubmit}
             >

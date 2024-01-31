@@ -5,6 +5,10 @@ import { useParams } from "react-router-dom";
 import "./EditClothingArticle.css";
 import { post, get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
+import PrevButton from "../../../assets/prev.svg";
+import PrevButtonDisabled from "../../../assets/prev_disabled.svg";
+import NextButton from "../../../assets/next.svg";
+import NextButtonDisabled from "../../../assets/next_disabled.svg";
 
 const EditClothingArticle = () => {
   const navigate = useNavigate();
@@ -28,6 +32,7 @@ const EditClothingArticle = () => {
   const [clothingInput, setClothingInput] = useState(defaultClothingInput);
 
   useEffect(() => {
+    document.getElementById("title").focus();
     const loadClothingArticle = async () => {
       if (clothingIds.length === 0 || index >= clothingIds.length) {
         setClothingInput(defaultClothingInput);
@@ -106,34 +111,34 @@ const EditClothingArticle = () => {
   return (
     <div>
       <BackButton redirect="closet" />
-      <h1 className="u-textCenter">Clothing Article #{index}</h1>
-      {clothingInput.image ? (
-        <img
-          src={clothingInput.image}
-          alt="loading clothing image..."
-          width="100"
-          className="my-10 mx-5"
+
+      <div className="u-flexColumn u-flex-alignCenter" style={{gap: '20px'}}>
+        <input
+          id="title"
+          type="text"
+          placeholder={"Clothing Nickname"}
+          value={clothingInput.name}
+          name="name"
+          onChange={handleChange}
+          className="header-input"
         />
-      ) : (
-        <></>
-      )}
-      <div className="u-flex">
-        <div>
-          <input
-            type="text"
-            placeholder={"Clothing Nickname"}
-            value={clothingInput.name}
-            name="name"
-            onChange={handleChange}
-            className="NewPostInput-input"
+        {clothingInput.image ? (
+          <img
+            src={clothingInput.image}
+            alt="loading clothing image..."
+            height="160"
+            className="my-10 mx-5"
           />
+        ) : (
+          <></>
+        )}
+        <div className="input-container">
           <input
             type="text"
             placeholder={"Color"}
             name="color"
             value={clothingInput.color}
             onChange={handleChange}
-            className="NewPostInput-input"
           />
           <select name="type" value={clothingInput.type} onChange={handleChange}>
             <option value="top">Top</option>
@@ -150,7 +155,6 @@ const EditClothingArticle = () => {
             name="max_wears"
             value={clothingInput.max_wears}
             onChange={handleChange}
-            className="NewPostInput-input"
           />
           <input
             type="number"
@@ -158,7 +162,6 @@ const EditClothingArticle = () => {
             name="min_temp"
             value={clothingInput.min_temp}
             onChange={handleChange}
-            className="NewPostInput-input"
           />
           <input
             type="number"
@@ -166,15 +169,32 @@ const EditClothingArticle = () => {
             name="max_temp"
             value={clothingInput.max_temp}
             onChange={handleChange}
-            className="NewPostInput-input"
           />
-          {index > 0 ? <button onClick={handlePrevArticle}>Previous</button> : <></>}
-          {index < clothingIds.length - 1 ? (
-            <button onClick={handleNextArticle}>Next</button>
+        </div>
+
+        <div className="control-container">
+          {index > 0 ? (
+            <img onClick={handlePrevArticle} src={PrevButton} style={{ cursor: "pointer" }} />
           ) : (
-            <button onClick={handleSubmit}>Submit</button>
+            <img src={PrevButtonDisabled} style={{ cursor: "not-allowed" }} />
+          )}
+          <div>
+            {index + 1} of {clothingIds.length}
+          </div>
+          {index < clothingIds.length - 1 ? (
+            <img onClick={handleNextArticle} src={NextButton} style={{ cursor: "pointer" }} />
+          ) : (
+            <img src={NextButtonDisabled} style={{ cursor: "not-allowed" }} />
           )}
         </div>
+
+        {index < clothingIds.length - 1 ? (
+          <div style={{ height: "5vh", width: "8vw", visibility: "hidden" }}></div>
+        ) : (
+          <button onClick={handleSubmit} className="u-button">
+            Submit
+          </button>
+        )}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@
   left: 30vh;
 }
 
-input {
+/* input {
   background-color: #c69b84;
   color: white;
   font-family: "Balsamiq Sans", sans-serif;
@@ -50,9 +50,9 @@ select {
   appearance: none;
   background-repeat: no-repeat;
   background-position: right;
-}
+} */
 
-.Submit-button {
+/* .Submit-button {
   background-color: #c69b84;
   color: white;
   font-family: "Balsamiq Sans", sans-serif;
@@ -65,7 +65,7 @@ select {
   height: 5vh;
   margin: 1vh;
   margin-top: 3vh;
-}
+} */
 
 .Logout-button {
   background-color: #a08476;
