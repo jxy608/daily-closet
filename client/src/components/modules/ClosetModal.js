@@ -51,7 +51,7 @@ const ClosetModal = (props) => {
               <img src={xButton} className="x-image" />
             </div>
             <div className="closetContents">
-              <NewClothingCard />
+              <NewClothingCard title={props.title}/>
               {hasClothes ? (
                 clothes.map((c, idx) => (
                   <ClothingCard

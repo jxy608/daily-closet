@@ -8,7 +8,7 @@ const Welcome = ({ userId, handleLogout }) => {
   return (
     <div>
       <h1 className="u-textCenter">
-        Welcome to Daily Closet!
+        welcome to daily closet!
       </h1>
       <div>
         <Link to={`/new/`} className="button-link">New Clothing Article</Link>
