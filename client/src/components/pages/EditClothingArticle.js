@@ -21,6 +21,7 @@ const EditClothingArticle = (props) => {
   const newArticle = clothingParams.newArticle;
   const [index, setIndex] = useState(0);
   const [imperial, setImperial] = useState(true);
+  const [changed, setChanged] = useState(false);
 
   const defaultClothingInput = {
     userId: props.userId,
@@ -74,11 +75,10 @@ const EditClothingArticle = (props) => {
     if (clothingIds.length == 0) {
       navigate(`/closet/${clothingType}`);
     }
-    setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length-1));
+    setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length - 1));
     loadClothingArticle();
     console.log("clothing ids", clothingIds);
   }, [clothingIds]);
-
 
   // const isDefault = (input) => {
   //   console.log("default", defaultClothingInput);
@@ -92,6 +92,7 @@ const EditClothingArticle = (props) => {
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
+    setChanged(true);
     const { name, value } = e.target;
     if (value !== "null") {
       let newValue = value;
@@ -171,18 +172,21 @@ const EditClothingArticle = (props) => {
   };
 
   const handleBack = () => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to return? Your edits will not be saved."
-    );
-    if (!userConfirmed) {
-      return; // If the user cancels, do nothing
+    if (newArticle == "false" && !changed) {
+      navigate(`/closet/${clothingType}`);
+    } else {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to return? Your edits will not be saved."
+      );
+      if (!userConfirmed) {
+        return; // If the user cancels, do nothing
+      }
+      if (clothingIds.length > 1 || newArticle == "true") {
+        post(`/api/del/${clothingIds.join(",")}`);
+      }
+      navigate(`/closet/${clothingType}`);
     }
-    if (clothingIds.length > 1 || newArticle == "true") {
-      post(`/api/del/${clothingIds.join(",")}`);
-    }
-    navigate(`/closet/${clothingType}`);
   };
-  
 
   const handleDelete = () => {
     const userConfirmed = window.confirm(
@@ -192,11 +196,11 @@ const EditClothingArticle = (props) => {
       return; // If the user cancels, do nothing
     }
     post(`/api/del/${clothingIds[index]}`);
-    
+
     const updatedClothingIds = [...clothingIds];
     updatedClothingIds.splice(index, 1);
     setClothingIds(updatedClothingIds);
-  }
+  };
 
   return (
     <div>

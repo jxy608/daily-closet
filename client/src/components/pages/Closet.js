@@ -12,7 +12,7 @@ const Closet = (props) => {
   const params = useParams();
   const clothingType = params.clothingType;
 
-  let section=clothingType;
+  let section = clothingType;
   switch (clothingType) {
     case "top":
       section = "tops";
@@ -76,7 +76,7 @@ const Closet = (props) => {
 
   return (
     <div>
-      <BackButton redirect="home"/>
+      <BackButton redirect="home" />
       {/* <h1 className="u-textCenter">hello welcome to the closet</h1> */}
       <div id="modal-overlay" className="modal-overlay"></div>
       <div className="closet-container">
@@ -297,7 +297,7 @@ const Closet = (props) => {
           />
         ))}
       </div>
-      {props.declutterClothes.length > 0 ? (
+      {props.declutterClothes && props.declutterClothes.length > 0 ? (
         <div className="declutter-button">
           <Link to={`/declutter/`}>
             <img src={declutterButton} />
