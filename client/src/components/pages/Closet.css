@@ -182,3 +182,14 @@
 .declutter-button:hover {
   transform: scale(1.3);
 }
+
+.floor {
+  background-image: url("../../../assets/floor.svg");
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  z-index: -5;
+  width: 100vw;
+  /* height: 40vh; */
+  bottom: 0px;
+}

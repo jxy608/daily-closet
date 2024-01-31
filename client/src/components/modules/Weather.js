@@ -65,7 +65,7 @@ const Weather = (props) => {
 
   return (
     <div className="u-flex u-flex-justifyCenter">
-      {props.weatherData ? (
+      {props.weatherData && props.weatherData.daily ? (
         <div
           className="weather-container"
           style={{

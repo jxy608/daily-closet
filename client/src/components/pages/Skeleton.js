@@ -11,6 +11,7 @@ import { useUser } from "../../contexts/UserContext";
 import "../../utilities.css";
 import "./Skeleton.css";
 import { get } from "../../utilities";
+import homeImage from "../../../assets/everything_shadow_closed.svg";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "254434847413-q18pai458nnnouokg7804klebv7hhj39.apps.googleusercontent.com";
@@ -36,6 +37,7 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
         {/* {userId ? (
           <Navigate replace to={landing} />
         ) : ( */}
+        <img className="homeImage" src={homeImage} />
         <div className="u-flex-centerButton">
           <GoogleLogin
             onSuccess={handleLogin}
