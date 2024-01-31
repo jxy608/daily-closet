@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// import "./NewClothingArticle.css";
+import "./UploadClothingArticle.css";
 import { post } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
 import EditClothingArticle from "./EditClothingArticle.js";
@@ -124,15 +124,17 @@ const UploadClothingArticle = (props) => {
             className="file-input"
           />
 
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image.preview}
-              alt={`Image ${index} is loading...`}
-              width="100"
-              className="my-10 mx-5"
-            />
-          ))}
+          <div className="photo-container">
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={image.preview}
+                alt={`Image ${index} is loading...`}
+                width="100"
+                className="my-10 mx-5"
+              />
+            ))}
+          </div>
 
           {images.length > 0 && (
             <button type="button" onClick={handleImageSubmit} className="u-button">
