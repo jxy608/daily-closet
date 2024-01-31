@@ -8,7 +8,7 @@ const ClothingArticleSchema = new mongoose.Schema({
   color: String,
   max_wears: Number,
   current_wears: Number,
-  tags: Array,
+  // tags: Array,
   min_temp: Number,
   max_temp: Number,
 });
