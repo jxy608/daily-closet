@@ -40,9 +40,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log(userId);
     get("/api/declutterClothes", { userId: userId }).then((data) => {
-      console.log(data);
       setDeclutterClothes(data);
     });
   }, [userId]);
@@ -50,7 +48,6 @@ const App = () => {
   const handleLogin = (credentialResponse) => {
     const userToken = credentialResponse.credential;
     const decodedCredential = jwt_decode(userToken);
-    console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
       dispatch({ type: "LOGIN", payload: user._id });
