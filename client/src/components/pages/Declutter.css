@@ -15,12 +15,12 @@
   background-color: transparent;
 }
 
-.text-container {
+.declutterContainer {
   font-size: 2em;
   margin: 10vh;
 }
 
-.text-container h2 {
+.declutterContainer h2 {
   opacity: 0;
   animation: fadeInOut 4s linear forwards;
 }
