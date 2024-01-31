@@ -122,7 +122,7 @@ const Outfit = (props) => {
           </div>
         </div>
       ) : (
-        <></>
+        <div>No clothes found for the temperature outside!</div>
       )}
     </div>
   );
