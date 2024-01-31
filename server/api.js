@@ -166,9 +166,12 @@ router.get("/outfit", async (req, res) => {
     //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
     // };
     if (tops.length != 0 && bottoms.length != 0) {
+      randomTop = getClothingItem(tops);
+      randomBottom = getClothingItem(bottoms);
       res.send({ top: randomTop, bottom: randomBottom });
+    } else {
+      res.send({});
     }
-    res.send(null);
   } catch (error) {
     console.error("Error fetching outfit from server:", error);
     res.status(500).send({ error: "Internal Server Error" });

@@ -65,7 +65,12 @@ const Laundry = (props) => {
       <div>
         <div id="modal-overlay" className="modal-overlay"></div>
         <img className="laundryBasket" src={laundryStatus} onClick={openModal} />
-        <LaundryModal closeModal={closeModal} hidden={!modalOpen} laundryList={laundryList} />
+        <LaundryModal
+          name={user[0].name}
+          closeModal={closeModal}
+          hidden={!modalOpen}
+          laundryList={laundryList}
+        />
       </div>
     </div>
   );

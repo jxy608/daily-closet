@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import "./LaundryModal.css";
-import { get } from "../../utilities";
+import { post } from "../../utilities";
 
 import NewClothingCard from "./NewClothingCard.js";
 import ClothingCard from "./ClothingCard.js";
@@ -15,12 +15,18 @@ const LaundryModal = (props) => {
     document.title = "Clothes";
   }, []);
 
+  const washLaundry = () => {
+    console.log("wash laundry");
+    const laundryIds = props.laundryList.map((article) => article._id);
+    post("/api/washLaundry", { ids: laundryIds });
+  };
+
   return (
     <>
       {!props.hidden && (
         <>
           <div className="laundrySectionContainer">
-            <div className="laundryTitle">{props.title}</div>
+            <div className="laundryTitle">{`${props.name}'s laundry`}</div>
             <div className="x" onClick={props.closeModal}>
               <img src={xButton} className="x-image" />
             </div>
@@ -40,6 +46,9 @@ const LaundryModal = (props) => {
                 <></>
               )}
             </div>
+            <button type="button" className="laundryButton" onClick={washLaundry}>
+              wash laundry
+            </button>
           </div>
         </>
       )}

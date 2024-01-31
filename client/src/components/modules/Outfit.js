@@ -79,6 +79,15 @@ const Outfit = (props) => {
     updateOutfit();
   };
 
+  const handleRefresh = () => {
+    // Clear outfit data from local storage
+    const currentDate = new Date().toLocaleDateString();
+    localStorage.removeItem(`outfit-${userId}-${currentDate}`);
+
+    // Manually trigger the update and re-render
+    updateOutfit();
+  };
+
   const handleAccept = () => {
     // TODO: HAVE SOME INDICATION OF WHEN TO PUT CLOTHES IN THE LAUNDRY
     setOutfitSelected(!outfitSelected);
@@ -122,7 +131,10 @@ const Outfit = (props) => {
           </div>
         </div>
       ) : (
-        <div>No clothes found for the temperature outside!</div>
+        <div>
+          No clothes found for the temperature outside!
+          <button onClick={handleRefresh}>refresh</button>
+        </div>
       )}
     </div>
   );
