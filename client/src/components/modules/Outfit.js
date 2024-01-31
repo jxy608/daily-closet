@@ -4,9 +4,13 @@ import { get } from "../../utilities";
 
 import "./Outfit.css";
 import "../../utilities.css";
+import acceptButton from "../../../assets/accept.svg";
+import rejectButton from "../../../assets/reject.svg";
+import heartIcon from "../../../assets/heart.svg";
 
 const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
+  const [outfitSelected, setOutfitSelected] = useState(false);
   const { userId } = useAuth();
 
   const updateOutfit = useCallback(() => {
@@ -64,7 +68,9 @@ const Outfit = (props) => {
     return () => clearTimeout(timeoutId);
   }, [updateOutfit]);
 
-  const handleRefresh = () => {
+  const handleReject = () => {
+    // TODO: INCREMENT REJECTIONS OF OUTFIT
+
     // Clear outfit data from local storage
     const currentDate = new Date().toLocaleDateString();
     localStorage.removeItem(`outfit-${userId}-${currentDate}`);
@@ -73,15 +79,37 @@ const Outfit = (props) => {
     updateOutfit();
   };
 
+  const handleAccept = () => {
+    // TODO: INCREMENT CURRENT WEARS OF OUTFIT
+    setOutfitSelected(!outfitSelected);
+  };
+
+  const handleUnselect = () => {
+    // TODO: DECREMENT CURRENT WEARS OF OUTFIT
+    setOutfitSelected(!outfitSelected);
+  };
+
   // Your component rendering logic goes here
   return (
     <div>
       <h2>outfit</h2>
-      <div className="outfit-container">
+      <div
+        className={outfitSelected ? "outfit-container greyed-out shrink-image" : "outfit-container"}
+      >
         <img src={outfit["top"]} alt="Top" className="top-image" />
         <img src={outfit["bottom"]} alt="Bottom" className="bottom-image" />
       </div>
-      <button onClick={handleRefresh}>Refresh</button>
+      {outfitSelected && (
+        <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />
+      )}
+      <div>
+        {!outfitSelected && (
+          <img className="outfitButton" onClick={handleReject} src={rejectButton} />
+        )}
+        {!outfitSelected && (
+          <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+        )}
+      </div>
     </div>
   );
 };
