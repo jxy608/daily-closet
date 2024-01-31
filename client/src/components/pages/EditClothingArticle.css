@@ -23,6 +23,7 @@
 
 .input-container input {
   width: 10vw;
+  padding-left: 3%
 }
 
 .input-container select {

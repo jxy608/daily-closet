@@ -153,6 +153,7 @@ const EditClothingArticle = (props) => {
     try {
       const currentId = clothingIds[index];
       const editedProperties = extractEditableProperties(clothingInput);
+      
 
       const response = await post(`/api/clothingarticle/${currentId}`, {
         editedProperties,
@@ -162,12 +163,25 @@ const EditClothingArticle = (props) => {
     }
   };
 
+  const isFilled = () => {
+    return (clothingInput.max_wears !== null && clothingInput.min_temp !== null && clothingInput.max_temp !== null);
+  }
+
   const handleNextArticle = () => {
+    console.log("filled?", isFilled());
+    if (!isFilled()) {
+      alert("Please fill out all numbered inputs before continuing!");
+      return;
+    }
     saveEdits();
     setIndex((prevIndex) => prevIndex + 1);
   };
 
   const handleSubmit = () => {
+    if (!isFilled()) {
+      alert("Please fill out all numbered inputs before continuing!");
+      return;
+    }
     saveEdits();
     if (clothingParams.clothingType == "welcome") {
       navigate(`/home`);
