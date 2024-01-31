@@ -16,6 +16,7 @@ import { useUser } from "../../contexts/UserContext";
 const Laundry = (props) => {
   const [laundryList, setLaundryList] = useState([]);
   const [laundryStatus, setLaundryStatus] = useState(laundry0);
+  const [laundryPercentage, setLaundryPercentage] = useState(0);
   const { user, setUser } = useUser();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -57,6 +58,7 @@ const Laundry = (props) => {
     const numClothesInLaundry = laundryList.length;
     // TODO: don't hard code in the capacity! replace 20 w a user-defined val later
     const percentage = numClothesInLaundry / 10;
+    setLaundryPercentage(percentage);
     console.log("percentage full: ", percentage);
     if (percentage <= 0) {
       setLaundryStatus(laundry0);
@@ -82,6 +84,7 @@ const Laundry = (props) => {
           closeModal={closeModal}
           hidden={!modalOpen}
           laundryList={laundryList}
+          capacity={10}
           onButtonClick={props.onButtonClick}
         />
       </div>

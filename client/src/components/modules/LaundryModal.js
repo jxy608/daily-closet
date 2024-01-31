@@ -32,6 +32,11 @@ const LaundryModal = (props) => {
             <div className="x" onClick={props.closeModal}>
               <img src={xButton} className="x-image" />
             </div>
+            <div className="laundrySubtitle">
+              {`${props.laundryList.length} clothing articles: ${
+                (props.laundryList.length / props.capacity) * 100
+              }% full`}
+            </div>
             <div className="laundryContents">
               {props.laundryList ? (
                 props.laundryList.map((c, idx) => (
