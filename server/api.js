@@ -123,6 +123,31 @@ router.post("/clothingarticle/:id", async (req, res) => {
   }
 });
 
+router.post("/del/:clothingIds", async (req, res) => {
+  try {
+    const clothingIds = req.params.clothingIds.split(",");
+    
+    // Assuming each ID is a valid MongoDB ObjectId
+    const validIds = clothingIds.filter(id => mongoose.Types.ObjectId.isValid(id));
+
+    if (validIds.length === 0) {
+      return res.status(400).json({ message: "Invalid clothing IDs provided" });
+    }
+
+    // Delete clothing articles with the specified IDs
+    const deletionResult = await ClothingArticle.deleteMany({ _id: { $in: validIds } });
+
+    if (deletionResult.deletedCount > 0) {
+      return res.status(200).json({ message: "Clothing articles deleted successfully" });
+    } else {
+      return res.status(404).json({ message: "No matching clothing articles found" });
+    }
+  } catch (error) {
+    console.error("Error deleting clothing articles:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 function getClothingItem(array) {
   if (array.length === 0) {
     return null;

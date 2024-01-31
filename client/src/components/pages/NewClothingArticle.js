@@ -15,7 +15,7 @@ const NewClothingArticleInput = (props) => {
     type: "top",
     color: "",
     max_wears: 1,
-    tags: [],
+    // tags: [],
 
     // TODO: Should probably throw some kind of error if min_temp > max_temp
     // Another option is to only have temps > min_temp as selectable options for max temp and vice versa

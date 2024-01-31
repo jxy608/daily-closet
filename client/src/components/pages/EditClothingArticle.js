@@ -1,47 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext.js";
 
 import "./EditClothingArticle.css";
 import { post, get } from "../../utilities";
-import BackButton from "../modules/BackButton.js";
+// import BackButton from "../modules/BackButton.js";
 import PrevButton from "../../../assets/prev.svg";
 import PrevButtonDisabled from "../../../assets/prev_disabled.svg";
 import NextButton from "../../../assets/next.svg";
 import NextButtonDisabled from "../../../assets/next_disabled.svg";
+import backButton from "../../../assets/back-button.svg";
 
-const EditClothingArticle = () => {
+const EditClothingArticle = (props) => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
 
   const clothingParams = useParams();
-  const clothingIds = clothingParams.clothingIds.split(",");
+  const [clothingIds, setClothingIds] = useState(clothingParams.clothingIds.split(","));
+  const clothingType = clothingParams.clothingType;
+  const newArticle = clothingParams.newArticle;
   const [index, setIndex] = useState(0);
   const [imperial, setImperial] = useState(true);
 
   const defaultClothingInput = {
-    userId: "",
+    userId: props.userId,
     image: "",
     name: "",
-    type: "top",
+    type: clothingType,
     color: "",
-    max_wears: NaN,
+    max_wears: null,
     current_wears: 0,
-    tags: [],
-    min_temp: NaN,
-    max_temp: NaN,
+    // tags: [],
+    min_temp: null,
+    max_temp: null,
     current_wears: 0,
     times_rejected: 0,
   };
+
   const [clothingInput, setClothingInput] = useState(defaultClothingInput);
 
-  useEffect(() => {
-    console.log("cltohing input", clothingInput);
-    if (clothingInput.name === "") {
-      document.getElementById("title").focus();
+  const loadClothingArticle = async () => {
+    if (clothingIds.length === 0 || index >= clothingIds.length) {
+      setClothingInput(defaultClothingInput);
+      return;
     }
-  }, [clothingInput]);
+
+    const currentId = clothingIds[index];
+
+    try {
+      const response = await get(`/api/clothingarticle/${currentId}`);
+      console.log("fetched clothing item", response);
+      setClothingInput(response);
+
+      if (clothingInput.name === "") {
+        document.getElementById("title").focus();
+      }
+    } catch (error) {
+      console.error("Error fetching clothing article:", error);
+    }
+  };
 
   useEffect(() => {
     if (user && user[0].tempSetting == "imperial") {
@@ -50,25 +67,28 @@ const EditClothingArticle = () => {
       setImperial(false);
     }
 
-    const loadClothingArticle = async () => {
-      if (clothingIds.length === 0 || index >= clothingIds.length) {
-        setClothingInput(defaultClothingInput);
-        return;
-      }
-
-      const currentId = clothingIds[index];
-
-      try {
-        const response = await get(`/api/clothingarticle/${currentId}`);
-        console.log("fetched clothing item", response);
-        setClothingInput(response);
-      } catch (error) {
-        console.error("Error fetching clothing article:", error);
-      }
-    };
-
     loadClothingArticle();
   }, [clothingParams, index]);
+
+  useEffect(() => {
+    if (clothingIds.length == 0) {
+      navigate(`/closet/${clothingType}`);
+    }
+    setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length-1));
+    loadClothingArticle();
+    console.log("clothing ids", clothingIds);
+  }, [clothingIds]);
+
+
+  // const isDefault = (input) => {
+  //   console.log("default", defaultClothingInput);
+  //   for (const key in defaultClothingInput) {
+  //     if (key !== "image" && input[key] !== defaultClothingInput[key]) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   // called whenever the user changes one of the inputs
   const handleChange = (e) => {
@@ -101,7 +121,7 @@ const EditClothingArticle = () => {
       type,
       color,
       max_wears,
-      tags,
+      // tags,
       min_temp,
       max_temp,
       current_wears,
@@ -116,7 +136,7 @@ const EditClothingArticle = () => {
       color,
       max_wears,
       current_wears,
-      tags,
+      // tags,
       min_temp,
       max_temp,
       current_wears,
@@ -146,12 +166,43 @@ const EditClothingArticle = () => {
 
   const handleSubmit = () => {
     saveEdits();
-    navigate("/closet");
+    console.log("clothing input is of type", clothingInput.type);
+    navigate(`/closet/${clothingType}`);
   };
+
+  const handleBack = () => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to return? Your edits will not be saved."
+    );
+    if (!userConfirmed) {
+      return; // If the user cancels, do nothing
+    }
+    if (clothingIds.length > 1 || newArticle == "true") {
+      post(`/api/del/${clothingIds.join(",")}`);
+    }
+    navigate(`/closet/${clothingType}`);
+  };
+  
+
+  const handleDelete = () => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this item? This action cannot be undone."
+    );
+    if (!userConfirmed) {
+      return; // If the user cancels, do nothing
+    }
+    post(`/api/del/${clothingIds[index]}`);
+    
+    const updatedClothingIds = [...clothingIds];
+    updatedClothingIds.splice(index, 1);
+    setClothingIds(updatedClothingIds);
+  }
 
   return (
     <div>
-      <BackButton redirect="closet" />
+      <div className="back-button" onClick={handleBack} style={{ cursor: "pointer" }}>
+        <img src={backButton} />
+      </div>
 
       <div className="u-flexColumn u-flex-alignCenter" style={{ gap: "20px" }}>
         <input
@@ -242,28 +293,39 @@ const EditClothingArticle = () => {
           </div>
         </div>
 
-        <div className="control-container">
-          {index > 0 ? (
-            <img onClick={handlePrevArticle} src={PrevButton} style={{ cursor: "pointer" }} />
-          ) : (
-            <img src={PrevButtonDisabled} style={{ cursor: "not-allowed" }} />
-          )}
-          <div>
-            {index + 1} of {clothingIds.length}
+        {clothingIds.length > 1 ? (
+          <div className="control-container">
+            {index > 0 ? (
+              <img onClick={handlePrevArticle} src={PrevButton} style={{ cursor: "pointer" }} />
+            ) : (
+              <img src={PrevButtonDisabled} style={{ cursor: "not-allowed" }} />
+            )}
+            <div>
+              {index + 1} of {clothingIds.length}
+            </div>
+            {index < clothingIds.length - 1 ? (
+              <img onClick={handleNextArticle} src={NextButton} style={{ cursor: "pointer" }} />
+            ) : (
+              <img src={NextButtonDisabled} style={{ cursor: "not-allowed" }} />
+            )}
           </div>
-          {index < clothingIds.length - 1 ? (
-            <img onClick={handleNextArticle} src={NextButton} style={{ cursor: "pointer" }} />
-          ) : (
-            <img src={NextButtonDisabled} style={{ cursor: "not-allowed" }} />
-          )}
-        </div>
+        ) : (
+          <></>
+        )}
 
         {index < clothingIds.length - 1 ? (
-          <div style={{ height: "5vh", width: "8vw", visibility: "hidden" }}></div>
-        ) : (
-          <button onClick={handleSubmit} className="u-button">
-            Submit
+          <button onClick={handleDelete} className="u-button">
+            Delete
           </button>
+        ) : (
+          <div>
+            <button onClick={handleDelete} className="u-button">
+              Delete
+            </button>
+            <button onClick={handleSubmit} className="u-button">
+              Submit
+            </button>
+          </div>
         )}
       </div>
     </div>

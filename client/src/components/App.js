@@ -10,7 +10,6 @@ import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import Home from "./pages/Home.js";
 import Closet from "./pages/Closet.js";
-// import NewClothingArticle from "./pages/NewClothingArticle.js";
 import UploadClothingArticle from "./pages/UploadClothingArticle.js";
 import EditClothingArticle from "./pages/EditClothingArticle.js";
 import Settings from "./pages/Settings.js";
@@ -94,19 +93,33 @@ const App = () => {
           }
         />
         <Route
+          path="closet/:clothingType"
+          element={
+            <ProtectedRoute>
+              <Closet userId={userId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="new"
           element={
             <ProtectedRoute>
-              {/* <NewClothingArticle userId={userId} /> */}
               <UploadClothingArticle userId={userId} />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/edit/:clothingIds"
+          path="new/:clothingType"
           element={
             <ProtectedRoute>
-              {/* <NewClothingArticle userId={userId} /> */}
+              <UploadClothingArticle userId={userId} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/:clothingType/:newArticle/:clothingIds"
+          element={
+            <ProtectedRoute>
               <EditClothingArticle userId={userId} />
             </ProtectedRoute>
           }
