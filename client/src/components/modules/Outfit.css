@@ -1,6 +1,6 @@
 .outfit-container {
   position: relative;
-
+  height: 50vh;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -13,49 +13,48 @@
 }
 
 .top-image {
-  width: 30%; /* Set the maximum width for the top image */
-  transform: translate(10%, -70%);
+  position: absolute;
+  width: 30%;
+  bottom: 30vh;
   z-index: 1;
-  /* transition: transform 0.2s; */
 }
 
-/* .top-image:hover {
-  transform: scale(1.1);
-  transform-origin: right;
-} */
-
 .accessory-image {
+  position: absolute;
+  bottom: 43vh;
+  right: 9vw;
   width: 15%;
   z-index: 4;
-  transform: translate(25%, 10%);
 }
 
 .one-piece-image {
+  position: absolute;
+  bottom: 20vh;
   width: 35%;
   z-index: 2;
-  transform: translate(15%, -50%);
 }
 
 .bottom-image {
+  position: absolute;
+  bottom: 0vh;
   width: 25%;
   z-index: 2;
-  transform: translate(25%, -50%);
 }
 
 .outerwear-image {
+  position: absolute;
+  bottom: 35vh;
+  left: 7vw;
   width: 35%;
-  transform: translate(-35%, 0%);
 }
 
 .shoes-image {
+  position: absolute;
   width: 30%;
-  transform: translate(-35%, -250%);
+  bottom: 3vh;
+  left: 7vw;
   z-index: 3;
 }
-
-/* .bottom-image:hover {
-  transform: scale(1.1);
-} */
 
 .outfitButtonContainer {
   position: absolute;
