@@ -27,7 +27,7 @@ const ClosetIcon = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         /> */}
-        <div className="closet-container">
+        <div className="closetIcon-container">
           <img src={closetClosed} alt="Closet Closed" className="closet-svg closet-closed" />
           <img src={closetOpen} alt="Closet Open" className="closet-svg closet-open" />
         </div>

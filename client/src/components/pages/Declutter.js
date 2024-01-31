@@ -5,6 +5,7 @@ import "./Declutter.css";
 import BackButton from "../modules/BackButton.js";
 import ClothingCard from "../modules/ClothingCard.js";
 import infoButton from "../../../assets/info.svg";
+import NewClothingCard from "../modules/NewClothingCard.js";
 
 const Declutter = (props) => {
   // source: https://theroundup.org/textile-waste-statistics/
@@ -50,9 +51,10 @@ const Declutter = (props) => {
       ) : (
         <div>
           <BackButton redirect="closet" />
-          <h1 className="declutter-text u-textCenter">declutter</h1>
-          {/* <p>{props.declutterClothes[0].name}</p> */}
-          <div className="closetContents">
+          <h1 id="declutter-h1" className="declutter-text u-textCenter">
+            declutter
+          </h1>
+          <div className="declutterContents">
             {props.declutterClothes.length > 0 ? (
               props.declutterClothes.map((c, idx) => (
                 <ClothingCard

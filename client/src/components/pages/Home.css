@@ -21,9 +21,12 @@
 }
 
 .floor {
+  background-image: url("../../../assets/floor.svg");
+  background-size: cover;
+  background-position: center;
   position: fixed;
   z-index: -5;
-  width: 100%;
-  height: auto;
+  width: 100vw;
+  height: 30vh;
   bottom: 0px;
 }

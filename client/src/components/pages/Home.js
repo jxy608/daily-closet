@@ -92,9 +92,7 @@ const Home = ({ userId, handleLogout }) => {
           />
         </div>
       </div>
-      <div>
-        <img className="floor" src={floor} />
-      </div>
+      <img className="floor" src={floor} />
       <div className="settings-button">
         <Link to={`/settings/`}>
           <img src={settingsButton} />

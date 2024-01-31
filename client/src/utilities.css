@@ -16,7 +16,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap");
 
-
 :root {
   --primary: #d0ad9a;
   --primary--dim: #c69b84;
@@ -47,7 +46,8 @@ body {
 
 h1 {
   /* should play w this value */
-  margin-top: 100px;
+  margin-top: 10vh;
+  /* margin-top: 100px; */
   font-size: 4em;
 }
 
