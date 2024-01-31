@@ -269,11 +269,15 @@ const Closet = (props) => {
           />
         ))}
       </div>
-      <div className="declutter-button">
-        <Link to={`/declutter/`}>
-          <img src={declutterButton} />
-        </Link>
-      </div>
+      {props.declutterClothes.length > 0 ? (
+        <div className="declutter-button">
+          <Link to={`/declutter/`}>
+            <img src={declutterButton} />
+          </Link>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

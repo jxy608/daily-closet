@@ -291,6 +291,18 @@ router.post("/updateWears", (req, res) => {
   });
 });
 
+router.get("/declutterClothes", (req, res) => {
+  ClothingArticle.find({ userId: req.query.userId, times_rejected: { $gte: 10 } })
+    .then((clothes) => {
+      console.log("declutter clothes", clothes);
+      res.send(clothes);
+    })
+    .catch((err) => {
+      console.error("Error fetching declutter clothes:", err);
+      res.status(500).send({ error: "Internal Server Error" });
+    });
+});
+
 router.post("/updateRejections", (req, res) => {
   const idList = req.body.ids.map((articleId) => ObjectId(articleId));
 

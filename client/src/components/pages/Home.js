@@ -77,7 +77,11 @@ const Home = ({ userId, handleLogout }) => {
           <ClosetIcon />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Outfit weatherData={weatherData} onButtonClick={handleOutfitButtonClick} tempSetting={units} />
+          <Outfit
+            weatherData={weatherData}
+            onButtonClick={handleOutfitButtonClick}
+            tempSetting={units}
+          />
         </div>
         <div className="Home-subContainer u-textCenter">
           <Weather weatherData={weatherData} />

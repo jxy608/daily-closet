@@ -10,10 +10,10 @@ const Declutter = (props) => {
   // source: https://theroundup.org/textile-waste-statistics/
   const textLines = [
     "the fashion industry produces up to 100 billion garments every year, 92 million tons of which end up in landfills",
-    // "compared to 15 years ago, we buy 60% more clothing, but we only wear each piece half as much before discarding it",
-    // "here are some clothing articles that you don't seem to be wearing often",
-    // "consider donating or selling these clothes instead of throwing them out in order to declutter your closet, help combat fashion waste, and help your clothes find a happy home",
-    // "and if you're looking to add to your wardrobe, consider shopping second-hand :)",
+    "compared to 15 years ago, we buy 60% more clothing, but we only wear each piece half as much before discarding it",
+    "here are some clothing articles that you don't seem to be wearing often",
+    "consider donating or selling these clothes instead of throwing them out in order to declutter your closet, help combat fashion waste, and help your clothes find a happy home",
+    "and if you're looking to add to your wardrobe, consider shopping second-hand :)",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,15 +21,22 @@ const Declutter = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
-      if (currentIndex + 1 === textLines.length) {
-        setBgColor("none");
+      if (currentIndex + 1 <= textLines.length) {
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+        if (currentIndex + 1 === textLines.length) {
+          setBgColor("none");
+        }
+        console.log("index", currentIndex);
       }
-      console.log("index", currentIndex);
     }, 4000); // Change text every 5 seconds
 
     return () => clearInterval(interval);
   }, [currentIndex, textLines.length]);
+
+  const testFunc = () => {
+    setCurrentIndex(textLines.length);
+    setBgColor("none");
+  };
 
   return (
     <div className={`main-container ${bgColor}`}>
@@ -38,14 +45,16 @@ const Declutter = (props) => {
           <h2 key={currentIndex} className="u-textCenter">
             {textLines[currentIndex]}
           </h2>
+          <button onClick={testFunc}>button</button>
         </div>
       ) : (
         <div>
           <BackButton redirect="closet" />
           <h1 className="declutter-text u-textCenter">declutter</h1>
+          {/* <p>{props.declutterClothes[0].name}</p> */}
           <div className="closetContents">
-            {props.clothes.length > 0 ? (
-              props.clothes.map((c, idx) => (
+            {props.declutterClothes.length > 0 ? (
+              props.declutterClothes.map((c, idx) => (
                 <ClothingCard
                   id={c._id}
                   image={c.image}

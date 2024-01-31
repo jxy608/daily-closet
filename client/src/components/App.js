@@ -28,6 +28,7 @@ import { get, post } from "../utilities";
 const App = () => {
   const [userId, setUserId] = useState(undefined);
   const { dispatch } = useAuth();
+  const [declutterClothes, setDeclutterClothes] = useState([]);
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
@@ -38,6 +39,14 @@ const App = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    console.log(userId);
+    get("/api/declutterClothes", { userId: userId }).then((data) => {
+      console.log(data);
+      setDeclutterClothes(data);
+    });
+  }, [userId]);
 
   const handleLogin = (credentialResponse) => {
     const userToken = credentialResponse.credential;
@@ -89,7 +98,7 @@ const App = () => {
           path="closet"
           element={
             <ProtectedRoute>
-              <Closet userId={userId} />
+              <Closet userId={userId} declutterClothes={declutterClothes} />
             </ProtectedRoute>
           }
         />
@@ -123,7 +132,7 @@ const App = () => {
           path="declutter"
           element={
             <ProtectedRoute>
-              <Declutter userId={userId} />
+              <Declutter userId={userId} declutterClothes={declutterClothes} />
             </ProtectedRoute>
           }
         />
