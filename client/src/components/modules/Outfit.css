@@ -32,6 +32,15 @@
   transform: scale(1.1);
 } */
 
+.outfitButtonContainer {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+
 .outfitButton {
   margin: 20px;
   margin-top: 50px;

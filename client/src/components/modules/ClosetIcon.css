@@ -7,3 +7,12 @@
   /* Add any specific styles for your h2 here */
   color: inherit; /* This ensures the h2 uses the parent's text color */
 }
+
+.closet-icon {
+  margin-top: 10vh;
+  width: 120%;
+  height: auto;
+  background-image: url("../../../assets/closet-closed.png");
+  background-size: contain;
+  transition: background-image 0.3s;
+}

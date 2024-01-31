@@ -8,7 +8,7 @@
 */
 
 const express = require("express");
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
 // import models so we can interact with the database
 const User = require("./models/user");
@@ -62,7 +62,6 @@ router.get("/clothes", (req, res) => {
       break;
   }
   const query = { userId: req.query.userId, type: typeString };
-  console.log(query);
   ClothingArticle.find(query).then((clothes) => res.send(clothes));
 
   // ClothingArticle.find({}).then((clothes) => res.send(clothes));
@@ -74,7 +73,7 @@ router.get("/clothingarticle/:id", async (req, res) => {
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   const objectId = new ObjectId(articleId);
@@ -85,22 +84,22 @@ router.get("/clothingarticle/:id", async (req, res) => {
     if (foundArticle) {
       res.send(foundArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error finding clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error finding clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Express route to update a clothing article by ID
-router.post('/clothingarticle/:id', async (req, res) => {
+router.post("/clothingarticle/:id", async (req, res) => {
   const articleId = req.params.id;
   const editedProperties = req.body.editedProperties;
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   // Convert the string ID to an ObjectId
@@ -116,11 +115,11 @@ router.post('/clothingarticle/:id', async (req, res) => {
     if (updatedArticle) {
       res.send(updatedArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error updating clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error updating clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -135,11 +134,9 @@ function getClothingItem(array) {
 router.get("/outfit", async (req, res) => {
   const high = req.query.high;
   const low = req.query.low;
-  console.log(high);
-  console.log(low);
 
   try {
-    const tops = await ClothingArticle.find({
+    let tops = await ClothingArticle.find({
       userId: req.query.userId,
       type: "top",
       max_temp: {
@@ -149,7 +146,8 @@ router.get("/outfit", async (req, res) => {
         $lte: low,
       },
     });
-    const bottoms = await ClothingArticle.find({
+
+    let bottoms = await ClothingArticle.find({
       userId: req.query.userId,
       type: "bottom",
       max_temp: {
@@ -160,25 +158,25 @@ router.get("/outfit", async (req, res) => {
       },
     });
 
-    let randomTop = {
-      image:
-        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
-    };
-    let randomBottom = {
-      image:
-        "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
-    };
-    console.log(tops.length);
-    console.log(bottoms.length);
-    console.log(tops && bottoms);
+    tops = tops.filter((top) => top.current_wears < top.max_wears);
+    bottoms = bottoms.filter((bottom) => bottom.current_wears < bottom.max_wears);
+
+    // // clowns
+    // let randomTop = {
+    //   image:
+    //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    // };
+    // let randomBottom = {
+    //   image:
+    //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",
+    // };
     if (tops.length != 0 && bottoms.length != 0) {
       randomTop = getClothingItem(tops);
       randomBottom = getClothingItem(bottoms);
+      res.send({ top: randomTop, bottom: randomBottom });
+    } else {
+      res.send({});
     }
-
-    console.log("outfit is", randomTop, randomBottom);
-
-    res.send({ top: randomTop.image, bottom: randomBottom.image });
   } catch (error) {
     console.error("Error fetching outfit from server:", error);
     res.status(500).send({ error: "Internal Server Error" });
@@ -186,12 +184,6 @@ router.get("/outfit", async (req, res) => {
 });
 
 router.post("/clothingarticle", (req, res) => {
-  // TODO: add router post method for adding new clothing articles
-  // No idea if i did this right lol
-  // console.log(`Received a chat message from ${req.user.name}: ${req.body.content}`);
-  console.log(`New clothing article added, named ${req.body.name}`);
-  console.log(req.body.userId);
-
   // insert this clothing article into the database
   const clothingarticle = new ClothingArticle({
     userId: req.body.userId,
@@ -203,14 +195,14 @@ router.post("/clothingarticle", (req, res) => {
     // tags: req.body.tags,
     min_temp: req.body.min_temp,
     max_temp: req.body.max_temp,
+    current_wears: req.body.current_wears,
+    times_rejected: req.body.times_rejected,
   });
   clothingarticle.save();
   res.send(clothingarticle._id);
 });
 
 router.post("/user", (req, res) => {
-  console.log(`updating user settings of user ${req.body._id}`);
-
   const query = { _id: ObjectId(req.body._id) };
   const { _id, ...newUser } = req.body;
 
@@ -225,17 +217,15 @@ router.post("/user", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  const query = { _id: ObjectId(req.query.userId) };
-  User.find(query).then((user) => res.send(user));
+  if (req.query.userId !== "null") {
+    const query = { _id: ObjectId(req.query.userId) };
+    User.find(query).then((user) => res.send(user));
+  }
 });
 
 router.get("/weather", (req, res) => {
-  console.log("getting weather");
   const zipCode = req.query.zipCode;
   const units = req.query.units;
-  console.log(
-    `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
-  );
   fetch(
     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
   )
@@ -257,16 +247,127 @@ router.get("/weather", (req, res) => {
     });
 });
 
-router.get("/user", (req, res) => {
-  console.log("getting user");
-  console.log(req.session);
-  console.log(req.session.user);
-  console.log(req.user);
-  console.log("req id???");
-  console.log(req.user._id);
-  const query = { _id: ObjectId(req.user._id) };
-  console.log(query);
-  User.find(query).then((user) => res.send(user));
+router.get("/laundryClothes", (req, res) => {
+  ClothingArticle.aggregate([
+    { $match: { userId: req.query.userId } },
+    { $addFields: { isLaundryNeeded: { $gte: ["$current_wears", "$max_wears"] } } },
+    { $match: { isLaundryNeeded: true } },
+  ])
+    .then((clothes) => {
+      res.send(clothes);
+    })
+    .catch((err) => {
+      console.error("Error fetching clothes for laundry:", err);
+      res.status(500).send(err);
+    });
+});
+
+router.post("/updateWears", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  const updateValue = req.body.updateValue;
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { $inc: { current_wears: updateValue } },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
+router.post("/updateRejections", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  const updateValue = req.body.updateValue;
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { $inc: { times_rejected: updateValue } },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
+router.post("/resetRejections", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { times_rejected: 0 },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
+router.post("/washLaundry", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { current_wears: 0 },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
 });
 
 // anything else falls to this "not found" case

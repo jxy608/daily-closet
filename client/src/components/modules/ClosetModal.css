@@ -80,12 +80,3 @@
 .linkContainer {
   padding-bottom: 1vw;
 }
-
-.link {
-  text-decoration: underline;
-  color: theme("colors.neon-green");
-}
-
-.link:hover {
-  color: theme("colors.light-neon-green");
-}
