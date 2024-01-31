@@ -212,6 +212,7 @@ const NewClothingArticle = (props) => {
       ...clothingInput,
       userId: props.userId,
       current_wears: 0,
+      times_rejected: 0,
     };
     // const body = { name: value };
     console.log("posting new clothing article", body);

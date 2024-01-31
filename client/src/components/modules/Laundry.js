@@ -36,7 +36,6 @@ const Laundry = (props) => {
     if (user) {
       console.log("laundry user: ", user);
       get("/api/laundryClothes", { userId: user[0]._id }).then((data) => {
-        console.log(data);
         setLaundryList(data);
       });
     }
@@ -45,7 +44,7 @@ const Laundry = (props) => {
   useEffect(() => {
     const numClothesInLaundry = laundryList.length;
     // TODO: don't hard code in the capacity! replace 20 w a user-defined val later
-    const percentage = numClothesInLaundry / 20;
+    const percentage = numClothesInLaundry / 10;
     console.log("percentage full: ", percentage);
     if (percentage <= 0) {
       setLaundryStatus(laundry0);

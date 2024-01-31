@@ -8,7 +8,7 @@
 */
 
 const express = require("express");
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
 // import models so we can interact with the database
 const User = require("./models/user");
@@ -73,7 +73,7 @@ router.get("/clothingarticle/:id", async (req, res) => {
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   const objectId = new ObjectId(articleId);
@@ -84,22 +84,22 @@ router.get("/clothingarticle/:id", async (req, res) => {
     if (foundArticle) {
       res.send(foundArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error finding clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error finding clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Express route to update a clothing article by ID
-router.post('/clothingarticle/:id', async (req, res) => {
+router.post("/clothingarticle/:id", async (req, res) => {
   const articleId = req.params.id;
   const editedProperties = req.body.editedProperties;
 
   // Check if the provided ID is a valid ObjectId
   if (!ObjectId.isValid(articleId)) {
-    return res.status(400).json({ error: 'Invalid article ID' });
+    return res.status(400).json({ error: "Invalid article ID" });
   }
 
   // Convert the string ID to an ObjectId
@@ -115,11 +115,11 @@ router.post('/clothingarticle/:id', async (req, res) => {
     if (updatedArticle) {
       res.send(updatedArticle);
     } else {
-      res.status(404).json({ error: 'Article not found' });
+      res.status(404).json({ error: "Article not found" });
     }
   } catch (error) {
-    console.error('Error updating clothing article:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error updating clothing article:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -170,7 +170,7 @@ router.get("/outfit", async (req, res) => {
       randomBottom = getClothingItem(bottoms);
     }
 
-    res.send({ top: randomTop.image, bottom: randomBottom.image });
+    res.send({ top: randomTop, bottom: randomBottom });
   } catch (error) {
     console.error("Error fetching outfit from server:", error);
     res.status(500).send({ error: "Internal Server Error" });
@@ -189,6 +189,8 @@ router.post("/clothingarticle", (req, res) => {
     // tags: req.body.tags,
     min_temp: req.body.min_temp,
     max_temp: req.body.max_temp,
+    current_wears: req.body.current_wears,
+    times_rejected: req.body.times_rejected,
   });
   clothingarticle.save();
   res.send(clothingarticle._id);
@@ -209,8 +211,10 @@ router.post("/user", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  const query = { _id: ObjectId(req.query.userId) };
-  User.find(query).then((user) => res.send(user));
+  if (req.query.userId !== "null") {
+    const query = { _id: ObjectId(req.query.userId) };
+    User.find(query).then((user) => res.send(user));
+  }
 });
 
 router.get("/weather", (req, res) => {
@@ -238,22 +242,46 @@ router.get("/weather", (req, res) => {
 });
 
 router.get("/laundryClothes", (req, res) => {
-  console.log("getting laundry clothes");
-  // console.log({ userId: req.query.userId, current_wears: { $gte: `$max_wears` } });
-
   ClothingArticle.aggregate([
     { $match: { userId: req.query.userId } },
     { $addFields: { isLaundryNeeded: { $gte: ["$current_wears", "$max_wears"] } } },
     { $match: { isLaundryNeeded: true } },
   ])
     .then((clothes) => {
-      console.log(clothes);
       res.send(clothes);
     })
     .catch((err) => {
       console.error("Error fetching clothes for laundry:", err);
       res.status(500).send(err);
     });
+});
+
+router.post("/updateWears", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  const updateValue = req.body.updateValue;
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { $inc: { current_wears: updateValue } },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
 });
 
 // anything else falls to this "not found" case

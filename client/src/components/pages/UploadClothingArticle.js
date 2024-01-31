@@ -21,6 +21,7 @@ const UploadClothingArticle = (props) => {
     min_temp: NaN,
     max_temp: NaN,
     current_wears: 0,
+    times_rejected: 0,
   };
 
   const defaultImage = {
@@ -85,6 +86,7 @@ const UploadClothingArticle = (props) => {
           const savedArticle = await post("/api/clothingarticle", {
             ...clothingInput,
             current_wears: 0,
+            times_rejected: 0,
           });
 
           return savedArticle; // Capture the ID of the saved article
@@ -113,7 +115,13 @@ const UploadClothingArticle = (props) => {
         <BackButton redirect="closet" />
         <h1 className="u-textCenter">Add new clothing articles</h1>
         <div className="u-flex">
-          <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
+          <input
+            name="images"
+            type="file"
+            id="upload-button"
+            onChange={handleImageChange}
+            multiple
+          />
 
           <label htmlFor="upload-button">
             {images.map((image, index) => (
@@ -139,11 +147,8 @@ const UploadClothingArticle = (props) => {
     );
   } else {
     // Render something else or nothing if clothingIds is empty
-    return (
-      <div>
-        {/* <EditClothingArticle clothingIds={clothingIds} /> */}
-      </div>
-    );
-  }};
+    return <div>{/* <EditClothingArticle clothingIds={clothingIds} /> */}</div>;
+  }
+};
 
 export default UploadClothingArticle;

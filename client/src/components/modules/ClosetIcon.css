@@ -9,13 +9,10 @@
 }
 
 .closet-icon {
-  width: 100%; /* Adjust as needed */
-  height: 100%; /* Adjust as needed */
-  background-image: url("../../../assets/closet-closed.png"); /* Path to your closetClosed image */
-  background-size: contain; /* Or 'contain' based on your requirement */
-  /* transition: background-image 0.3s; Smooth transition for hover effect */
-}
-
-.closet-icon:hover .closet-icon {
-  background-image: url("../../../assets/closet-open.png"); /* Path to your closetOpen image */
+  margin-top: 10vh;
+  width: 120%;
+  height: auto;
+  background-image: url("../../../assets/closet-closed.png");
+  background-size: contain;
+  transition: background-image 0.3s;
 }

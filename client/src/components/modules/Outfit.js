@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 
 import "./Outfit.css";
 import "../../utilities.css";
@@ -10,6 +10,7 @@ import heartIcon from "../../../assets/heart.svg";
 
 const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
+  // TODO: HOW TO MAINTAIN OUTFIT SELECTED STATE?
   const [outfitSelected, setOutfitSelected] = useState(false);
   const { userId } = useAuth();
 
@@ -26,9 +27,6 @@ const Outfit = (props) => {
       console.log("Outfit loaded from local storage:", storedOutfit);
     } else {
       if (props.weatherData) {
-        console.log("weather data found");
-        // console.log(props.weatherData.daily[0].temp.max);
-        // console.log(props.weatherData.daily[0].weather[0].temperature);
         // Fetch a new outfit if not found in local storage
         get("/api/outfit", {
           userId: userId,
@@ -80,36 +78,50 @@ const Outfit = (props) => {
   };
 
   const handleAccept = () => {
-    // TODO: INCREMENT CURRENT WEARS OF OUTFIT
+    // TODO: HAVE SOME INDICATION OF WHEN TO PUT CLOTHES IN THE LAUNDRY
     setOutfitSelected(!outfitSelected);
+
+    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    post("/api/updateWears", { ids: outfitIds, updateValue: 1 });
   };
 
   const handleUnselect = () => {
     // TODO: DECREMENT CURRENT WEARS OF OUTFIT
     setOutfitSelected(!outfitSelected);
+
+    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    post("/api/updateWears", { ids: outfitIds, updateValue: -1 });
   };
 
   // Your component rendering logic goes here
   return (
     <div>
       <h2>outfit</h2>
-      <div
-        className={outfitSelected ? "outfit-container greyed-out shrink-image" : "outfit-container"}
-      >
-        <img src={outfit["top"]} alt="Top" className="top-image" />
-        <img src={outfit["bottom"]} alt="Bottom" className="bottom-image" />
-      </div>
-      {outfitSelected && (
-        <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />
+      {outfit["top"] && outfit["bottom"] ? (
+        <div>
+          <div
+            className={
+              outfitSelected ? "outfit-container greyed-out shrink-image" : "outfit-container"
+            }
+          >
+            <img src={outfit["top"].image} alt="Top" className="top-image" />
+            <img src={outfit["bottom"].image} alt="Bottom" className="bottom-image" />
+          </div>
+          {outfitSelected && (
+            <img src={heartIcon} onClick={handleUnselect} className="heart-icon" alt="Heart" />
+          )}
+          <div>
+            {!outfitSelected && (
+              <img className="outfitButton" onClick={handleReject} src={rejectButton} />
+            )}
+            {!outfitSelected && (
+              <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
       )}
-      <div>
-        {!outfitSelected && (
-          <img className="outfitButton" onClick={handleReject} src={rejectButton} />
-        )}
-        {!outfitSelected && (
-          <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
-        )}
-      </div>
     </div>
   );
 };
