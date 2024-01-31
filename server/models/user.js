@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   googleid: String,
   zipCode: String,
   tempSetting: String,
-  isNew: Boolean,
+  isNewUser: Boolean,
   // birthday: String,
 });
 

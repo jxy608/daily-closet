@@ -14,13 +14,13 @@
 * much after initial creation.
 */
 
-/* TODO: REPLACE WITH YOUR OWN FONT! */
-/* @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap");
+
 
 :root {
   --primary: #d0ad9a;
   --primary--dim: #c69b84;
+  --primary--light: #e3cebc;
   --secondary: #c59571;
   --tertiary: #76523a;
   --tertiary--light: #a0806b;
@@ -105,4 +105,112 @@ form {
 
 .u-link:hover {
   color: var(--primary--dim);
+}
+
+.u-button {
+  background-color: #c69b84;
+  color: white;
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--m);
+  border-style: none;
+  box-shadow: inset 4px 4px 4px rgba(118, 82, 58, 0.13);
+  border-radius: 10px;
+  width: 8vw;
+  height: 5vh;
+  margin: 1vh;
+  margin-top: 3vh;
+  cursor: pointer;
+}
+
+.u-button:hover {
+  background-color: var(--tertiary--light);
+  color: white;
+}
+
+input {
+  background-color: #c69b84;
+  color: white;
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--m);
+  border-style: none;
+  box-shadow: inset 4px 4px 4px rgba(118, 82, 58, 0.13);
+  border-radius: 10px;
+  width: 40vw;
+  height: 5vh;
+  margin: 1vh;
+  padding-left: 1%;
+  outline: 1px white;
+}
+
+.input-label {
+  position: relative;
+  left: 0.5%;
+  color: white;
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--l);
+  margin-top: 2%;
+}
+
+input::placeholder {
+  color: var(--primary--light);
+  font-style: italic;
+}
+
+select {
+  background-color: #c69b84;
+  color: white;
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--m);
+  border-style: none;
+  box-shadow: inset 4px 4px 4px rgba(118, 82, 58, 0.13);
+  border-radius: 10px;
+  width: 40vw;
+  height: 5vh;
+  margin: 1vh;
+  padding-left: 1%;
+  -webkit-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.file-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  height: 10vh;
+  margin: 1vh auto; /* Center horizontally */
+  width: 20vw;
+}
+
+/* file upload button */
+input[type="file"]::file-selector-button {
+  background-color: white;
+  color: var(--tertiary--light);
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--m);
+  border-style: none;
+  box-shadow: inset 4px 4px 4px rgba(118, 82, 58, 0.13);
+  border-radius: 10px;
+  width: 8vw;
+  height: 5vh;
+  margin: 1vh;
+  margin-top: 3vh;
+  cursor: pointer;
+}
+
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
 }

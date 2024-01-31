@@ -24,13 +24,13 @@ function getOrCreateUser(user) {
     if (existingUser) {
       console.log("before", existingUser);
       const setExistingUser = async (existingUser) => {
-        existingUser.isNew = false;
+        existingUser.isNewUser = false;
         existingUser = await existingUser.save();
         console.log("after", existingUser);
         return existingUser;
       };
-      // // If the user already exists, update the isNew field to false
-      // existingUser.isNew = false;
+      // // If the user already exists, update the isNewUser field to false
+      // existingUser.isNewUser = false;
       // return existingUser.save();
       return setExistingUser(existingUser);
     }
@@ -41,7 +41,7 @@ function getOrCreateUser(user) {
       googleid: user.sub,
       zipCode: "02139",
       tempSetting: "imperial",
-      isNew: true,
+      isNewUser: true,
     });
 
     return newUser.save();
