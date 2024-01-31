@@ -332,13 +332,11 @@ router.get("/user", (req, res) => {
 router.get("/weather", (req, res) => {
   const zipCode = req.query.zipCode;
   const units = req.query.units;
-  console.log("fetching weather");
   fetch(
     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},${countryCode}&appid=${openWeatherKey}`
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       const lat = data.lat;
       const lon = data.lon;
       // Fetch weather data using coordinates
@@ -348,7 +346,6 @@ router.get("/weather", (req, res) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       res.send(data);
     })
     .catch((error) => {
@@ -402,7 +399,6 @@ router.post("/updateWears", (req, res) => {
 router.get("/declutterClothes", (req, res) => {
   ClothingArticle.find({ userId: req.query.userId, times_rejected: { $gte: 10 } })
     .then((clothes) => {
-      console.log("declutter clothes", clothes);
       res.send(clothes);
     })
     .catch((err) => {

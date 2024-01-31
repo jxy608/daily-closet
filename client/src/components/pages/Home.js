@@ -63,7 +63,6 @@ const Home = ({ userId, handleLogout }) => {
     if (zipCode && units) {
       // Fetch coordinates based on zip
       get("/api/weather", { zipCode: zipCode, units: units }).then((data) => {
-        console.log(data);
         setWeatherData(data);
       });
     }

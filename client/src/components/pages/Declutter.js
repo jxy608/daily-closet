@@ -28,7 +28,6 @@ const Declutter = (props) => {
         if (currentIndex + 1 === textLines.length) {
           setBgColor("none");
         }
-        console.log("index", currentIndex);
       }
     }, 4000); // Change text every 5 seconds
 

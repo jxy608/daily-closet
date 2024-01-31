@@ -50,7 +50,6 @@ const EditClothingArticle = (props) => {
 
     try {
       const response = await get(`/api/clothingarticle/${currentId}`);
-      console.log("fetched clothing item", response);
       setClothingInput(response);
 
       if (clothingInput.name === "") {
@@ -77,7 +76,6 @@ const EditClothingArticle = (props) => {
     }
     setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length - 1));
     loadClothingArticle();
-    console.log("clothing ids", clothingIds);
   }, [clothingIds]);
 
   // const isDefault = (input) => {
@@ -154,7 +152,6 @@ const EditClothingArticle = (props) => {
       const response = await post(`/api/clothingarticle/${currentId}`, {
         editedProperties,
       });
-      console.log("saved edits", response);
     } catch (error) {
       console.log("trouble saving edits");
     }
@@ -167,7 +164,6 @@ const EditClothingArticle = (props) => {
 
   const handleSubmit = () => {
     saveEdits();
-    console.log("clothing input is of type", clothingInput.type);
     navigate(`/closet/${clothingType}`);
   };
 

@@ -25,7 +25,6 @@ const Outfit = (props) => {
     if (storedOutfit) {
       // Use the outfit data from local storage
       setOutfit(storedOutfit);
-      console.log("Outfit loaded from local storage:", storedOutfit);
     } else {
       if (props.weatherData) {
         let high = props.weatherData.daily[0].temp.max;
@@ -34,9 +33,6 @@ const Outfit = (props) => {
           high = (high * 9) / 5 + 32;
           low = (low * 9) / 5 + 32;
         }
-        console.log("weather data found", high, low);
-        // console.log(props.weatherData.daily[0].temp.max);
-        // console.log(props.weatherData.daily[0].weather[0].temperature);
         // Fetch a new outfit if not found in local storage
         get("/api/outfit", {
           userId: userId,
@@ -47,7 +43,6 @@ const Outfit = (props) => {
             setOutfit(clothes);
             // Store the outfit data in local storage
             localStorage.setItem(`outfit-${userId}-${currentDate}`, JSON.stringify(clothes));
-            console.log("Outfit has been changed!", clothes);
           })
           .catch((error) => {
             console.error("Error fetching available clothes:", error);

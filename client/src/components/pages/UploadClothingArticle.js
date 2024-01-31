@@ -8,7 +8,6 @@ import { post } from "../../utilities";
 // import EditClothingArticle from "./EditClothingArticle.js";
 import backButton from "../../../assets/back-button.svg";
 
-
 const UploadClothingArticle = (props) => {
   const navigate = useNavigate();
   const clothingParams = useParams();
@@ -60,7 +59,6 @@ const UploadClothingArticle = (props) => {
         const formData = new FormData();
         formData.append("userId", props.userId);
         formData.append("image", image.raw);
-        console.log("form data", formData);
 
         const response = await axios.post(`http://localhost:3000/upload`, formData, {
           headers: {
@@ -82,12 +80,9 @@ const UploadClothingArticle = (props) => {
 
       setClothingInputs(updatedClothingInputs);
 
-      console.log(updatedClothingInputs);
-
       // Save the clothing articles to the database and capture their IDs
       const savedClothingArticles = await Promise.all(
         updatedClothingInputs.map(async (clothingInput) => {
-          console.log("posting", clothingInput);
           const savedArticle = await post("/api/clothingarticle", {
             ...clothingInput,
             current_wears: 0,
@@ -98,8 +93,6 @@ const UploadClothingArticle = (props) => {
         })
       );
 
-      console.log("uploaded to database: ", savedClothingArticles);
-
       // Reset clothing input to default
       setClothingInputs([defaultClothingInput]);
       setImages([]);
@@ -108,7 +101,6 @@ const UploadClothingArticle = (props) => {
       // Navigate to EditClothingArticle page
       const editLink = `/edit/${clothingType}/true/${savedClothingArticles.join(",")}`;
       navigate(editLink);
-      console.log("navigated?", editLink);
     } catch (error) {
       console.error("Error submitting photos:", error);
     }

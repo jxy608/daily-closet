@@ -35,7 +35,6 @@ const Laundry = (props) => {
 
   useEffect(() => {
     if (user && props.triggerUpdate) {
-      console.log("laundry user: ", user);
       get("/api/laundryClothes", { userId: user[0]._id }).then((data) => {
         setLaundryList(data);
       });
@@ -47,7 +46,6 @@ const Laundry = (props) => {
 
   useEffect(() => {
     if (user) {
-      console.log("laundry user: ", user);
       get("/api/laundryClothes", { userId: user[0]._id }).then((data) => {
         setLaundryList(data);
       });
@@ -62,7 +60,6 @@ const Laundry = (props) => {
     }
     const percentage = numClothesInLaundry / capacity;
     setLaundryPercentage(percentage);
-    console.log("percentage full: ", percentage);
     if (percentage <= 0) {
       setLaundryStatus(laundry0);
     } else if (percentage <= 0.25) {

@@ -15,7 +15,6 @@ const SettingsInput = (props) => {
     tempSetting: "imperial", // Default value
     capacity: 20,
   });
-  console.log(settingsInput);
 
   useEffect(() => {
     if (user) {
@@ -120,8 +119,6 @@ const Settings = ({ handleLogout }) => {
       ...settingsInput,
     };
 
-    console.log("updating settings");
-    console.log(body);
     setUser([body]);
     post("/api/user", body);
   };

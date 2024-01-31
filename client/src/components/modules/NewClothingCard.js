@@ -8,7 +8,6 @@ import plusButton from "../../../assets/plus-button.svg";
 
 const NewClothingCard = (props) => {
   const title = props.title;
-  console.log("title", title);
   let type = title;
   switch (title) {
     case "tops":

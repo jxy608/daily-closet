@@ -21,7 +21,6 @@ const Weather = (props) => {
           return "sunny";
         }
       case "Clouds":
-        console.log(description);
         if (description == "few clouds") {
           if (getImage) {
             return sunny;
