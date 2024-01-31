@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
+import { useNavigate, useParams } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 
 import { post, get } from "../../utilities";
@@ -9,6 +10,9 @@ import "./Settings.css";
 const SettingsInput = (props) => {
   // GET request to database --> get current user settings based on props.userId
   const { user, setUser } = useUser();
+  const navigate = useNavigate();
+  const welcome_status = props.status;
+
   const [settingsInput, setSettingsInput] = useState({
     name: "",
     zipCode: "",
@@ -42,6 +46,12 @@ const SettingsInput = (props) => {
     event.preventDefault();
     props.onSubmit && props.onSubmit(settingsInput);
     setSettingsInput(user);
+
+    if (welcome_status == "welcome") {
+      navigate(`/new/welcome`);
+    } else {
+      navigate("/home");
+    }
   };
 
   return (
@@ -113,6 +123,7 @@ const SettingsInput = (props) => {
 
 const Settings = ({ handleLogout }) => {
   const { user, setUser } = useUser();
+  const welcome_status = useParams().status;
 
   const updateSettings = (settingsInput) => {
     const body = {
@@ -126,11 +137,16 @@ const Settings = ({ handleLogout }) => {
   return (
     <div>
       <div className="settings-header">
+      {welcome_status === "welcome" ? (
+        <></>
+      ) : (
         <BackButton redirect={"home"} />
+      )}
+        
         <h2>account settings</h2>
       </div>
       <div className="settingsContainer">
-        <SettingsInput onSubmit={updateSettings} />
+        <SettingsInput onSubmit={updateSettings} status={welcome_status} />
         <button
           className="Logout-button"
           onClick={() => {

@@ -54,6 +54,7 @@ h1 {
 h2 {
   /* should play w this value */
   font-size: 2em;
+  color: var(--tertiary--light);
 }
 
 form {
@@ -135,9 +136,9 @@ input {
   font-weight: 300;
   font-size: var(--m);
   border-style: none;
-  box-shadow: inset 4px 4px 4px rgba(118, 82, 58, 0.13);
+  box-shadow: iset 4px 4px 4px rgba(118, 82, 58, 0.13);
   border-radius: 10px;
-  width: 40vw;
+  width: 30vw;
   height: 5vh;
   margin: 1vh;
   padding-left: 3%;

@@ -310,9 +310,15 @@ router.post("/clothingarticle", (req, res) => {
 
 router.post("/user", (req, res) => {
   const query = { _id: ObjectId(req.body._id) };
-  const { _id, ...newUser } = req.body;
+  const { _id, isNewUser, ...userData } = req.body;
 
-  User.findOneAndUpdate(query, newUser, { new: true })
+  // Set isNewUser to false
+  const updatedUserData = {
+    ...userData,
+    isNewUser: false,
+  };
+
+  User.findOneAndUpdate(query, updatedUserData, { new: true })
     .then((updatedUser) => {
       res.send(updatedUser);
     })

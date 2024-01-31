@@ -17,7 +17,10 @@ const EditClothingArticle = (props) => {
 
   const clothingParams = useParams();
   const [clothingIds, setClothingIds] = useState(clothingParams.clothingIds.split(","));
-  const clothingType = clothingParams.clothingType;
+  let clothingType = clothingParams.clothingType;
+  if (clothingType == "welcome") {
+    clothingType = "top";
+  }
   const newArticle = clothingParams.newArticle;
   const [index, setIndex] = useState(0);
   const [imperial, setImperial] = useState(true);
@@ -72,7 +75,7 @@ const EditClothingArticle = (props) => {
 
   useEffect(() => {
     if (clothingIds.length == 0) {
-      navigate(`/closet/${clothingType}`);
+      navigate(`/new/${clothingParams.clothingType}`);
     }
     setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length - 1));
     loadClothingArticle();
@@ -164,7 +167,11 @@ const EditClothingArticle = (props) => {
 
   const handleSubmit = () => {
     saveEdits();
-    navigate(`/closet/${clothingType}`);
+    if (clothingParams.clothingType == "welcome") {
+      navigate(`/home`);
+    } else {
+      navigate(`/closet/${clothingType}`);
+    }
   };
 
   const handleBack = () => {
@@ -180,7 +187,11 @@ const EditClothingArticle = (props) => {
       if (clothingIds.length > 1 || newArticle == "true") {
         post(`/api/del/${clothingIds.join(",")}`);
       }
-      navigate(`/closet/${clothingType}`);
+      if (clothingParams.clothingType == "welcome") {
+        navigate(`/new/welcome`);
+      } else {
+        navigate(`/closet/${clothingType}`);
+      }
     }
   };
 
