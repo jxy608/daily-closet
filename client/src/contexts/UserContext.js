@@ -14,8 +14,6 @@ export const UserProvider = ({ children }) => {
     get("/api/user", { userId: userId })
       .then((userData) => {
         setUser(userData);
-        console.log("setting user context");
-        console.log("userData from mongo", userData);
       })
       .catch((error) => {
         console.error("Failed to fetch user data: ", error);

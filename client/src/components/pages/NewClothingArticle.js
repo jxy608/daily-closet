@@ -82,12 +82,9 @@ const NewClothingArticleInput = (props) => {
 
   const submitPhoto = async () => {
     try {
-      console.log("image data: ", image.raw);
-
       let formData = new FormData();
       formData.append("userId", props.userId);
       formData.append("image", image.raw);
-      console.log("form data: ", Array.from(formData.entries()));
 
       const response = await axios.post(`http://localhost:3000/upload`, formData, {
         headers: {
@@ -96,7 +93,6 @@ const NewClothingArticleInput = (props) => {
       });
 
       // Use the data from the response
-      console.log(response.data[0]);
       clothingInput.image = response.data[0];
 
       setImage({
@@ -215,7 +211,6 @@ const NewClothingArticle = (props) => {
       times_rejected: 0,
     };
     // const body = { name: value };
-    console.log("posting new clothing article", body);
     post("/api/clothingarticle", body);
   };
 

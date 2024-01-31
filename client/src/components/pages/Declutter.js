@@ -28,7 +28,6 @@ const Declutter = (props) => {
         if (currentIndex + 1 === textLines.length) {
           setBgColor("none");
         }
-        console.log("index", currentIndex);
       }
     }, 4000); // Change text every 5 seconds
 
@@ -43,7 +42,7 @@ const Declutter = (props) => {
   return (
     <div className={`main-container ${bgColor}`}>
       {currentIndex < textLines.length ? (
-        <div className="text-container">
+        <div className="declutterContainer">
           <h2 key={currentIndex} className="u-textCenter">
             {textLines[currentIndex]}
           </h2>
@@ -69,12 +68,12 @@ const Declutter = (props) => {
                 />
               ))
             ) : (
-              <></>
+              <div className="u-textCenter">No unworn clothes!</div>
             )}
           </div>
-          <Link to={`/declutter/`}>
+          <a href="https://theroundup.org/textile-waste-statistics/" target="_blank">
             <img className="info-button" src={infoButton} />
-          </Link>
+          </a>
         </div>
       )}
     </div>

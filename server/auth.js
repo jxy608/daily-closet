@@ -22,11 +22,9 @@ function getOrCreateUser(user) {
   // the "sub" field means "subject", which is a unique identifier for each user
   return User.findOne({ googleid: user.sub }).then((existingUser) => {
     if (existingUser) {
-      console.log("before", existingUser);
       const setExistingUser = async (existingUser) => {
         existingUser.isNewUser = false;
         existingUser = await existingUser.save();
-        console.log("after", existingUser);
         return existingUser;
       };
       // // If the user already exists, update the isNewUser field to false
