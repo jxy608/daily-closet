@@ -79,3 +79,10 @@
   width: 15px;
   height: 15px;
 }
+
+.skipButton {
+  position: absolute;
+  bottom: 10vh;
+  left: 46vw;
+  cursor: pointer;
+}

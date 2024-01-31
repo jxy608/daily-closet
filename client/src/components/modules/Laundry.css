@@ -1,5 +1,8 @@
 .laundryBasket {
-  width: 45%;
+  position: absolute;
+  width: 15vw;
   height: auto;
   cursor: pointer;
+  right: 9vw;
+  bottom: 10vh;
 }

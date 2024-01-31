@@ -2,6 +2,7 @@
   flex-grow: 1;
   flex-basis: 0;
   margin-bottom: -120px;
+  height: 70vh;
 }
 
 .Home-subContainer + .Home-subContainer {
@@ -29,4 +30,22 @@
   width: 100vw;
   height: 30vh;
   bottom: 0px;
+}
+
+.plant {
+  position: absolute;
+  z-index: 5;
+  width: 12vw;
+  height: auto;
+  left: 26vw;
+  bottom: 8vh;
+}
+
+.backpack {
+  position: absolute;
+  z-index: 5;
+  width: 6vw;
+  height: auto;
+  left: 33vw;
+  bottom: 5vh;
 }

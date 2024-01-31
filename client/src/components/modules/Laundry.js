@@ -56,8 +56,11 @@ const Laundry = (props) => {
 
   useEffect(() => {
     const numClothesInLaundry = laundryList.length;
-    // TODO: don't hard code in the capacity! replace 20 w a user-defined val later
-    const percentage = numClothesInLaundry / 10;
+    let capacity = 20;
+    if (user && user[0].capacity) {
+      capacity = user[0].capacity;
+    }
+    const percentage = numClothesInLaundry / capacity;
     setLaundryPercentage(percentage);
     console.log("percentage full: ", percentage);
     if (percentage <= 0) {
@@ -75,7 +78,7 @@ const Laundry = (props) => {
 
   return (
     <div>
-      <h3>laundry</h3>
+      {/* <h3>laundry</h3> */}
       <div>
         <div id="modal-overlay" className="modal-overlay"></div>
         <img className="laundryBasket" src={laundryStatus} onClick={openModal} />
@@ -84,7 +87,7 @@ const Laundry = (props) => {
           closeModal={closeModal}
           hidden={!modalOpen}
           laundryList={laundryList}
-          capacity={10}
+          capacity={user[0].capacity ? user[0].capacity : 20}
           onButtonClick={props.onButtonClick}
         />
       </div>

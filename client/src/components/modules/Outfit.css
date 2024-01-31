@@ -1,5 +1,6 @@
 .outfit-container {
   position: relative;
+  height: 50vh;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -7,30 +8,53 @@
 }
 
 .outfit-container img {
-  height: auto; /* Let the height adjust automatically */
+  height: auto;
   transition: filter 0.2s ease;
 }
 
 .top-image {
-  width: 30%; /* Set the maximum width for the top image */
-  transform: translate(-25%, 5%);
-  /* transition: transform 0.2s; */
+  position: absolute;
+  width: 30%;
+  bottom: 30vh;
+  z-index: 1;
 }
 
-/* .top-image:hover {
-  transform: scale(1.1);
-  transform-origin: right;
-} */
+.accessory-image {
+  position: absolute;
+  bottom: 43vh;
+  right: 9vw;
+  width: 15%;
+  z-index: 4;
+}
+
+.one-piece-image {
+  position: absolute;
+  bottom: 20vh;
+  width: 35%;
+  z-index: 2;
+}
 
 .bottom-image {
-  width: 25%; /* Set a slightly smaller maximum width for the bottom image */
-  z-index: 1;
-  transform: translate(25%, -5%);
+  position: absolute;
+  bottom: 0vh;
+  width: 25%;
+  z-index: 2;
 }
 
-/* .bottom-image:hover {
-  transform: scale(1.1);
-} */
+.outerwear-image {
+  position: absolute;
+  bottom: 35vh;
+  left: 7vw;
+  width: 35%;
+}
+
+.shoes-image {
+  position: absolute;
+  width: 30%;
+  bottom: 3vh;
+  left: 7vw;
+  z-index: 3;
+}
 
 .outfitButtonContainer {
   position: absolute;
@@ -84,4 +108,14 @@
   transition: transform 0.5s, opacity 0.5s;
   animation: like-heart-animation 0.5s ease forwards;
   cursor: pointer;
+}
+
+.refreshButton {
+  cursor: pointer;
+  transform: scale(0.4);
+  transition: transform 0.2s;
+}
+
+.refreshButton:hover {
+  transform: scale(0.6);
 }

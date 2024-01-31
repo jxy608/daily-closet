@@ -7,6 +7,8 @@ import Weather from "../modules/Weather.js";
 import Laundry from "../modules/Laundry.js";
 import settingsButton from "../../../assets/settings-button.svg";
 import floor from "../../../assets/floor.svg";
+import plant from "../../../assets/plant.svg";
+import backpack from "../../../assets/backpack.svg";
 
 import "../../utilities.css";
 import { get } from "../../utilities";
@@ -93,6 +95,8 @@ const Home = ({ userId, handleLogout }) => {
         </div>
       </div>
       <img className="floor" src={floor} />
+      <img className="plant" src={plant} />
+      <img className="backpack" src={backpack} />
       <div className="settings-button">
         <Link to={`/settings/`}>
           <img src={settingsButton} />

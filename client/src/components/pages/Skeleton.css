@@ -1,8 +1,16 @@
 /* Fill me in :) */
 
 .u-flex-centerButton {
-  display: flex; /* Establishes a flex container */
-  justify-content: center; /* Centers items horizontally in the container */
-  /* align-items: center; Centers items vertically in the container */
-  height: 100vh; /* Takes up the full viewport height */
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 8vh;
+  left: 42vw;
+}
+
+.homeImage {
+  position: absolute;
+  width: 35%;
+  left: 34vw;
+  bottom: 17vh;
 }
