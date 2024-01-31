@@ -19,6 +19,8 @@ const LaundryModal = (props) => {
     console.log("wash laundry");
     const laundryIds = props.laundryList.map((article) => article._id);
     post("/api/washLaundry", { ids: laundryIds });
+    // Update the laundry
+    props.onButtonClick();
   };
 
   return (

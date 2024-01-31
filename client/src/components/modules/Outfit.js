@@ -44,6 +44,8 @@ const Outfit = (props) => {
           });
       }
     }
+    // Update the laundry
+    props.onButtonClick();
   }, [userId, props]);
 
   useEffect(() => {
@@ -56,6 +58,7 @@ const Outfit = (props) => {
 
     // Set up a timeout to trigger a re-render at midnight each day
     const timeoutId = setTimeout(() => {
+      setOutfitSelected(false);
       updateOutfit();
     }, timeUntilMidnight);
 
@@ -64,7 +67,7 @@ const Outfit = (props) => {
 
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);
-  }, [updateOutfit]);
+  }, []);
 
   const handleReject = () => {
     // TODO: INCREMENT REJECTIONS OF OUTFIT
@@ -95,6 +98,9 @@ const Outfit = (props) => {
     const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
     post("/api/updateWears", { ids: outfitIds, updateValue: 1 });
     post("/api/updateRejections", { ids: outfitIds, updateValue: -1 });
+
+    // Update the laundry
+    props.onButtonClick();
   };
 
   const handleUnselect = () => {

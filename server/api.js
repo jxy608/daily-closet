@@ -136,7 +136,7 @@ router.get("/outfit", async (req, res) => {
   const low = req.query.low;
 
   try {
-    const tops = await ClothingArticle.find({
+    let tops = await ClothingArticle.find({
       userId: req.query.userId,
       type: "top",
       max_temp: {
@@ -146,7 +146,8 @@ router.get("/outfit", async (req, res) => {
         $lte: low,
       },
     });
-    const bottoms = await ClothingArticle.find({
+
+    let bottoms = await ClothingArticle.find({
       userId: req.query.userId,
       type: "bottom",
       max_temp: {
@@ -157,6 +158,10 @@ router.get("/outfit", async (req, res) => {
       },
     });
 
+    tops = tops.filter((top) => top.current_wears < top.max_wears);
+    bottoms = bottoms.filter((bottom) => bottom.current_wears < bottom.max_wears);
+
+    // // clowns
     // let randomTop = {
     //   image:
     //     "https://www.the-sun.com/wp-content/uploads/sites/6/2022/11/da5053e2-ebcc-42af-80f4-2433d01697ed.jpg?strip=all&quality=100&w=1920&h=1440&crop=1",

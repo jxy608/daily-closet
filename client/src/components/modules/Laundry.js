@@ -33,13 +33,25 @@ const Laundry = (props) => {
   };
 
   useEffect(() => {
+    if (user && props.triggerUpdate) {
+      console.log("laundry user: ", user);
+      get("/api/laundryClothes", { userId: user[0]._id }).then((data) => {
+        setLaundryList(data);
+      });
+
+      // Reset the trigger
+      props.setTriggerUpdate(false);
+    }
+  }, [props.triggerUpdate, props.setTriggerUpdate]);
+
+  useEffect(() => {
     if (user) {
       console.log("laundry user: ", user);
       get("/api/laundryClothes", { userId: user[0]._id }).then((data) => {
         setLaundryList(data);
       });
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const numClothesInLaundry = laundryList.length;
@@ -70,6 +82,7 @@ const Laundry = (props) => {
           closeModal={closeModal}
           hidden={!modalOpen}
           laundryList={laundryList}
+          onButtonClick={props.onButtonClick}
         />
       </div>
     </div>

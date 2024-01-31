@@ -44,6 +44,12 @@ const Home = ({ userId, handleLogout }) => {
   // should add non-US country support in future
   const [weatherData, setWeatherData] = useState(null);
 
+  const [triggerLaundryUpdate, setTriggerLaundryUpdate] = useState(false);
+
+  const handleOutfitButtonClick = () => {
+    setTriggerLaundryUpdate(true);
+  };
+
   useEffect(() => {
     if (user) {
       setZipCode(user[0].zipCode);
@@ -71,11 +77,15 @@ const Home = ({ userId, handleLogout }) => {
           <ClosetIcon />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Outfit weatherData={weatherData} />
+          <Outfit weatherData={weatherData} onButtonClick={handleOutfitButtonClick} />
         </div>
         <div className="Home-subContainer u-textCenter">
           <Weather weatherData={weatherData} />
-          <Laundry />
+          <Laundry
+            triggerUpdate={triggerLaundryUpdate}
+            setTriggerUpdate={setTriggerLaundryUpdate}
+            onButtonClick={handleOutfitButtonClick}
+          />
         </div>
       </div>
       <div>
