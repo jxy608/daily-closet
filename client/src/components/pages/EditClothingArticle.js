@@ -75,8 +75,10 @@ const EditClothingArticle = (props) => {
   }, [clothingParams, index]);
 
   useEffect(() => {
-    if (clothingIds.length == 0) {
+    if (clothingIds.length == 0 && newArticle == "true") {
       navigate(`/new/${clothingParams.clothingType}`);
+    } else if (clothingIds.length == 0) {
+      navigate(`/closet/${clothingParams.clothingType}`);
     }
     setIndex((prevIndex) => Math.min(prevIndex, clothingIds.length - 1));
     loadClothingArticle();
@@ -173,7 +175,6 @@ const EditClothingArticle = (props) => {
     console.log("clothing input is of type", clothingInput.type);
     if (clothingParams.clothingType == "welcome") {
       navigate(`/home`);
-
     } else {
       navigate(`/closet/${clothingType}`);
     }
@@ -194,7 +195,6 @@ const EditClothingArticle = (props) => {
       }
       if (clothingParams.clothingType == "welcome") {
         navigate(`/new/welcome`);
-  
       } else {
         navigate(`/closet/${clothingType}`);
       }

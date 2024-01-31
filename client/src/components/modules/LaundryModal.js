@@ -41,6 +41,7 @@ const LaundryModal = (props) => {
               {props.laundryList ? (
                 props.laundryList.map((c, idx) => (
                   <ClothingCard
+                    id={c._id}
                     image={c.image}
                     name={c.name}
                     color={c.color}
