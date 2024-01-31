@@ -68,6 +68,8 @@ const Outfit = (props) => {
 
   const handleReject = () => {
     // TODO: INCREMENT REJECTIONS OF OUTFIT
+    const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
+    post("/api/updateRejections", { ids: outfitIds, updateValue: 1 });
 
     // Clear outfit data from local storage
     const currentDate = new Date().toLocaleDateString();
@@ -83,10 +85,10 @@ const Outfit = (props) => {
 
     const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
     post("/api/updateWears", { ids: outfitIds, updateValue: 1 });
+    post("/api/updateRejections", { ids: outfitIds, updateValue: -1 });
   };
 
   const handleUnselect = () => {
-    // TODO: DECREMENT CURRENT WEARS OF OUTFIT
     setOutfitSelected(!outfitSelected);
 
     const outfitIds = [outfit["top"]._id, outfit["bottom"]._id];
@@ -112,10 +114,10 @@ const Outfit = (props) => {
           )}
           <div>
             {!outfitSelected && (
-              <img className="outfitButton" onClick={handleReject} src={rejectButton} />
-            )}
-            {!outfitSelected && (
-              <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+              <div className="outfitButtonContainer">
+                <img className="outfitButton" onClick={handleReject} src={rejectButton} />
+                <img className="outfitButton" onClick={handleAccept} src={acceptButton} />
+              </div>
             )}
           </div>
         </div>

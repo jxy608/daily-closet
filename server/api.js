@@ -284,6 +284,86 @@ router.post("/updateWears", (req, res) => {
   });
 });
 
+router.post("/updateRejections", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  const updateValue = req.body.updateValue;
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { $inc: { times_rejected: updateValue } },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
+router.post("/resetRejections", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { times_rejected: 0 },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
+router.post("/washLaundry", (req, res) => {
+  const idList = req.body.ids.map((articleId) => ObjectId(articleId));
+
+  if (!Array.isArray(idList) || idList.length === 0) {
+    return res.status(400).send({ error: "No clothing article IDs provided" });
+  }
+
+  idList.forEach((id, index) => {
+    ClothingArticle.findByIdAndUpdate(
+      id,
+      { current_wears: 0 },
+      { new: true },
+      (err, updatedArticle) => {
+        if (err) {
+          console.log(`Error updating clothing article with ID ${id}:`, err);
+          return res.status(500).send({ error: "Error updating clothing articles" });
+        }
+        if (index === idList.length - 1) {
+          // if it's the last item, send a response
+          res.send({ message: "Clothing articles updated successfully" });
+        }
+      }
+    );
+  });
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
