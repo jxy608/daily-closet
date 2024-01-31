@@ -1,16 +1,29 @@
-.button-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff; /* Replace with your desired background color */
-    color: #ffffff; /* Replace with your desired text color */
-    text-decoration: none;
-    border-radius: 5px;
-    border: 1px solid #007bff; /* Border color same as background color for a consistent look */
-    transition: background-color 0.3s ease, color 0.3s ease;
-  
-    /* Hover effect */
-    &:hover {
-      background-color: #0056b3; /* Replace with your desired hover background color */
-      color: #ffffff; /* Replace with your desired hover text color */
-    }
-  }
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
+.text-container {
+  background-color: #c69b84;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-size: 17px !important;
+  border-style: none;
+  border-radius: 10px;
+  width: 45vw;
+  height: 20vh;
+  padding: 10px;
+  overflow: auto;
+}
+
+.text-container::-webkit-scrollbar-track {
+  background-color: #ddbba5;
+  border-radius: 10px;
+}
+
+.text-container::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary);
+  border-radius: 10px;
+}
+
+.text-container::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}

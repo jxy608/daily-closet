@@ -142,6 +142,14 @@ const App = () => {
           }
         />
         <Route
+          path="settings/:status"
+          element={
+            <ProtectedRoute>
+              <Settings handleLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="declutter"
           element={
             <ProtectedRoute>

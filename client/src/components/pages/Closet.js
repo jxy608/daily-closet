@@ -69,7 +69,7 @@ const Closet = (props) => {
 
   useEffect(() => {
     // Move the logic to open the modal inside useEffect
-    if (section) {
+    if (section && section != "undefined") {
       openModal(section);
     }
   }, [section]);

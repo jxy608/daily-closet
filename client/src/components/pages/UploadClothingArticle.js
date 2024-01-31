@@ -12,7 +12,10 @@ import backButton from "../../../assets/back-button.svg";
 const UploadClothingArticle = (props) => {
   const navigate = useNavigate();
   const clothingParams = useParams();
-  const clothingType = clothingParams.clothingType;
+  let clothingType = clothingParams.clothingType;
+  if (clothingType == "welcome") {
+    clothingType = "top";
+  }
 
   const defaultClothingInput = {
     userId: props.userId,
@@ -106,7 +109,7 @@ const UploadClothingArticle = (props) => {
       setClothingIds(savedClothingArticles);
 
       // Navigate to EditClothingArticle page
-      const editLink = `/edit/${clothingType}/true/${savedClothingArticles.join(",")}`;
+      const editLink = `/edit/${clothingParams.clothingType}/true/${savedClothingArticles.join(",")}`;
       navigate(editLink);
       console.log("navigated?", editLink);
     } catch (error) {
@@ -115,7 +118,11 @@ const UploadClothingArticle = (props) => {
   };
 
   const handleBack = () => {
-    navigate(`/closet/${clothingType}`);
+    if (clothingParams.clothingType == "welcome") {
+      navigate(`/settings/welcome`);
+    } else {
+      navigate(`/closet/${clothingType}`);
+    }
   };
 
   if (clothingIds.length === 0) {
@@ -125,7 +132,7 @@ const UploadClothingArticle = (props) => {
         <div className="back-button" onClick={handleBack} style={{ cursor: "pointer" }}>
           <img src={backButton} />
         </div>
-        <h1 className="u-textCenter">Upload new clothing articles</h1>
+        <h1 className="u-textCenter">upload new clothing articles!</h1>
         <div className="u-flexColumn u-flex-alignCenter">
           <input
             name="images"
