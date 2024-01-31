@@ -11,6 +11,7 @@ const ClothingArticleSchema = new mongoose.Schema({
   // tags: Array,
   min_temp: Number,
   max_temp: Number,
+  times_rejected: Number,
 });
 
 // compile model from schema

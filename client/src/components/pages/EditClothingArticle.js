@@ -31,6 +31,8 @@ const EditClothingArticle = () => {
     tags: [],
     min_temp: NaN,
     max_temp: NaN,
+    current_wears: 0,
+    times_rejected: 0,
   };
   const [clothingInput, setClothingInput] = useState(defaultClothingInput);
 
@@ -92,8 +94,19 @@ const EditClothingArticle = () => {
   };
 
   const extractEditableProperties = (clothingArticle) => {
-    const { userId, image, name, type, color, max_wears, current_wears, tags, min_temp, max_temp } =
-      clothingArticle;
+    const {
+      userId,
+      image,
+      name,
+      type,
+      color,
+      max_wears,
+      tags,
+      min_temp,
+      max_temp,
+      current_wears,
+      times_rejected,
+    } = clothingArticle;
 
     return {
       userId,
@@ -106,6 +119,8 @@ const EditClothingArticle = () => {
       tags,
       min_temp,
       max_temp,
+      current_wears,
+      times_rejected,
     };
   };
 

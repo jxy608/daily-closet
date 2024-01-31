@@ -51,12 +51,11 @@ const ClosetModal = (props) => {
               <img src={xButton} className="x-image" />
             </div>
             <div className="closetContents">
-              {/* {clothesList} */}
               <NewClothingCard />
               {hasClothes ? (
                 clothes.map((c, idx) => (
                   <ClothingCard
-                    id = {c._id}
+                    id={c._id}
                     image={c.image}
                     name={c.name}
                     color={c.color}

@@ -40,6 +40,66 @@
 .cls-2,
 .cls-3,
 .cls-4,
+.cls-5,
+.cls-6 {
+  stroke-width: 5px;
+}
+
+.cls-1,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5,
+.cls-6,
+.cls-7,
+.cls-8,
+.cls-9 {
+  stroke: #633922;
+  stroke-linejoin: round;
+}
+
+.cls-2 {
+  fill: #592f14;
+}
+
+.cls-3 {
+  fill: #6d3f22;
+}
+
+.cls-4 {
+  fill: #5b321b;
+}
+
+.cls-5 {
+  fill: #633922;
+}
+
+.cls-6 {
+  fill: #764526;
+}
+
+.cls-7 {
+  fill: #6a3c21;
+  stroke-width: 7px;
+}
+
+.cls-8 {
+  fill: #e2d5bc;
+}
+
+.cls-9 {
+  fill: #79482a;
+  stroke-width: 4px;
+}
+
+.cls-1 {
+  fill: #865232;
+}
+
+/* .cls-1,
+.cls-2,
+.cls-3,
+.cls-4,
 .cls-5 {
   stroke-width: 5px;
 }
@@ -84,7 +144,7 @@
 .cls-8 {
   fill: #79482a;
   stroke-width: 4px;
-}
+} */
 
 .section {
   opacity: 0;

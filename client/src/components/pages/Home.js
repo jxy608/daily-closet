@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import ClosetIcon from "../modules/ClosetIcon.js";
 import Outfit from "../modules/Outfit.js";
 import Weather from "../modules/Weather.js";
+import Laundry from "../modules/Laundry.js";
 import settingsButton from "../../../assets/settings-button.svg";
 import floor from "../../../assets/floor.svg";
 
@@ -43,6 +44,12 @@ const Home = ({ userId, handleLogout }) => {
   // should add non-US country support in future
   const [weatherData, setWeatherData] = useState(null);
 
+  const [triggerLaundryUpdate, setTriggerLaundryUpdate] = useState(false);
+
+  const handleOutfitButtonClick = () => {
+    setTriggerLaundryUpdate(true);
+  };
+
   useEffect(() => {
     if (user) {
       setZipCode(user[0].zipCode);
@@ -70,10 +77,15 @@ const Home = ({ userId, handleLogout }) => {
           <ClosetIcon />
         </div>
         <div className="Home-subContainer u-textCenter">
-          <Outfit weatherData={weatherData} tempSetting={units} />
+          <Outfit weatherData={weatherData} onButtonClick={handleOutfitButtonClick} tempSetting={units} />
         </div>
         <div className="Home-subContainer u-textCenter">
           <Weather weatherData={weatherData} />
+          <Laundry
+            triggerUpdate={triggerLaundryUpdate}
+            setTriggerUpdate={setTriggerLaundryUpdate}
+            onButtonClick={handleOutfitButtonClick}
+          />
         </div>
       </div>
       <div>

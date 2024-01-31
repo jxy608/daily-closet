@@ -21,6 +21,7 @@ const UploadClothingArticle = (props) => {
     min_temp: NaN,
     max_temp: NaN,
     current_wears: 0,
+    times_rejected: 0,
   };
 
   const defaultImage = {
@@ -85,6 +86,8 @@ const UploadClothingArticle = (props) => {
           console.log("posting", clothingInput);
           const savedArticle = await post("/api/clothingarticle", {
             ...clothingInput,
+            current_wears: 0,
+            times_rejected: 0,
           });
 
           return savedArticle; // Capture the ID of the saved article
