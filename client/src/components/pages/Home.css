@@ -21,9 +21,9 @@
 }
 
 .floor {
-  position: absolute;
+  position: fixed;
   z-index: -5;
   width: 100%;
   height: auto;
-  margin-top: 0px;
+  bottom: 0px;
 }

@@ -41,5 +41,8 @@
 }
 
 .info-button {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh;
   transform: scale(0.5);
 }

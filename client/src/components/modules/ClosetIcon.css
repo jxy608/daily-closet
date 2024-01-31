@@ -1,18 +1,28 @@
-.closet-link {
-  text-decoration: none; /* Removes underline */
-  color: inherit; /* Inherits the color from the parent element */
+.closet-container {
+  position: fixed;
+  bottom: 100px;
+  width: 30vw;
+  height: 53vh;
+  left: 2vw;
 }
 
-.closet-link h2 {
-  /* Add any specific styles for your h2 here */
-  color: inherit; /* This ensures the h2 uses the parent's text color */
-}
-
-.closet-icon {
-  margin-top: 10vh;
-  width: 120%;
+.closet-svg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 130%;
   height: auto;
-  background-image: url("../../../assets/closet-closed.png");
-  background-size: contain;
-  transition: background-image 0.3s;
+  transition: opacity 0.3s ease;
+}
+
+.closet-closed {
+  opacity: 1;
+}
+
+.closet-open {
+  opacity: 0;
+}
+
+.closet-container:hover .closet-open {
+  opacity: 1;
 }
