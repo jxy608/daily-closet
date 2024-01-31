@@ -30,3 +30,21 @@
   height: 30vh;
   bottom: 0px;
 }
+
+.plant {
+  position: absolute;
+  z-index: 5;
+  width: 12vw;
+  height: auto;
+  left: 64vw;
+  bottom: 7vh;
+}
+
+.backpack {
+  position: absolute;
+  z-index: 5;
+  width: 8vw;
+  height: auto;
+  left: 31vw;
+  bottom: 6vh;
+}

@@ -75,7 +75,7 @@ const Laundry = (props) => {
 
   return (
     <div>
-      <h3>laundry</h3>
+      {/* <h3>laundry</h3> */}
       <div>
         <div id="modal-overlay" className="modal-overlay"></div>
         <img className="laundryBasket" src={laundryStatus} onClick={openModal} />
