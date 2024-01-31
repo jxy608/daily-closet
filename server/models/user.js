@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   zipCode: String,
   tempSetting: String,
   isNewUser: Boolean,
+  capacity: Number,
   // birthday: String,
 });
 

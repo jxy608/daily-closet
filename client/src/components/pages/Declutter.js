@@ -6,6 +6,7 @@ import BackButton from "../modules/BackButton.js";
 import ClothingCard from "../modules/ClothingCard.js";
 import infoButton from "../../../assets/info.svg";
 import NewClothingCard from "../modules/NewClothingCard.js";
+import skipButton from "../../../assets/skip.svg";
 
 const Declutter = (props) => {
   // source: https://theroundup.org/textile-waste-statistics/
@@ -34,7 +35,7 @@ const Declutter = (props) => {
     return () => clearInterval(interval);
   }, [currentIndex, textLines.length]);
 
-  const testFunc = () => {
+  const handleSkip = () => {
     setCurrentIndex(textLines.length);
     setBgColor("none");
   };
@@ -46,7 +47,7 @@ const Declutter = (props) => {
           <h2 key={currentIndex} className="u-textCenter">
             {textLines[currentIndex]}
           </h2>
-          <button onClick={testFunc}>button</button>
+          <img className="skipButton" onClick={handleSkip} src={skipButton} />
         </div>
       ) : (
         <div>

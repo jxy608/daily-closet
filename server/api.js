@@ -126,9 +126,9 @@ router.post("/clothingarticle/:id", async (req, res) => {
 router.post("/del/:clothingIds", async (req, res) => {
   try {
     const clothingIds = req.params.clothingIds.split(",");
-    
+
     // Assuming each ID is a valid MongoDB ObjectId
-    const validIds = clothingIds.filter(id => mongoose.Types.ObjectId.isValid(id));
+    const validIds = clothingIds.filter((id) => mongoose.Types.ObjectId.isValid(id));
 
     if (validIds.length === 0) {
       return res.status(400).json({ message: "Invalid clothing IDs provided" });

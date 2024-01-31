@@ -13,6 +13,7 @@ const SettingsInput = (props) => {
     name: "",
     zipCode: "",
     tempSetting: "imperial", // Default value
+    capacity: 20,
   });
   console.log(settingsInput);
 
@@ -66,6 +67,17 @@ const SettingsInput = (props) => {
               placeholder={"zip code"}
               value={settingsInput.zipCode}
               name="zipCode"
+              onChange={handleChange}
+              className="NewPostInput-input"
+            />
+          </div>
+          <div className="input-label">laundry capacity</div>
+          <div>
+            <input
+              type="number"
+              placeholder={"# articles of clothing"}
+              value={settingsInput.capacity}
+              name="capacity"
               onChange={handleChange}
               className="NewPostInput-input"
             />

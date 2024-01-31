@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
@@ -7,6 +7,7 @@ import ClosetModal from "../modules/ClosetModal.js";
 import "./Closet.css";
 import closetInside from "../../../assets/DC_big_closet.svg";
 import declutterButton from "../../../assets/recycle.svg";
+import floor from "../../../assets/floor.svg";
 
 const Closet = (props) => {
   const params = useParams();
@@ -306,6 +307,7 @@ const Closet = (props) => {
       ) : (
         <></>
       )}
+      <img className="floor" src={floor} />
     </div>
   );
 };
