@@ -160,7 +160,8 @@ const Outfit = (props) => {
         </div>
       ) : (
         <div>
-          No clothes found for the temperature outside!
+          <p>No outfits found for the temperature outside!</p>
+          <p>If you just added clothes, try refreshing below.</p>
           <div className="refreshButton">
             <img src={refreshButton} onClick={handleRefresh} />
           </div>
