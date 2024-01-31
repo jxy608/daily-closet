@@ -109,3 +109,13 @@
   animation: like-heart-animation 0.5s ease forwards;
   cursor: pointer;
 }
+
+.refreshButton {
+  cursor: pointer;
+  transform: scale(0.4);
+  transition: transform 0.2s;
+}
+
+.refreshButton:hover {
+  transform: scale(0.6);
+}

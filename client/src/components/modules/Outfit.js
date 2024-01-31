@@ -7,6 +7,7 @@ import "../../utilities.css";
 import acceptButton from "../../../assets/accept.svg";
 import rejectButton from "../../../assets/reject.svg";
 import heartIcon from "../../../assets/heart.svg";
+import refreshButton from "../../../assets/refresh.svg";
 
 const Outfit = (props) => {
   const [outfit, setOutfit] = useState({});
@@ -165,7 +166,10 @@ const Outfit = (props) => {
       ) : (
         <div>
           No clothes found for the temperature outside!
-          <button onClick={handleRefresh}>refresh</button>
+          <div className="refreshButton">
+            <img src={refreshButton} onClick={handleRefresh} />
+          </div>
+          {/* <button onClick={handleRefresh}>refresh</button> */}
         </div>
       )}
     </div>
