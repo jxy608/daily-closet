@@ -298,7 +298,12 @@ const Closet = (props) => {
           />
         ))}
       </div>
-      {props.declutterClothes && props.declutterClothes.length > 0 ? (
+      <div className="declutter-button">
+        <Link to={`/declutter/`}>
+          <img src={declutterButton} />
+        </Link>
+      </div>
+      {/* {props.declutterClothes && props.declutterClothes.length > 0 ? (
         <div className="declutter-button">
           <Link to={`/declutter/`}>
             <img src={declutterButton} />
@@ -306,7 +311,7 @@ const Closet = (props) => {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
       <img className="floor" src={floor} />
     </div>
   );
