@@ -55,6 +55,7 @@ const UploadClothingArticle = (props) => {
         const formData = new FormData();
         formData.append("userId", props.userId);
         formData.append("image", image.raw);
+        console.log("form data", formData);
 
         const response = await axios.post(`http://localhost:3000/upload`, formData, {
           headers: {
@@ -111,39 +112,38 @@ const UploadClothingArticle = (props) => {
     return (
       <div>
         <BackButton redirect="closet" />
-        <h1 className="u-textCenter">Add new clothing articles</h1>
-        <div className="u-flex">
-          <input name="images" type="file" id="upload-button" onChange={handleImageChange} multiple />
+        <h1 className="u-textCenter">Upload new clothing articles</h1>
+        <div className="u-flexColumn u-flex-alignCenter">
+          <input
+            name="images"
+            type="file"
+            onChange={handleImageChange}
+            multiple
+            className="file-input"
+          />
 
-          <label htmlFor="upload-button">
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image.preview}
-                alt={`Image ${index}`}
-                width="100"
-                className="my-10 mx-5"
-              />
-            ))}
-          </label>
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image.preview}
+              alt={`Image ${index} is loading...`}
+              width="100"
+              className="my-10 mx-5"
+            />
+          ))}
 
-          <button
-            type="button"
-            onClick={handleImageSubmit}
-            className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-          >
-            Submit Photos
-          </button>
+          {images.length > 0 && (
+            <button type="button" onClick={handleImageSubmit} className="u-button">
+              Submit Photos
+            </button>
+          )}
         </div>
       </div>
     );
   } else {
     // Render something else or nothing if clothingIds is empty
-    return (
-      <div>
-        {/* <EditClothingArticle clothingIds={clothingIds} /> */}
-      </div>
-    );
-  }};
+    return <div>{/* <EditClothingArticle clothingIds={clothingIds} /> */}</div>;
+  }
+};
 
 export default UploadClothingArticle;

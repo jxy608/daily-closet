@@ -21,9 +21,9 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
 
   useEffect(() => {
     if (userId) {
-      if (user && user[0].isNew) {
+      if (user && user[0].isNewUser) {
         navigate("/welcome");
-      } else if (user && !user[0].isNew) {
+      } else if (user && !user[0].isNewUser) {
         navigate("/home");
       }
     }
