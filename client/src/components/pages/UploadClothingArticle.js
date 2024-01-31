@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import "./UploadClothingArticle.css";
 import { post } from "../../utilities";
-import BackButton from "../modules/BackButton.js";
-import EditClothingArticle from "./EditClothingArticle.js";
+// import BackButton from "../modules/BackButton.js";
+// import EditClothingArticle from "./EditClothingArticle.js";
+import backButton from "../../../assets/back-button.svg";
+
 
 const UploadClothingArticle = (props) => {
   const navigate = useNavigate();
+  const clothingParams = useParams();
+  const clothingType = clothingParams.clothingType;
 
   const defaultClothingInput = {
     userId: props.userId,
     image: "",
     name: "",
-    type: "top",
+    type: clothingType,
     color: "",
     max_wears: NaN,
-    tags: [],
+    // tags: [],
     min_temp: NaN,
     max_temp: NaN,
     current_wears: 0,
@@ -102,7 +106,7 @@ const UploadClothingArticle = (props) => {
       setClothingIds(savedClothingArticles);
 
       // Navigate to EditClothingArticle page
-      const editLink = `/edit/${savedClothingArticles.join(",")}`;
+      const editLink = `/edit/${clothingType}/true/${savedClothingArticles.join(",")}`;
       navigate(editLink);
       console.log("navigated?", editLink);
     } catch (error) {
@@ -110,16 +114,24 @@ const UploadClothingArticle = (props) => {
     }
   };
 
+  const handleBack = () => {
+    navigate(`/closet/${clothingType}`);
+  };
+
   if (clothingIds.length === 0) {
     return (
       <div>
-        <BackButton redirect="closet" />
+        {/* <BackButton redirect="closet" /> */}
+        <div className="back-button" onClick={handleBack} style={{ cursor: "pointer" }}>
+          <img src={backButton} />
+        </div>
         <h1 className="u-textCenter">Upload new clothing articles</h1>
         <div className="u-flexColumn u-flex-alignCenter">
           <input
             name="images"
             type="file"
             onChange={handleImageChange}
+            accept="image/*"
             multiple
             className="file-input"
           />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { get } from "../../utilities";
 import BackButton from "../modules/BackButton.js";
@@ -9,8 +9,29 @@ import closetInside from "../../../assets/DC_big_closet.svg";
 import declutterButton from "../../../assets/recycle.svg";
 
 const Closet = (props) => {
-  const [clothes, setClothes] = useState([]);
+  const params = useParams();
+  const clothingType = params.clothingType;
 
+  let section=clothingType;
+  switch (clothingType) {
+    case "top":
+      section = "tops";
+      break;
+    case "bottom":
+      section = "bottoms";
+      break;
+    case "shoe":
+      section = "shoes";
+      break;
+    case "accessory":
+      section = "accessories";
+      break;
+    case "one piece":
+      section = "one pieces";
+      break;
+  }
+
+  const [clothes, setClothes] = useState([]);
   const [modalState, setModalState] = useState("empty");
 
   const openModal = (section) => {
@@ -46,9 +67,16 @@ const Closet = (props) => {
     },
   ];
 
+  useEffect(() => {
+    // Move the logic to open the modal inside useEffect
+    if (section) {
+      openModal(section);
+    }
+  }, [section]);
+
   return (
     <div>
-      <BackButton redirect="home" />
+      <BackButton redirect="home"/>
       {/* <h1 className="u-textCenter">hello welcome to the closet</h1> */}
       <div id="modal-overlay" className="modal-overlay"></div>
       <div className="closet-container">

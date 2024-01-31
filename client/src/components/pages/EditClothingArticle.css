@@ -48,3 +48,11 @@
   gap: 10px;
   font-size: 1.2em;
 }
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin: 5px;
+}
+
